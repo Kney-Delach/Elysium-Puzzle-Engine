@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Application">
+      <UniqueIdentifier>{F1A4822F-DD9D-A181-06D0-8606F227818D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Utility">
+      <UniqueIdentifier>{71C0BFC2-5D23-4F67-06A9-871DF2EA1AEA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Core\Application\Application.h">
+      <Filter>Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Application\Menu.h">
+      <Filter>Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Utility\Asserts.h">
+      <Filter>Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Elysium.h" />
+    <ClInclude Include="src\empch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Core\Application\Application.cpp">
+      <Filter>Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Application\Menu.cpp">
+      <Filter>Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\empch.cpp" />
+  </ItemGroup>
+</Project>

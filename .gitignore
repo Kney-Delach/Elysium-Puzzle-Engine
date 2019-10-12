@@ -1,0 +1,13 @@
+# Directories 
+.vs/
+bin/
+bin-int/
+packages/
+
+# Files
+*.user 
+
+# Photoshop
+*.psd 
+
+# !Special Cases
