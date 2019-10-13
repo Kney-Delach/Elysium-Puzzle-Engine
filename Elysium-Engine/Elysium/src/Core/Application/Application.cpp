@@ -11,7 +11,7 @@
 
 namespace Elysium
 {
-	namespace UI
+	namespace Application
 	{
 		void Application::Run()
 		{

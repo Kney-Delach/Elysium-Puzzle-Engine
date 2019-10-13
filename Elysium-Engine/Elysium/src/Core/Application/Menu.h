@@ -10,7 +10,7 @@
 
 namespace Elysium
 {
-	namespace UI
+	namespace Application
 	{
 		class MenuUI
 		{
@@ -21,10 +21,17 @@ namespace Elysium
 			void RunOptionsMenu();
 			bool RunExitMenu() const;
 		private:
-			enum Options { MENU_OPTIONS, EXIT = 0 };
+			enum Options { EXIT = 0, MANUAL = 1, AUTO = 2, MENU = 6};
+
 			bool InputHandler(Options option) const;
+			const int HandleNumberInput(int rangeMax, int rangeMin) const;
+
+			bool HandleBinaryChoice(const char* message) const;
 
 			bool HandleExit() const;
+
+			bool HandleManualConfig() const;
+			bool HandleAutoConfig() const;
 		};
 	}
 }

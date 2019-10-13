@@ -17,6 +17,9 @@
     <ClCompile Include="src\test.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleUnitTests.cpp" />
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleProcessorUnitTests.cpp" />
+    <ClCompile Include="src\Core\Model\DataStructures\StackUnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,9 +13,12 @@
 
 int main()
 {
+
 	auto app = new Elysium::UI::Application();
 	app->Run();
 	delete app;
+
+
 	return 0;
 }
 #endif

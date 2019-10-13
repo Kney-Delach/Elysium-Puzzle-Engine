@@ -23,6 +23,9 @@
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
+    <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
+    <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h" />
+    <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">

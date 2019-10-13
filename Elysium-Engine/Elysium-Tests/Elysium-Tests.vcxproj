@@ -91,6 +91,9 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\Model\DataStructures\StackUnitTests.cpp" />
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleProcessorUnitTests.cpp" />
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleUnitTests.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

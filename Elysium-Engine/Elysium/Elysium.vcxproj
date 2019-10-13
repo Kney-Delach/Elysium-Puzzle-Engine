@@ -63,6 +63,7 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -93,6 +94,9 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Application\Application.h" />
     <ClInclude Include="src\Core\Application\Menu.h" />
+    <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />
+    <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
+    <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h" />
     <ClInclude Include="src\Core\Utility\Asserts.h" />
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
