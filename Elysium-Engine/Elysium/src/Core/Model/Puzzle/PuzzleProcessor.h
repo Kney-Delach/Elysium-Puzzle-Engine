@@ -16,11 +16,13 @@ namespace Elysium
 	namespace Model
 	{
 		template <typename T>
-		class PuzzleProcessor
+		class PuzzleProcessor 
 		{
 		public:
-			PuzzleProcessor(int capacity = 100); 
+			PuzzleProcessor(int capacity = 100);
 			~PuzzleProcessor() = default;
+			PuzzleProcessor(const PuzzleProcessor<T>& src);
+			PuzzleProcessor<T>& operator=(const PuzzleProcessor<T>& rhs);
 			T* InsertPuzzle(const T&  object);
 
 			template <typename E>
@@ -35,13 +37,23 @@ namespace Elysium
 		}
 
 		template <typename T>
-		T* PuzzleProcessor<T>::InsertPuzzle(const T& object)
+		PuzzleProcessor<T>::PuzzleProcessor(const PuzzleProcessor<T>& src) //todo: Implement this copy constructor.
+		{
+		}
+
+		template <typename T>
+		PuzzleProcessor<T>& PuzzleProcessor<T>::operator=(const PuzzleProcessor<T>& rhs) //todo: Implement this assignment operator.
+		{
+		}
+
+		template <typename T>
+		T* PuzzleProcessor<T>::InsertPuzzle(const T& object) //todo: Check whether making implicit copy here.
 		{
 			return m_Stack.Push(object);
 		}
 
 		template <typename E>
-		std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor)
+		std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor) //todo: Benchmark this function.
 		{
 			unsigned size = processor.m_Stack.GetSize();
 			out << size << "\n";

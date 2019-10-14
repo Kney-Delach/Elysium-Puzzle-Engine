@@ -40,7 +40,7 @@ namespace Elysium
 			const T GetContRowCount() const;
 			const unsigned GetSize() const;
 		private:
-			std::vector<T> m_pState;
+			std::vector<T> m_State;
 			T m_RevContCols;
 			T m_ContCols;
 			T m_RevContRows;
@@ -52,23 +52,25 @@ namespace Elysium
 			m_RevContCols(0), m_ContCols(0),
 			m_RevContRows(0), m_ContRows(0)
 		{
-			m_pState.reserve(U * U);
+			m_State.reserve(U * U);
 		}
 
 		template <typename T, unsigned U>
-		Puzzle<T, U>::Puzzle(const Puzzle<T, U>& src) :
-			m_pState(src.m_pState), 
+		Puzzle<T, U>::Puzzle(const Puzzle<T, U>& src) : 
 			m_RevContCols(src.m_RevContCols),
 			m_ContCols(src.m_ContCols),
 			m_RevContRows(src.m_RevContRows), 
 			m_ContRows(src.m_ContRows)
 		{
+			m_State.clear();	//todo: Verify if this is necessary.
+			m_State(src.m_State);
 		}
 
 		template <typename T, unsigned U>
 		Puzzle<T,U>& Puzzle<T, U>::operator=(const Puzzle<T,U>& rhs)
 		{
-			m_pState		= rhs.m_pState;
+			m_State.clear();	//todo: Verify if this is necessary.
+			m_State = rhs.m_State;
 			m_RevContCols	= rhs.m_RevContCols; 
 			m_ContCols		= rhs.m_ContCols;
 			m_RevContRows	= rhs.m_RevContRows; 
@@ -79,9 +81,9 @@ namespace Elysium
 		template <typename T, unsigned U>
 		const bool Puzzle<T, U>::InsertValue(T newValue)
 		{
-			if (!(std::any_of(m_pState.begin(), m_pState.end(), [&](T val) { return val == newValue; })))
+			if (!(std::any_of(m_State.begin(), m_State.end(), [&](T val) { return val == newValue; })))
 			{
-				m_pState.push_back(newValue);
+				m_State.push_back(newValue);
 				return true;
 			}
 			return false;
@@ -90,16 +92,15 @@ namespace Elysium
 		template <typename T, unsigned U>
 		void Puzzle<T, U>::InsertEmptyBlock()
 		{
-			m_pState.push_back(22); //todo: Don't reference this value in inversion calculations
-
+			m_State.push_back(22); //todo: Verify this value isn't referenced in the inversion calculations
 		}
 
 		template <typename E, unsigned M>
 		std::ostream& operator<<(std::ostream& out, const Puzzle<E,M>& puzzle) //todo: Replace with an faster implementation
 		{
-			for (unsigned i = 0; i < puzzle.m_pState.size() - 1; i++) 
+			for (unsigned i = 0; i < puzzle.m_State.size() - 1; i++)
 			{
-				out << puzzle.m_pState[i] << " ";
+				out << puzzle.m_State[i] << " ";
 				if ((i + 1) % M == 0)	out << "\n";
 			}
 			out << " \n";

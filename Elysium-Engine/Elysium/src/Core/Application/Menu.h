@@ -12,11 +12,11 @@ namespace Elysium
 {
 	namespace Application
 	{
-		class MenuUI
+		class Menu
 		{
 		public:
-			MenuUI() = default;
-			~MenuUI() = default;
+			Menu() = default;
+			~Menu() = default;
 
 			void RunOptionsMenu();
 			bool RunExitMenu() const;

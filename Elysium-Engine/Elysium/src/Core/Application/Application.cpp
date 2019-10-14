@@ -15,7 +15,7 @@ namespace Elysium
 	{
 		void Application::Run()
 		{
-			MenuUI* menu = new MenuUI(); 
+			Menu* menu = new Menu();
 			while (m_Running)
 			{
 				menu->RunOptionsMenu();

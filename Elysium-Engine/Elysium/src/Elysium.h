@@ -7,6 +7,4 @@
  */
 #pragma once
 
-// ---------- Application ---------- //
-
 #include "Core/Application/Application.h"

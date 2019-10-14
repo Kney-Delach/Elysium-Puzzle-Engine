@@ -2,8 +2,8 @@
 <p align="center"><img width=100% src="Resources/Images/Elysium_Logo_2.png?raw=true"></p>
 
 [![trello](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
-![date](https://img.shields.io/badge/Build%20Date-13.10.19-informational)
-![version](https://img.shields.io/badge/Engine%20Version-0.1.1-FD175C)
+![date](https://img.shields.io/badge/Build%20Date-14.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
+![version](https://img.shields.io/badge/Engine%20Version-0.1.1.2-FD175C)
 ![unreleased](https://img.shields.io/badge/Branch%20Features-2-orange)
 
 <a name="about"></a>
@@ -61,18 +61,17 @@ This engine is being created with the purpose of simulating combinatorical strat
 - [Agner](https://www.agner.org/)
 - [Optimizing Software in C++](https://www.agner.org/optimize/optimizing_cpp.pdf)
 
-<a name="forums"></a>
-#### Forums
+<a name="c-plus-plus"></a>
+#### C++
+- [C++ Reference](https://en.cppreference.com/w/)
 - [Stackoverflow](https://stackoverflow.com/)
 - [Cplusplus](http://www.cplusplus.com/forum/windows/)
 - [Isocpp](https://isocpp.org/std/forums)
-
+- [C++ Patterns ](https://cpppatterns.com/)
 <a name="build-config"></a>
 #### Build Configuration
 [Premake](https://premake.github.io/) is the build system tools used for this repository, I prefer it to [CMake](https://cmake.org/) as I have experience with [Lua](https://www.lua.org/), and have used this framework previously.
 
 <a name="unit-testing"></a>
 #### Testing Framework
-[GoogleTest](https://github.com/google/googletest) is the Testing framework used for this repository.
-
-
+[GoogleTest](https://github.com/google/googletest) is the Testing framework used for this repository. The main advantages of using this framework is that it is portable, reusable and based on the [xUnit](https://en.wikipedia.org/wiki/XUnit) architecture.

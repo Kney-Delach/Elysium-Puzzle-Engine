@@ -54,18 +54,19 @@ namespace Elysium
 			)";
 #pragma endregion STATIC_TEXT
 
-		void MenuUI::RunOptionsMenu()
+		void Menu::RunOptionsMenu()
 		{
 			std::cout << g_Banner << "\n" << g_Menu << "\n";
-			ASSERT(!InputHandler(MENU), "[Elysium::Menu::RunOptionsMenu]: Undefined behaviour reached!", true);
+			bool result = InputHandler(MENU);
+			ASSERT(!result, "[Elysium::Menu::RunOptionsMenu]: Undefined behaviour reached!", true);
 		}
 
-		bool MenuUI::RunExitMenu() const
+		bool Menu::RunExitMenu() const
 		{
 			return InputHandler(EXIT);
 		}
 
-		bool MenuUI::InputHandler(Options option) const
+		bool Menu::InputHandler(Options option) const
 		{
 			if(option == MENU)		option = (Options) HandleNumberInput(2,0);
 			if(option == MANUAL)	return HandleManualConfig();
@@ -74,7 +75,7 @@ namespace Elysium
 			return false;
 		}
 
-		const int MenuUI::HandleNumberInput(int rangeMax, int rangeMin) const
+		const int Menu::HandleNumberInput(int rangeMax, int rangeMin) const
 		{
 			while (true) 
 			{
@@ -87,12 +88,12 @@ namespace Elysium
 			}
 		}
 
-		bool MenuUI::HandleExit() const
+		bool Menu::HandleExit() const
 		{
 			return HandleBinaryChoice("Do  you want to EXIT the application? Enter [Y/N]: ");
 		}
 
-		bool MenuUI::HandleBinaryChoice(const char* message) const
+		bool Menu::HandleBinaryChoice(const char* message) const
 		{
 			while (true) 
 			{
@@ -110,7 +111,7 @@ namespace Elysium
 			}
 		}
 
-		bool MenuUI::HandleManualConfig() const
+		bool Menu::HandleManualConfig() const
 		{
 			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(50); //todo: Implement dynamic capacity integration.
 			while (true)
@@ -140,7 +141,7 @@ namespace Elysium
 			return true;
 		}
 
-		bool MenuUI::HandleAutoConfig() const
+		bool Menu::HandleAutoConfig() const
 		{
 			return true;
 		}

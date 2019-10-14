@@ -18,8 +18,8 @@ namespace Elysium
 		public:
 			Stack(unsigned capacity = 100);
 			~Stack();
-			Stack(const Stack<T>& rhs);
-			Stack<T>& operator=(const Stack<T>& rhs);
+			Stack(const Stack<T>& rhs) noexcept;
+			Stack<T>& operator=(const Stack<T>& rhs) noexcept;
 			T* Push(const T& object); 
 			void Pop();
 			T& Top();
@@ -41,16 +41,15 @@ namespace Elysium
 		}
 
 		template <typename T>
-		Stack<T>::Stack(const Stack<T>& rhs)
-			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size)
+		Stack<T>::Stack(const Stack<T>& rhs) noexcept
+			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size), m_pElements(new T[m_Capacity])
 		{
-			m_pElements = new T[m_Capacity];
 			for (unsigned i = 0; i < m_Capacity; i++)	
 				m_pElements[i] = rhs.m_pElements[i];
 		}
 
 		template <typename T>
-		Stack<T>& Stack<T>::operator=(const Stack<T>& rhs) //todo: Verify copy requirement: [shallow or deep].
+		Stack<T>& Stack<T>::operator=(const Stack<T>& rhs) noexcept //todo: Verify copy requirement: [shallow or deep].
 		{
 			if (this == &rhs) return (*this);
 			m_Capacity = rhs.GetCapacity();
