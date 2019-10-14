@@ -13,6 +13,7 @@
 int main()
 {
 	auto app = new Elysium::Application::Application();
+	ASSERT(app, "[Sandox::main::Application] - Application is null!", true);
 	app->Run();
 	delete app;
 	return 0;

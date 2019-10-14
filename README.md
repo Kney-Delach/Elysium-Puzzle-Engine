@@ -3,7 +3,7 @@
 
 [![trello](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
 ![date](https://img.shields.io/badge/Build%20Date-14.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
-![version](https://img.shields.io/badge/Engine%20Version-0.1.1.2-FD175C)
+![version](https://img.shields.io/badge/Engine%20Version-0.1.1.3-FD175C)
 ![unreleased](https://img.shields.io/badge/Branch%20Features-2-orange)
 
 <a name="about"></a>
@@ -29,8 +29,8 @@ This engine is being created with the purpose of simulating combinatorical strat
 
 |**Name**|**Description**|**Version**|**Unit Tests**|**Status**|
 |:------:|:-------------:|:---------:|:------------:|:--------:|
-|[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][dev]|![Active][active]|
-|[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][dev]|![Active][active]|
+|[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][updating]|![Active][active]|
 
 <a name="references"></a>
 ## References
@@ -75,3 +75,4 @@ This engine is being created with the purpose of simulating combinatorical strat
 <a name="unit-testing"></a>
 #### Testing Framework
 [GoogleTest](https://github.com/google/googletest) is the Testing framework used for this repository. The main advantages of using this framework is that it is portable, reusable and based on the [xUnit](https://en.wikipedia.org/wiki/XUnit) architecture.
+- [Primer](https://github.com/google/googletest/blob/master/googletest/docs/primer.md)

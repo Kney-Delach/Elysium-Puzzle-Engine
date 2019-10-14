@@ -4,6 +4,18 @@
     <Filter Include="src">
       <UniqueIdentifier>{2DAB880B-99B4-887C-2230-9F7C8E38947C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\CoreTests">
+      <UniqueIdentifier>{F8472558-6408-A18E-2D43-EA0B99C2E56A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CoreTests\ModelTests">
+      <UniqueIdentifier>{6BF35CA1-5718-AC21-8063-91B16CE7AA3F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CoreTests\ModelTests\DataStructuresTests">
+      <UniqueIdentifier>{EB0ACEFB-D71D-CE54-8007-AB416CF96AA2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CoreTests\ModelTests\PuzzleTests">
+      <UniqueIdentifier>{F7E496F6-E3CB-58EE-8C1C-BF0B78E2D154}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -11,15 +23,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CoreTests\ModelTests\DataStructuresTests\StackUnitTests.cpp">
+      <Filter>src\CoreTests\ModelTests\DataStructuresTests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleProcessorUnitTests.cpp">
+      <Filter>src\CoreTests\ModelTests\PuzzleTests</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleUnitTests.cpp">
+      <Filter>src\CoreTests\ModelTests\PuzzleTests</Filter>
+    </ClCompile>
     <ClCompile Include="src\pch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\test.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\Model\Puzzle\PuzzleUnitTests.cpp" />
-    <ClCompile Include="src\Core\Model\Puzzle\PuzzleProcessorUnitTests.cpp" />
-    <ClCompile Include="src\Core\Model\DataStructures\StackUnitTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -29,38 +29,19 @@ namespace Elysium
 			friend std::ostream& operator<<(std::ostream& out, const Puzzle<E, M>& puzzle); 
 			const bool InsertValue(T newValue);
 			void InsertEmptyBlock();
-			void SetRevContColCount(T count);
-			void SetContColCount(T count);
-			void SetRevContRowCount(T count);
-			void SetContRowCount(T count);
-
-			const T GetRevContColCount() const;
-			const T GetContColCount() const;
-			const T GetRevContRowCount() const;
-			const T GetContRowCount() const;
 			const unsigned GetSize() const;
 		private:
-			std::vector<T> m_State;
-			T m_RevContCols;
-			T m_ContCols;
-			T m_RevContRows;
-			T m_ContRows;
+			std::vector<T> m_State; //todo: Replace this with a matrix maybe? 
 		};
 
 		template <typename T, unsigned U>
-		Puzzle<T,U>::Puzzle() :
-			m_RevContCols(0), m_ContCols(0),
-			m_RevContRows(0), m_ContRows(0)
+		Puzzle<T,U>::Puzzle()
 		{
 			m_State.reserve(U * U);
 		}
 
 		template <typename T, unsigned U>
-		Puzzle<T, U>::Puzzle(const Puzzle<T, U>& src) : 
-			m_RevContCols(src.m_RevContCols),
-			m_ContCols(src.m_ContCols),
-			m_RevContRows(src.m_RevContRows), 
-			m_ContRows(src.m_ContRows)
+		Puzzle<T, U>::Puzzle(const Puzzle<T, U>& src)
 		{
 			m_State.clear();	//todo: Verify if this is necessary.
 			m_State(src.m_State);
@@ -71,10 +52,6 @@ namespace Elysium
 		{
 			m_State.clear();	//todo: Verify if this is necessary.
 			m_State = rhs.m_State;
-			m_RevContCols	= rhs.m_RevContCols; 
-			m_ContCols		= rhs.m_ContCols;
-			m_RevContRows	= rhs.m_RevContRows; 
-			m_ContRows		= rhs.m_ContRows;
 			return *this;
 		}
 
@@ -105,54 +82,6 @@ namespace Elysium
 			}
 			out << " \n";
 			return out;
-		}
-
-		template <typename T, unsigned U>
-		void Puzzle<T, U>::SetRevContColCount(T count)
-		{
-			m_RevContCols = count;
-		}
-
-		template <typename T, unsigned U>
-		void Puzzle<T, U>::SetContColCount(T count)
-		{
-			m_ContCols = count;
-		}
-
-		template <typename T, unsigned U>
-		void Puzzle<T, U>::SetRevContRowCount(T count)
-		{
-			m_RevContRows = count;
-		}
-
-		template <typename T, unsigned U>
-		void Puzzle<T, U>::SetContRowCount(T count)
-		{
-			m_ContRows = count;
-		}
-
-		template <typename T, unsigned U>
-		const T Puzzle<T, U>::GetRevContColCount() const
-		{
-			return m_RevContCols;
-		}
-
-		template <typename T, unsigned U>
-		const T Puzzle<T, U>::GetContColCount() const
-		{
-			return m_ContCols;
-		}
-
-		template <typename T, unsigned U>
-		const T Puzzle<T, U>::GetRevContRowCount() const
-		{
-			return m_RevContRows;
-		}
-
-		template <typename T, unsigned U>
-		const T Puzzle<T, U>::GetContRowCount() const
-		{
-			return m_ContRows;
 		}
 
 		template <typename T, unsigned U>

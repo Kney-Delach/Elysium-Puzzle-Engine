@@ -63,7 +63,6 @@
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -98,12 +97,14 @@
     <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h" />
     <ClInclude Include="src\Core\Utility\Asserts.h" />
+    <ClInclude Include="src\Core\Utility\InputHandler.h" />
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp" />
     <ClCompile Include="src\Core\Application\Menu.cpp" />
+    <ClCompile Include="src\Core\Utility\InputHandler.cpp" />
     <ClCompile Include="src\empch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

@@ -19,12 +19,12 @@ namespace Elysium
 		class PuzzleProcessor 
 		{
 		public:
-			PuzzleProcessor(int capacity = 100);
+			PuzzleProcessor(unsigned capacity = 100);
 			~PuzzleProcessor() = default;
 			PuzzleProcessor(const PuzzleProcessor<T>& src);
 			PuzzleProcessor<T>& operator=(const PuzzleProcessor<T>& rhs);
 			T* InsertPuzzle(const T&  object);
-
+			void ProcessPuzzles();//todo: Implement choice flags.
 			template <typename E>
 			friend std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor);
 		private:
@@ -32,7 +32,7 @@ namespace Elysium
 		};
 
 		template <typename T>
-		PuzzleProcessor<T>::PuzzleProcessor(int capacity) : m_Stack(capacity)
+		PuzzleProcessor<T>::PuzzleProcessor(unsigned capacity) : m_Stack(capacity)
 		{
 		}
 
@@ -50,6 +50,12 @@ namespace Elysium
 		T* PuzzleProcessor<T>::InsertPuzzle(const T& object) //todo: Check whether making implicit copy here.
 		{
 			return m_Stack.Push(object);
+		}
+
+		template<typename T>
+		void PuzzleProcessor<T>::ProcessPuzzles() //todo: Implement this function.
+		{
+			std::cout << *this; //todo: Implement calls to further process functionality here.
 		}
 
 		template <typename E>

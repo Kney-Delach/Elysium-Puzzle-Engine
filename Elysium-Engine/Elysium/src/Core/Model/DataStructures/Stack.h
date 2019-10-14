@@ -38,6 +38,7 @@ namespace Elysium
 		Stack<T>::Stack(unsigned capacity)
 			: m_Capacity(capacity), m_Size(0), m_pElements(new T[capacity])
 		{
+			ASSERT(capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true)
 		}
 
 		template <typename T>
@@ -56,7 +57,7 @@ namespace Elysium
 			m_Size = rhs.GetSize();
 			delete[] m_pElements;
 			m_pElements = new T[m_Capacity];
-			for (unsigned i = 0; i < m_Size(); i++)
+			for (unsigned i = 0; i < m_Size; i++)
 				m_pElements[i] = rhs.m_pElements[i];
 			return *this;
 		}
@@ -72,7 +73,7 @@ namespace Elysium
 		{
 			if (m_Size < m_Capacity)
 			{
-				m_pElements[m_Size++] = object;
+				m_pElements[m_Size++] = object; //todo: FIXME: This is performing a complete copy, implement an emplace.back function.
 				return &(m_pElements[m_Size - 1]); ;
 			}
 			return nullptr;

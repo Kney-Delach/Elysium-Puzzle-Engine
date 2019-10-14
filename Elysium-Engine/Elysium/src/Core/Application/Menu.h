@@ -8,6 +8,8 @@
  */
 #pragma once
 
+#include "Core/Utility/InputHandler.h"
+
 namespace Elysium
 {
 	namespace Application
@@ -15,23 +17,18 @@ namespace Elysium
 		class Menu
 		{
 		public:
-			Menu() = default;
+			Menu() : m_InputHandler(new Utility::InputHandler()) {}
 			~Menu() = default;
-
 			void RunOptionsMenu();
-			bool RunExitMenu() const;
+			bool RunQuitMenu() const;
 		private:
-			enum Options { EXIT = 0, MANUAL = 1, AUTO = 2, MENU = 6};
-
-			bool InputHandler(Options option) const;
-			const int HandleNumberInput(int rangeMax, int rangeMin) const;
-
-			bool HandleBinaryChoice(const char* message) const;
-
-			bool HandleExit() const;
-
+			enum MenuOptions { QUIT = 0, MANUAL = 1, AUTO = 2, MENU = 6};
+			bool OptionsHandler(MenuOptions option) const;
 			bool HandleManualConfig() const;
 			bool HandleAutoConfig() const;
+			bool HandleQuit() const;
+		private:
+			Utility::InputHandler* m_InputHandler; 
 		};
 	}
 }
