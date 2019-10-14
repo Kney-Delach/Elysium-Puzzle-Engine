@@ -11,15 +11,16 @@
 
 namespace Elysium
 {
-	namespace UI
+	namespace Application
 	{
 		void Application::Run()
 		{
-			MenuUI* menu = new MenuUI(); 
+			Menu* menu = new Menu();
+			ASSERT(!menu, "[Sandox::main::Application] - Application is null!", true);
 			while (m_Running)
 			{
 				menu->RunOptionsMenu();
-				m_Running = !(menu->RunExitMenu());
+				m_Running = !(menu->RunQuitMenu());
 			}
 			delete menu;
 		}

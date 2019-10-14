@@ -9,16 +9,14 @@
 
 namespace Elysium
 {
-	namespace UI
+	namespace Application
 	{
 		class Application
 		{
 		public:
 			Application() = default;
 			~Application() = default;
-
 			void Run();
-
 		private:
 			bool m_Running = true;
 		};

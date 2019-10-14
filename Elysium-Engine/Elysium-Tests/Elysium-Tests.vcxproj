@@ -91,10 +91,12 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CoreTests\ModelTests\DataStructuresTests\StackUnitTests.cpp" />
+    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleProcessorUnitTests.cpp" />
+    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleUnitTests.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

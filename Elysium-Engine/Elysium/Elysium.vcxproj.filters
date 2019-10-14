@@ -7,6 +7,15 @@
     <Filter Include="Core\Application">
       <UniqueIdentifier>{F1A4822F-DD9D-A181-06D0-8606F227818D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Model">
+      <UniqueIdentifier>{EE07C4CD-DABF-051B-43C7-DE762F9EA00B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Model\DataStructures">
+      <UniqueIdentifier>{DB282FE6-47EB-6270-909B-F1FCFC9C3B4E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Model\Puzzle">
+      <UniqueIdentifier>{67186280-D32E-6016-1CA6-EB3788FB309E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Utility">
       <UniqueIdentifier>{71C0BFC2-5D23-4F67-06A9-871DF2EA1AEA}</UniqueIdentifier>
     </Filter>
@@ -18,7 +27,19 @@
     <ClInclude Include="src\Core\Application\Menu.h">
       <Filter>Core\Application</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Model\DataStructures\Stack.h">
+      <Filter>Core\Model\DataStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h">
+      <Filter>Core\Model\Puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h">
+      <Filter>Core\Model\Puzzle</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Utility\Asserts.h">
+      <Filter>Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Utility\InputHandler.h">
       <Filter>Core\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
@@ -30,6 +51,9 @@
     </ClCompile>
     <ClCompile Include="src\Core\Application\Menu.cpp">
       <Filter>Core\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Core\Utility\InputHandler.cpp">
+      <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
   </ItemGroup>
