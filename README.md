@@ -15,6 +15,7 @@ This engine is being created with the purpose of simulating combinatorical strat
 [active]:https://img.shields.io/badge/-Active-success
 [depreciated]:https://img.shields.io/badge/-Depreciated-inactive
 [updating]:https://img.shields.io/badge/-Updating-purple
+[passing]:https://img.shields.io/badge/-Passing-success
 [outdated]:https://img.shields.io/badge/-Outdated-blue
 [dev]:https://img.shields.io/badge/-Unreleased-important
 
@@ -27,10 +28,10 @@ This engine is being created with the purpose of simulating combinatorical strat
 [version-dev]:https://img.shields.io/badge/Ver.-dev-important
 
 
-|**Name**|**Description**|**Version**|**Unit Tests**|**Status**|
-|:------:|:-------------:|:---------:|:------------:|:--------:|
-|[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][updating]|![Active][active]|
-|[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|**Name**|**Description**|**Version**|**Tests**|**Status**|
+|:------:|:-------------:|:---------:|:-------:|:--------:|
+|[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][passing]|![Active][active]|
+|[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][passing]|![Active][active]|
 
 <a name="references"></a>
 ## References
