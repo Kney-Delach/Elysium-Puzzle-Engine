@@ -13,7 +13,7 @@ namespace Elysium
 {
 	namespace Utility
 	{
-		class Random //todo: Implement a template here instead.
+		class Random //todo: Implement a template here to fit in with the rest of the system
 		{
 		public:
 			Random() = default;
@@ -23,7 +23,7 @@ namespace Elysium
 			void Swap(unsigned* a, unsigned* b);
 		};
 
-		void Random::Swap(unsigned* valOne, unsigned* valTwo)
+		void Random::Swap(unsigned* valOne, unsigned* valTwo) //todo: Replace this with a bitwise swap.
 		{
 			unsigned temp = *valOne;
 			*valOne = *valTwo;
@@ -32,7 +32,7 @@ namespace Elysium
 
 		void Random::Randomize(unsigned* arr, unsigned size)
 		{ 
-			srand(time(NULL));
+			srand(static_cast<unsigned>(time(NULL)));
 			for (int i = size - 1; i > 0; i--)
 			{  
 				int j = rand() % (i + 1);

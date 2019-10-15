@@ -11,6 +11,7 @@
 #include "Core/Model/Puzzle/Puzzle.h"
 #include "Core/Model/Puzzle/PuzzleProcessor.h"
 #include "Core/Utility/Random.h"
+#include "Core/Serialization/Serializer.h"
 
 namespace Elysium
 {
@@ -46,6 +47,8 @@ namespace Elysium
 |                                                                 |
 |  [2]: Pseudo-Randomly generate puzzle 1+ puzzle configurations  |
 |                                                                 |
+|  [3]: Read in a configuration file and save the solution file   |
+|                                                                 |
 +-----------------------------------------------------------------+
 			)";
 
@@ -65,9 +68,10 @@ namespace Elysium
 
 		bool Menu::OptionsHandler(MenuOptions option) const
 		{
-			if(option == MENU)		option = static_cast<MenuOptions>(m_InputHandler->HandleInput("-> ",2, 0));
+			if(option == MENU)		option = static_cast<MenuOptions>(m_InputHandler->HandleInput("-> ",3, 0));
 			if(option == MANUAL)	return HandleManualConfig();
 			if(option == AUTO)		return HandleAutoConfig();
+			if(option == READ)		return HandleReadConfig();
 			if(option == QUIT)		return HandleQuit();
 			return false;
 		}
@@ -84,7 +88,7 @@ namespace Elysium
 					{
 						for(;;)
 						{
-							if (puzzle->InsertValue(m_InputHandler->HandleInput("Enter value to add to the configuration:\n-> ",20, 0))) 
+							if (puzzle->InsertValue(m_InputHandler->HandleInput("Enter value to add to the configuration:\n-> ",20, 0)))
 								break;
 							std::cout << "That number already exists in the configuration, try entering a different one:\n";
 						}
@@ -99,7 +103,8 @@ namespace Elysium
 					break;
 				}
 			}
-			pp.ProcessPuzzles();
+			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
+			serializer.Serialize(pp);
 			return true;
 		}
 
@@ -111,12 +116,23 @@ namespace Elysium
 			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(size);
 			Utility::Random random;
 			unsigned unsortedArray[] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
-			for (unsigned i = 0; i < size; i++)
+			for (int i = 0; i < size; i++)
 			{
 				random.Randomize(unsortedArray, 20);
 				Model::Puzzle<unsigned, 4> * puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>(unsortedArray)); //todo: Optimize, as currently results in a copy per puzzle.
 			}
-			pp.ProcessPuzzles();
+			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
+			serializer.Serialize(pp);
+			return true;
+		}
+
+		bool Menu::HandleReadConfig() const
+		{
+			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(10);
+			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
+			serializer.Deserialize(pp);
+			//todo: Insert processing call to the puzzle processor.
+			serializer.Serialize(pp); 
 			return true;
 		}
 

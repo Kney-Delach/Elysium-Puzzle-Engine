@@ -28,6 +28,7 @@ namespace Elysium
 			InputHandler& operator=(const InputHandler&) = delete;
 			InputHandler& operator=(InputHandler&&) = delete;
 			bool HandleInput(const char* requestMessage) const;
+			void HandleInput(const char* requestMessage, std::string& inputString);
 			const int HandleInput(const char* requestMessage, int rangeMax, int rangeMin) const;
 		};
 	}

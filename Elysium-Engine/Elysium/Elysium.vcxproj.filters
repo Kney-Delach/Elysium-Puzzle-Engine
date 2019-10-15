@@ -16,6 +16,9 @@
     <Filter Include="Core\Model\Puzzle">
       <UniqueIdentifier>{67186280-D32E-6016-1CA6-EB3788FB309E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Serialization">
+      <UniqueIdentifier>{3BC542B3-27A9-0309-9009-FE5B7C0CEE8A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Utility">
       <UniqueIdentifier>{71C0BFC2-5D23-4F67-06A9-871DF2EA1AEA}</UniqueIdentifier>
     </Filter>
@@ -33,8 +36,14 @@
     <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h">
       <Filter>Core\Model\Puzzle</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h">
+      <Filter>Core\Model\Puzzle</Filter>
+    </ClInclude>
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h">
       <Filter>Core\Model\Puzzle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Serialization\Serializer.h">
+      <Filter>Core\Serialization</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Utility\Asserts.h">
       <Filter>Core\Utility</Filter>
@@ -42,10 +51,11 @@
     <ClInclude Include="src\Core\Utility\InputHandler.h">
       <Filter>Core\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\Core\Utility\Random.h">
+      <Filter>Core\Utility</Filter>
+    </ClInclude>
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
-    <ClInclude Include="src\Core\Utility\Random.h" />
-    <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">

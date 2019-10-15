@@ -21,10 +21,11 @@ namespace Elysium
 			void RunOptionsMenu();
 			bool RunQuitMenu() const;
 		private:
-			enum MenuOptions { QUIT = 0, MANUAL = 1, AUTO = 2, MENU = 6};
+			enum MenuOptions { QUIT = 0, MANUAL = 1, AUTO = 2, READ = 3, MENU = 6};
 			bool OptionsHandler(MenuOptions option) const;
 			bool HandleManualConfig() const;
 			bool HandleAutoConfig() const;
+			bool HandleReadConfig() const;
 			bool HandleQuit() const;
 		private:
 			Utility::InputHandler* m_InputHandler;

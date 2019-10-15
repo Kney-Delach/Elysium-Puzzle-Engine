@@ -11,8 +11,6 @@
 #pragma once
 #include <vector>
 #include "Core/Model/Puzzle/PuzzleAttributes.h"
-//todo: Mention in README that I am choosing to use templates for this as it allows for the extension of N dimensional puzzles.
-//todo: Test if faster to force inline getters and setters.
 
 namespace Elysium
 {
@@ -29,6 +27,8 @@ namespace Elysium
 			Puzzle<T, U>& operator=(const Puzzle<T, U>& rhs);
 			template <typename E,unsigned M>
 			friend std::ostream& operator<<(std::ostream& out, const Puzzle<E, M>& puzzle);
+			template <typename E, unsigned M>
+			friend std::istream& operator>>(std::istream& in, Puzzle<E, M>& puzzle);
 			const bool InsertValue(T newValue);
 			void InsertEmptyBlock();
 			const unsigned GetSize() const;
@@ -38,7 +38,7 @@ namespace Elysium
 		};
 
 		template <typename T, unsigned U>
-		Puzzle<T,U>::Puzzle()
+		Puzzle<T, U>::Puzzle() : m_Attributes(PuzzleAttributes())
 		{
 			m_State.reserve(U * U);
 		}
@@ -94,8 +94,22 @@ namespace Elysium
 				if ((i + 1) % M == 0)	out << "\n";
 			}
 			out << " \n";
-			out << puzzle.m_Attributes; //todo: Implement special case for this.
+			out << puzzle.m_Attributes;
 			return out;
+		}
+
+		template <typename E, unsigned M>
+		std::istream& operator>>(std::istream& in, Puzzle<E, M>& puzzle)
+		{
+			E temp;
+			for (int i = 0; i < (M*M-1); i++)
+			{
+				in >> temp;
+				puzzle.InsertValue(temp);
+			}
+			puzzle.InsertEmptyBlock();
+			in >> puzzle.m_Attributes;
+			return in;
 		}
 
 		template <typename T, unsigned U>
