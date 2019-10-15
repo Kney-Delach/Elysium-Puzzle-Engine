@@ -17,7 +17,7 @@ namespace Elysium
 	{
 		bool InputHandler::HandleInput(const char* requestMessage) const
 		{
-			while (true)
+			for(;;)
 			{
 				std::string inputString = "";
 				char inputChar = { 0 };
@@ -33,9 +33,21 @@ namespace Elysium
 			}
 		}
 
+		void InputHandler::HandleInput(const char* requestMessage, std::string& inputString)
+		{
+			for (;;)
+			{
+				std::cout << requestMessage;	//todo: Insert pre-processor defines here for unit testing
+				std::getline(std::cin, inputString);
+				if (inputString.length() > 0)
+					break;
+				std::cout << "Invalid input! - ";
+			}
+		}
+
 		const int InputHandler::HandleInput(const char* requestMessage, int rangeMax, int rangeMin) const //todo: Fix scenario where entering 2.3, system accepts the '2'. 
 		{
-			while (true)
+			for(;;)
 			{
 				int inputNumber = 0;
 				std::string inputString = "";

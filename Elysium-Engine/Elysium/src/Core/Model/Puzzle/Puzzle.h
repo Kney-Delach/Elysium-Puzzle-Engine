@@ -10,8 +10,7 @@
  */
 #pragma once
 #include <vector>
-//todo: Mention in README that I am choosing to use templates for this as it allows for the extension of N dimensional puzzles.
-//todo: Test if faster to force inline getters and setters.
+#include "Core/Model/Puzzle/PuzzleAttributes.h"
 
 namespace Elysium
 {
@@ -22,22 +21,36 @@ namespace Elysium
 		{
 		public:
 			Puzzle();
+			Puzzle(T* values);
 			~Puzzle() = default;
 			Puzzle(const Puzzle<T, U>& src);
 			Puzzle<T, U>& operator=(const Puzzle<T, U>& rhs);
 			template <typename E,unsigned M>
-			friend std::ostream& operator<<(std::ostream& out, const Puzzle<E, M>& puzzle); 
+			friend std::ostream& operator<<(std::ostream& out, const Puzzle<E, M>& puzzle);
+			template <typename E, unsigned M>
+			friend std::istream& operator>>(std::istream& in, Puzzle<E, M>& puzzle);
 			const bool InsertValue(T newValue);
 			void InsertEmptyBlock();
 			const unsigned GetSize() const;
 		private:
 			std::vector<T> m_State; //todo: Replace this with a matrix maybe? 
+			PuzzleAttributes m_Attributes;
 		};
 
 		template <typename T, unsigned U>
-		Puzzle<T,U>::Puzzle()
+		Puzzle<T, U>::Puzzle() : m_Attributes(PuzzleAttributes())
 		{
 			m_State.reserve(U * U);
+		}
+
+		template <typename T, unsigned U>
+		Puzzle<T, U>::Puzzle(T* values)
+		{
+			for (int i = 0; i < U*U-1; ++i)
+			{
+				m_State.push_back(values[i]);
+			}
+			m_State.push_back(22); 
 		}
 
 		template <typename T, unsigned U>
@@ -56,11 +69,11 @@ namespace Elysium
 		}
 
 		template <typename T, unsigned U>
-		const bool Puzzle<T, U>::InsertValue(T newValue)
+		const bool Puzzle<T, U>::InsertValue(T newValue) //todo: Replace with emplace back for variadric arguments for speed increase?
 		{
 			if (!(std::any_of(m_State.begin(), m_State.end(), [&](T val) { return val == newValue; })))
 			{
-				m_State.push_back(newValue);
+				m_State.push_back(newValue); //todo: Verify that this is as fast as emplace_back
 				return true;
 			}
 			return false;
@@ -69,11 +82,11 @@ namespace Elysium
 		template <typename T, unsigned U>
 		void Puzzle<T, U>::InsertEmptyBlock()
 		{
-			m_State.push_back(22); //todo: Verify this value isn't referenced in the inversion calculations
+			m_State.push_back(22); //todo: Verify this value isn't referenced in the inversion calculations.
 		}
 
 		template <typename E, unsigned M>
-		std::ostream& operator<<(std::ostream& out, const Puzzle<E,M>& puzzle) //todo: Replace with an faster implementation
+		std::ostream& operator<<(std::ostream& out, const Puzzle<E,M>& puzzle) 
 		{
 			for (unsigned i = 0; i < puzzle.m_State.size() - 1; i++)
 			{
@@ -81,7 +94,22 @@ namespace Elysium
 				if ((i + 1) % M == 0)	out << "\n";
 			}
 			out << " \n";
+			out << puzzle.m_Attributes;
 			return out;
+		}
+
+		template <typename E, unsigned M>
+		std::istream& operator>>(std::istream& in, Puzzle<E, M>& puzzle)
+		{
+			E temp;
+			for (int i = 0; i < (M*M-1); i++)
+			{
+				in >> temp;
+				puzzle.InsertValue(temp);
+			}
+			puzzle.InsertEmptyBlock();
+			in >> puzzle.m_Attributes;
+			return in;
 		}
 
 		template <typename T, unsigned U>

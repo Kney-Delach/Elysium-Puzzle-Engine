@@ -2,9 +2,9 @@
 <p align="center"><img width=100% src="Resources/Images/Elysium_Logo_2.png?raw=true"></p>
 
 [![trello](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
-![date](https://img.shields.io/badge/Build%20Date-14.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
-![version](https://img.shields.io/badge/Engine%20Version-0.1.1.3-FD175C)
-![unreleased](https://img.shields.io/badge/Branch%20Features-2-orange)
+![date](https://img.shields.io/badge/Build%20Date-15.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
+![version](https://img.shields.io/badge/Engine%20Version-0.1.2.2-FD175C)
+![unreleased](https://img.shields.io/badge/Branch%20Features-6-orange)
 
 <a name="about"></a>
 ## About
@@ -32,6 +32,10 @@ This engine is being created with the purpose of simulating combinatorical strat
 |:------:|:-------------:|:---------:|:-------:|:--------:|
 |[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][passing]|![Active][active]|
 |[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][passing]|![Active][active]|
+|[Random Configuration Generation]()|Up to 20,000 valid puzzle configurations can be generated.|![dev][version-dev]|![In Development][dev]|![Active][active]|
+|[Writing Configurations To Files]()|Possible to write configurations created directly into a file.|![dev][version-dev]|![In Development][dev]|![Active][active]|
+|[Reading Configurations From Files]()|Possible to read configuration files in order to process configurations further.|![dev][version-dev]|![In Development][dev]|![Active][active]|
+|[Writing Solution Data To Files]()|Possible to write correctly formatted solution files.|![dev][version-dev]|![In Development][dev]|![Active][active]|
 
 <a name="references"></a>
 ## References
