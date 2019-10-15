@@ -10,7 +10,7 @@
 #include "Core/Application/Menu.h"
 #include "Core/Model/Puzzle/Puzzle.h"
 #include "Core/Model/Puzzle/PuzzleProcessor.h"
-//todo: implement pseudo-random configurations
+#include "Core/Utility/Random.h"
 
 namespace Elysium
 {
@@ -77,7 +77,7 @@ namespace Elysium
 			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(50);
 			for (;;)
 			{
-				Model::Puzzle<unsigned, 4>* puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>());
+				Model::Puzzle<unsigned, 4>* puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>()); //todo: Optimize, as currently results in a copy per puzzle.
 				if (!(puzzle == nullptr))
 				{
 					for (int i = 0; i < 15; i++)
@@ -105,6 +105,18 @@ namespace Elysium
 
 		bool Menu::HandleAutoConfig() const
 		{
+			std::cout << "How many configurations would you like to generate? Range -> [1-20000]:\n";
+			int size = m_InputHandler->HandleInput("-> ", 20000, 0);
+			std::cout << "Your request has been accepted, generating puzzles now...\n";
+			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(size);
+			Utility::Random random;
+			unsigned unsortedArray[] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
+			for (unsigned i = 0; i < size; i++)
+			{
+				random.Randomize(unsortedArray, 20);
+				Model::Puzzle<unsigned, 4> * puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>(unsortedArray)); //todo: Optimize, as currently results in a copy per puzzle.
+			}
+			pp.ProcessPuzzles();
 			return true;
 		}
 

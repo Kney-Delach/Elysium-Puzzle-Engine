@@ -7,7 +7,6 @@
  * Useful Links	: Enums -> https://docs.microsoft.com/en-us/cpp/cpp/enumerations-cpp?view=vs-2019
  */
 #pragma once
-
 #include "Core/Utility/InputHandler.h"
 
 namespace Elysium
@@ -28,7 +27,7 @@ namespace Elysium
 			bool HandleAutoConfig() const;
 			bool HandleQuit() const;
 		private:
-			Utility::InputHandler* m_InputHandler; 
+			Utility::InputHandler* m_InputHandler;
 		};
 	}
 }

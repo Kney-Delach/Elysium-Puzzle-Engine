@@ -20,7 +20,7 @@ namespace Elysium
 			~Stack();
 			Stack(const Stack<T>& rhs) noexcept;
 			Stack<T>& operator=(const Stack<T>& rhs) noexcept;
-			T* Push(const T& object); 
+			T* Push(const T& object);
 			void Pop();
 			T& Top();
 			const unsigned GetCapacity() const;

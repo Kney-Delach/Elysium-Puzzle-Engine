@@ -10,6 +10,7 @@
 #pragma once
 #include "Core/Model/DataStructures/Stack.h"
 #include <iostream>
+//todo: Implement an EmplaceBack function to forward the construction of a puzzle directly to the stack, rather than producing a copy.
 
 namespace Elysium
 {
@@ -25,10 +26,9 @@ namespace Elysium
 			PuzzleProcessor<T>& operator=(const PuzzleProcessor<T>& rhs);
 			T* InsertPuzzle(const T&  object);
 			void ProcessPuzzles();//todo: Implement choice flags.
-			template <typename E>
-			friend std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor);
+			template <typename E> friend std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor);
 		private:
-			Stack<T> m_Stack;
+			Stack<T> m_Stack; //todo: Replace with std stack for faster implementation, as can use their EmplaceBack functionality.
 		};
 
 		template <typename T>
@@ -47,19 +47,19 @@ namespace Elysium
 		}
 
 		template <typename T>
-		T* PuzzleProcessor<T>::InsertPuzzle(const T& object) //todo: Check whether making implicit copy here.
+		T* PuzzleProcessor<T>::InsertPuzzle(const T& object) //todo: Replace with EmplaceBack function.
 		{
-			return m_Stack.Push(object);
+			return m_Stack.Push(std::forward<const T&>(object));
 		}
 
 		template<typename T>
-		void PuzzleProcessor<T>::ProcessPuzzles() //todo: Implement this function.
+		void PuzzleProcessor<T>::ProcessPuzzles()
 		{
 			std::cout << *this; //todo: Implement calls to further process functionality here.
 		}
 
 		template <typename E>
-		std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor) //todo: Benchmark this function.
+		std::ostream& operator<<(std::ostream& out, PuzzleProcessor<E>& processor) //todo: Implement a check whether writing solution or configs
 		{
 			unsigned size = processor.m_Stack.GetSize();
 			out << size << "\n";
