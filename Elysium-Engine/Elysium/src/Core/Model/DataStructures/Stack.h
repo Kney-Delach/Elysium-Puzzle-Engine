@@ -17,7 +17,7 @@ namespace Elysium
 		class Stack
 		{
 		public:
-			Stack(unsigned capacity = 100);
+			Stack(int capacity= 10);
 			~Stack();
 			Stack(const Stack<T>& rhs);
 			Stack<T>& operator=(const Stack<T>& rhs);
@@ -25,30 +25,32 @@ namespace Elysium
 			T* PushFront(const T& object);
 			void Pop();
 			T& Top();
-			void SetCapacity(unsigned capacity); 
-			const unsigned GetCapacity() const;
-			const unsigned GetSize() const;
+			void SetCapacity(int capacity); 
+			const int GetCapacity() const;
+			const int GetSize() const;
 			const bool IsEmpty() const;
-			const T& operator[] (unsigned index) const;
+			const T& operator[] (int index) const;
+			template <typename E> friend std::ostream& operator<<(std::ostream& out, Stack<E>& stack);
+			template <typename E> friend std::istream& operator>>(std::istream& in, Stack<E>& stack);
 		private:
-			unsigned m_Capacity;
-			unsigned m_Size;
+			int m_Capacity;
+			int m_Size;
 			T* m_pElements;
-			Stack();
+			Stack() = delete;
 		};
 
 		template <typename T>
-		Stack<T>::Stack(unsigned capacity)
-			: m_Capacity(capacity), m_Size(0), m_pElements(new T[capacity])
+		Stack<T>::Stack(int capacity)
+			: m_Capacity(capacity), m_Size(0), m_pElements(new T[m_Capacity])
 		{
-			ASSERT(capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true)
+			ASSERT(m_Capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true)
 		}
 
 		template <typename T>
 		Stack<T>::Stack(const Stack<T>& rhs)
-			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size), m_pElements(new T[m_Capacity])
+			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size)//, m_pElements(new T[m_Capacity])
 		{
-			for (unsigned i = 0; i < m_Capacity; i++)	
+			for (int i = 0; i < m_Capacity; i++)	
 				m_pElements[i] = rhs.m_pElements[i];
 		}
 
@@ -60,7 +62,7 @@ namespace Elysium
 			m_Size = rhs.GetSize();
 			delete[] m_pElements;
 			m_pElements = new T[m_Capacity];
-			for (unsigned i = 0; i < m_Size; i++)
+			for (int i = 0; i < m_Size; i++)
 				m_pElements[i] = rhs.m_pElements[i];
 			return *this;
 		}
@@ -108,7 +110,7 @@ namespace Elysium
 		}
 
 		template<typename T>
-		void Stack<T>::SetCapacity(unsigned capacity)
+		void Stack<T>::SetCapacity(int capacity)
 		{
 			delete[] m_pElements;
 			m_Capacity = capacity;
@@ -117,13 +119,13 @@ namespace Elysium
 		}
 
 		template <typename T>
-		const unsigned Stack<T>::GetCapacity() const
+		const int Stack<T>::GetCapacity() const
 		{
 			return m_Capacity;
 		}
 
 		template <typename T>
-		const unsigned Stack<T>::GetSize() const
+		const int Stack<T>::GetSize() const
 		{
 			return m_Size;
 		}
@@ -135,18 +137,39 @@ namespace Elysium
 		}
 
 		template <typename T>
-		const T& Stack<T>::operator[](unsigned index) const
+		const T& Stack<T>::operator[](int index) const
 		{
 			if (index < m_Capacity)	return m_pElements[m_Size - 1 - index];
 			ASSERT(NULL, "[Stack<T>::[]Operator] Undefined behaviour path reached, attempting to access pointer outside of stack bounds!", true);
 			//todo: Implement exception here.
 		}
 
-		template <typename T>
-		Stack<T>::Stack()
+		template<typename E>
+		std::ostream& operator<<(std::ostream& out, Stack<E>& stack)
 		{
-			ASSERT(NULL, "[Stack<T>::Default_Constructor] Undefined behaviour path reached, this constructor should never get called!", true);
-			//todo: Implement exception here.
+			out << stack.m_Size << "\n";
+			for (int i = 0; i < stack.m_Size; i++)
+			{
+				out << stack.Top() << "\n";
+				stack.Pop();
+			}
+			return out;
 		}
-	}
+		template<typename E>
+		std::istream& operator>>(std::istream& in, Stack<E>& stack)
+		{
+			int size = 4;
+			std::string line;
+			int numberOfConfigs;
+			in >> numberOfConfigs;
+			stack.SetCapacity(numberOfConfigs);
+
+			for (int i = 0; i < numberOfConfigs; i++)
+			{
+				E* element =stack.PushFront(E(size)); //todo: Replace this with the size of the puzzle, which should be included in the save file
+				in >> *element;
+			}
+			return in;
+		}
+}
 }

@@ -68,5 +68,6 @@
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
+    <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp" />
   </ItemGroup>
 </Project>

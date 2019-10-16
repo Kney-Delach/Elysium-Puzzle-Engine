@@ -13,7 +13,7 @@ namespace Elysium
 {
 	namespace Model
 	{
-		class PuzzleAttributes //todo: Replace with template of N-1 continuous options, for NxN puzzles -> N-1 partial results.
+		class PuzzleAttributes
 		{
 		public:
 			PuzzleAttributes(int cRow = -1, int cCols = 0, int cRowRev = 0, int cColRev = 0) :
@@ -23,7 +23,7 @@ namespace Elysium
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private:
-			int m_ContinuousRows;
+			int m_ContinuousRows; //todo: Replace this with arrays for N size cases
 			int m_ContinuousCols;
 			int m_ContinuousRowsRev;
 			int m_ContinuousColsRev;
@@ -31,7 +31,7 @@ namespace Elysium
 
 		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes) //todo: Replace with an faster implementation.
 		{
-			if (attributes.NotProcessed()) return out;
+			if (attributes.m_ContinuousRows == -1) return out;	//Todo: Replace with the following if doesn't work. "attributes.NotProcessed()"
 			out << "row = " << attributes.m_ContinuousRows << "\ncolumn = " << attributes.m_ContinuousCols
 				<< "\nreverse row = " << attributes.m_ContinuousRowsRev << "\nreverse column = " << attributes.m_ContinuousColsRev << "\n";
 			return out;

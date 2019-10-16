@@ -18,21 +18,21 @@ namespace Elysium
 		public:
 			Random() = default;
 			~Random() = default;
-			void Randomize(unsigned* arr, unsigned size);
+			void Randomize(int* arr, int size);
 		private:
-			void Swap(unsigned* a, unsigned* b);
+			void Swap(int* a, int* b);
 		};
 
-		inline void Random::Swap(unsigned* valOne, unsigned* valTwo) //todo: Replace this with a bitwise swap.
+		inline void Random::Swap(int* valOne, int* valTwo) //todo: Replace this with a bitwise swap.
 		{
-			unsigned temp = *valOne;
+			int temp = *valOne;
 			*valOne = *valTwo;
 			*valTwo = temp;
 		}
 
-		inline void Random::Randomize(unsigned* arr, unsigned size)
+		inline void Random::Randomize(int* arr, int size)
 		{ 
-			srand(static_cast<unsigned>(time(NULL)));
+			srand(static_cast<int>(time(NULL)));
 			for (int i = size - 1; i > 0; i--)
 			{  
 				int j = rand() % (i + 1);

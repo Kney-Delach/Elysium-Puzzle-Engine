@@ -9,9 +9,9 @@
 #include "empch.h"
 #include "Core/Application/Menu.h"
 #include "Core/Model/Puzzle/Puzzle.h"
-#include "Core/Model/Puzzle/PuzzleProcessor.h"
 #include "Core/Utility/Random.h"
 #include "Core/Serialization/Serializer.h"
+#include "Core/Model/DataStructures/Stack.h"
 
 namespace Elysium
 {
@@ -78,10 +78,11 @@ namespace Elysium
 
 		bool Menu::HandleManualConfig() const
 		{
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(50);
+			int puzzleSize = 4; //todo: Insert request to check for puzzle size.
+			Model::Stack<Model::Puzzle> puzzleStack (10); //todo: Analyse what value this construction should include
 			for (;;)
 			{
-				Model::Puzzle<unsigned, 4>* puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>()); //todo: Optimize, as currently results in a copy per puzzle.
+				Model::Puzzle* puzzle = puzzleStack.Push(Model::Puzzle(puzzleSize)); //todo: Optimize, as currently results in a copy per puzzle.
 				if (!(puzzle == nullptr))
 				{
 					for (int i = 0; i < 15; i++)
@@ -103,38 +104,39 @@ namespace Elysium
 					break;
 				}
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer; //todo: Replace this with a call to local function which serializes the object
-			serializer.Serialize(pp);
+			Serialize::Serializer<Model::Stack<Model::Puzzle>> serializer; //todo: Replace this with a call to local function which serializes the object
+			serializer.Serialize(puzzleStack);
 			//todo: Implement user choice to process configurations or not. (Verify this)
 			return true;
 		}
 
 		bool Menu::HandleAutoConfig() const
 		{
+			int puzzleSize = 4; //todo: Insert request to check for puzzle size.
 			std::cout << "How many configurations would you like to generate? Range -> [1-20000]:\n";
 			int size = m_InputHandler->HandleInput("-> ", 20000, 0);
 			std::cout << "Your request has been accepted, generating puzzles now...\n";
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(size);
+			Model::Stack<Model::Puzzle> puzzleStack(size);
 			Utility::Random random;
-			unsigned unsortedArray[] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
+			int unsortedArray[] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
 			for (int i = 0; i < size; i++)
 			{
 				random.Randomize(unsortedArray, 20);
-				Model::Puzzle<unsigned, 4> * puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>(unsortedArray)); //todo: Optimize, as currently results in a copy per puzzle.
+				Model::Puzzle* puzzle = puzzleStack.Push(Model::Puzzle(puzzleSize, unsortedArray));
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;  //todo: Replace this with a call to local function which serializes the object
-			serializer.Serialize(pp);
+			Serialize::Serializer<Model::Stack<Model::Puzzle>> serializer;  //todo: Replace this with a call to local function which serializes the object
+			serializer.Serialize(puzzleStack);
 			//todo: Implement user choice to process configurations or not. (Verify this)
 			return true;
 		}
 
 		bool Menu::HandleReadConfig() const
 		{
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(10);
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
-			serializer.Deserialize(pp);
+			Model::Stack<Model::Puzzle> puzzleStack(1);
+			Serialize::Serializer<Model::Stack<Model::Puzzle>> serializer;
+			serializer.Deserialize(puzzleStack);
 			//todo: Implement and insert processing call.
-			serializer.Serialize(pp);  //todo: Replace this with a call to local function which serializes the object
+			serializer.Serialize(puzzleStack);  //todo: Replace this with a call to local function which serializes the object
 			return true;
 		}
 
