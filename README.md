@@ -1,8 +1,8 @@
 <a name="Elysium-Puzzle-Engine"></a>
 <p align="center"><img width=100% src="Resources/Images/Elysium_Logo_2.png?raw=true"></p>
 
-[![trello-1](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
-[![trello-2](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
+[![trello_1](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
+[![trello_2](https://img.shields.io/badge/Trello-darkgreen)](https://trello.com/b/ZXmtjMhK/csc8501-cw-part-2)
 ![date](https://img.shields.io/badge/Build%20Date-16.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
 ![version](https://img.shields.io/badge/Engine%20Version-0.1.3.1-FD175C)
 ![unreleased](https://img.shields.io/badge/Branch%20Features-6-orange)
