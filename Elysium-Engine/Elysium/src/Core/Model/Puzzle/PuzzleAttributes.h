@@ -13,15 +13,15 @@ namespace Elysium
 {
 	namespace Model
 	{
-		class PuzzleAttributes
+		class PuzzleAttributes //todo: Replace with template of N-1 continuous options, for NxN puzzles -> N-1 partial results.
 		{
 		public:
 			PuzzleAttributes(int cRow = -1, int cCols = 0, int cRowRev = 0, int cColRev = 0) :
 				m_ContinuousRows(cRow), m_ContinuousCols(cCols), m_ContinuousRowsRev(cRowRev), m_ContinuousColsRev(cColRev)	{}
 			~PuzzleAttributes() = default;
-			friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
-			friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
-			__forceinline bool NotProcessed() const { return m_ContinuousRows == -1 ? true : false; }
+			inline bool NotProcessed() const { return m_ContinuousRows == -1 ? true : false; }
+			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
+			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private:
 			int m_ContinuousRows;
 			int m_ContinuousCols;

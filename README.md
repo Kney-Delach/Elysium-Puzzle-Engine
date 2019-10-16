@@ -1,9 +1,10 @@
 <a name="Elysium-Puzzle-Engine"></a>
 <p align="center"><img width=100% src="Resources/Images/Elysium_Logo_2.png?raw=true"></p>
 
-[![trello](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
-![date](https://img.shields.io/badge/Build%20Date-15.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
-![version](https://img.shields.io/badge/Engine%20Version-0.1.2.2-FD175C)
+[![trello-1](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
+[![trello-2](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
+![date](https://img.shields.io/badge/Build%20Date-16.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
+![version](https://img.shields.io/badge/Engine%20Version-0.1.3.1-FD175C)
 ![unreleased](https://img.shields.io/badge/Branch%20Features-6-orange)
 
 <a name="about"></a>
@@ -36,6 +37,7 @@ This engine is being created with the purpose of simulating combinatorical strat
 |[Writing Configurations To Files]()|Possible to write configurations created directly into a file.|![dev][version-dev]|![In Development][dev]|![Active][active]|
 |[Reading Configurations From Files]()|Possible to read configuration files in order to process configurations further.|![dev][version-dev]|![In Development][dev]|![Active][active]|
 |[Writing Solution Data To Files]()|Possible to write correctly formatted solution files.|![dev][version-dev]|![In Development][dev]|![Active][active]|
+|[Puzzle Analysis for Continous Rows/Columns]()|It will be possible to analyse a puzzle configuration for the total number of continuous rows / columns + reverse.|![dev][version-dev]|![In Development][dev]|![Updating][updating]|
 
 <a name="references"></a>
 ## References
@@ -58,6 +60,11 @@ This engine is being created with the purpose of simulating combinatorical strat
   - [The 15 Puzzle](https://en.wikipedia.org/wiki/15_puzzle) 
   - [Parity of a Permutation](https://en.wikipedia.org/wiki/Parity_of_a_permutation)
   - [Mathematical Invariance](https://en.wikipedia.org/wiki/Invariant_(mathematics))
+- Finite Set Theory 
+  - [Finite Sets](https://en.wikipedia.org/wiki/Finite_set)
+  - [Alternating Groups](https://en.wikipedia.org/wiki/Alternating_group)
+  - [Even Permutations (Parity)](https://en.wikipedia.org/wiki/Parity_of_a_permutation)
+  - [Cardinality of a Set](https://en.wikipedia.org/wiki/Cardinality)
 <a name="optimization-research"></a>
 #### Optimization Research 
 - [Bit twiddling hacks](https://graphics.stanford.edu/~seander/bithacks.html)

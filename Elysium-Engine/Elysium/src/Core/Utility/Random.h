@@ -23,14 +23,14 @@ namespace Elysium
 			void Swap(unsigned* a, unsigned* b);
 		};
 
-		void Random::Swap(unsigned* valOne, unsigned* valTwo) //todo: Replace this with a bitwise swap.
+		inline void Random::Swap(unsigned* valOne, unsigned* valTwo) //todo: Replace this with a bitwise swap.
 		{
 			unsigned temp = *valOne;
 			*valOne = *valTwo;
 			*valTwo = temp;
 		}
 
-		void Random::Randomize(unsigned* arr, unsigned size)
+		inline void Random::Randomize(unsigned* arr, unsigned size)
 		{ 
 			srand(static_cast<unsigned>(time(NULL)));
 			for (int i = size - 1; i > 0; i--)

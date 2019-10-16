@@ -103,8 +103,9 @@ namespace Elysium
 					break;
 				}
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
+			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer; //todo: Replace this with a call to local function which serializes the object
 			serializer.Serialize(pp);
+			//todo: Implement user choice to process configurations or not. (Verify this)
 			return true;
 		}
 
@@ -121,8 +122,9 @@ namespace Elysium
 				random.Randomize(unsortedArray, 20);
 				Model::Puzzle<unsigned, 4> * puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>(unsortedArray)); //todo: Optimize, as currently results in a copy per puzzle.
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
+			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;  //todo: Replace this with a call to local function which serializes the object
 			serializer.Serialize(pp);
+			//todo: Implement user choice to process configurations or not. (Verify this)
 			return true;
 		}
 
@@ -131,8 +133,8 @@ namespace Elysium
 			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(10);
 			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
 			serializer.Deserialize(pp);
-			//todo: Insert processing call to the puzzle processor.
-			serializer.Serialize(pp); 
+			//todo: Implement and insert processing call.
+			serializer.Serialize(pp);  //todo: Replace this with a call to local function which serializes the object
 			return true;
 		}
 
