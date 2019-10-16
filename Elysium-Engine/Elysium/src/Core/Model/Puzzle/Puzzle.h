@@ -25,11 +25,13 @@ namespace Elysium
 			~Puzzle() = default;
 			Puzzle(const Puzzle& src);
 			Puzzle& operator=(const Puzzle& rhs);
-			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
-			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 			const bool InsertValue(int newValue);
 			void InsertEmptyBlock();
 			const int GetSize() const;
+			void RunPuzzleSolver(const std::vector<int>* partialsVector);
+			__forceinline void ProcessPuzzle();
+			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
+			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 		private:
 			int m_Size; //todo: Check if to move this further down for faster access 
 			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 

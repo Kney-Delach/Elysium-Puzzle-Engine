@@ -74,13 +74,23 @@ namespace Elysium
 				puzzle.m_State.push_back(temp);
 			}
 			puzzle.InsertEmptyBlock();
-			in >> puzzle.m_Attributes;
 			return in;
 		}
 
 		const int Puzzle::GetSize() const
 		{
 			return m_Size * m_Size;
+		}
+
+		void Puzzle::RunPuzzleSolver(const std::vector<int>* partialsVector)
+		{
+			m_Attributes.InitAttributes(partialsVector);
+			ProcessPuzzle();
+		}
+
+		__forceinline void Puzzle::ProcessPuzzle()
+		{
+			//todo: Implement the processing puzzle in here.
 		}
 	}
 }

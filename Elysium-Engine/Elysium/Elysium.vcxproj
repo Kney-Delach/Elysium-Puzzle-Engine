@@ -107,6 +107,7 @@
     <ClCompile Include="src\Core\Application\Application.cpp" />
     <ClCompile Include="src\Core\Application\Menu.cpp" />
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp" />
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleAttributes.cpp" />
     <ClCompile Include="src\Core\Utility\InputHandler.cpp" />
     <ClCompile Include="src\empch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

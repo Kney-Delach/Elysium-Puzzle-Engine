@@ -18,7 +18,7 @@ namespace Elysium
 		class Stack
 		{
 		public:
-			Stack(int capacity= 10);
+			Stack(int capacity = 10, int elementSize = 4);
 			~Stack();
 			Stack(const Stack<T>& rhs);
 			Stack<T>& operator=(const Stack<T>& rhs);
@@ -29,8 +29,9 @@ namespace Elysium
 			void SetCapacity(int capacity); 
 			const int GetCapacity() const;
 			const int GetSize() const;
+			int GetElementSize() const; 
 			const bool IsEmpty() const;
-			const T& operator[] (int index) const;
+			T& operator[] (int index) const;
 			template <typename E> friend std::ostream& operator<<(std::ostream& out, Stack<E>& stack);
 			template <typename E> friend std::istream& operator>>(std::istream& in, Stack<E>& stack);
 		private:
@@ -40,18 +41,19 @@ namespace Elysium
 			int m_Capacity;
 			int m_Size;
 			T* m_pElements;
+			int m_ElementSize = 0; 
 		};
 
 		template <typename T>
-		Stack<T>::Stack(int capacity)
-			: m_Capacity(capacity), m_Size(0), m_pElements(new T[m_Capacity])
+		Stack<T>::Stack(int capacity, int elementSize)
+			: m_Capacity(capacity), m_Size(0), m_pElements(new T[m_Capacity]), m_ElementSize(elementSize)
 		{
 			ASSERT(m_Capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true)
 		}
 
 		template <typename T>
 		Stack<T>::Stack(const Stack<T>& rhs)
-			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size), m_pElements(new T[m_Capacity])
+			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size), m_pElements(new T[m_Capacity]), m_ElementSize(rhs.m_ElementSize)
 		{
 			for (int i = 0; i < m_Capacity; i++)	
 				m_pElements[i] = rhs.m_pElements[i];
@@ -63,6 +65,7 @@ namespace Elysium
 			if (this == &rhs) return (*this);
 			m_Capacity = rhs.GetCapacity();
 			m_Size = rhs.GetSize();
+			m_ElementSize = rhs.GetElementSize();
 			delete[] m_pElements;
 			m_pElements = new T[m_Capacity];
 			for (int i = 0; i < m_Size; i++)
@@ -138,13 +141,19 @@ namespace Elysium
 		}
 
 		template <typename T>
+		int Stack<T>::GetElementSize() const
+		{
+			return m_ElementSize;
+		}
+
+		template <typename T>
 		const bool Stack<T>::IsEmpty() const
 		{
 			return m_Size == 0 ? true : false;
 		}
 
 		template <typename T>
-		const T& Stack<T>::operator[](int index) const
+		T& Stack<T>::operator[](int index) const //todo: Verify that removing this index isn't causing problems elsewhere.
 		{
 			if (index < m_Capacity)	return m_pElements[m_Size - 1 - index];
 			ASSERT(NULL, "[Stack<T>::[]Operator] Undefined behaviour path reached, attempting to access pointer outside of stack bounds!", true);
@@ -184,6 +193,7 @@ namespace Elysium
 			int numberOfConfigs;
 			in >> numberOfConfigs;
 			stack.SetCapacity(numberOfConfigs);
+			stack.m_ElementSize = puzzleSize; //todo: Find a better solution for this hack.
 			for (int i = 0; i < numberOfConfigs; i++)
 			{
 				E* element =stack.PushFront(E(puzzleSize));

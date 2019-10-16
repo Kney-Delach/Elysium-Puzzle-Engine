@@ -8,6 +8,7 @@
  */
 #pragma once
 //todo: Implement getters and setters for attributes.
+#include <vector>
 
 namespace Elysium
 {
@@ -16,29 +17,43 @@ namespace Elysium
 		class PuzzleAttributes
 		{
 		public:
-			PuzzleAttributes(int cRow = -1, int cCols = 0, int cRowRev = 0, int cColRev = 0) :
-				m_ContinuousRows(cRow), m_ContinuousCols(cCols), m_ContinuousRowsRev(cRowRev), m_ContinuousColsRev(cColRev)	{}
+			PuzzleAttributes() = default;
 			~PuzzleAttributes() = default;
-			inline bool NotProcessed() const { return m_ContinuousRows == -1 ? true : false; }
+			void InitAttributes(const std::vector<int>* partialsVector);
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private:
-			int m_ContinuousRows; //todo: Replace this with arrays for N size cases
-			int m_ContinuousCols;
-			int m_ContinuousRowsRev;
-			int m_ContinuousColsRev;
+			int m_ContinuousRows = -1; //todo: Replace this with arrays for N size cases
+			int m_ContinuousCols = 0;
+			int m_ContinuousRowsRev = 0;
+			int m_ContinuousColsRev = 0;
+			std::vector<int> m_PartialIndexes;
+			std::vector<int> m_StartConfigPartials;
+			std::vector<int> m_ValidTurnsPartials;
 		};
 
 		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes) //todo: Replace with an faster implementation.
 		{
+
 			if (attributes.m_ContinuousRows == -1) return out;	//Todo: Replace with the following if doesn't work. "attributes.NotProcessed()"
 			out << "row = " << attributes.m_ContinuousRows << "\ncolumn = " << attributes.m_ContinuousCols
 				<< "\nreverse row = " << attributes.m_ContinuousRowsRev << "\nreverse column = " << attributes.m_ContinuousColsRev << "\n";
+
+			out << "(total for row & column, including reverse, in this configuration)\n";
+			for (unsigned i = 0; i < attributes.m_PartialIndexes.size(); i++)
+			{
+				out << attributes.m_PartialIndexes[i] << " = " << attributes.m_StartConfigPartials[i] << "\n";
+			}
+			out << "(total for row & column, including reverse, for all valid turns)\n";
+			for (unsigned i = 0; i < attributes.m_PartialIndexes.size(); i++)
+			{
+				out << attributes.m_PartialIndexes[i] << " = " << attributes.m_ValidTurnsPartials[i] << "\n";
+			}
 			return out;
 		}
+
 		std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes)
 		{
-			attributes.m_ContinuousRows = 0;
 			return in;
 		}
 	}
