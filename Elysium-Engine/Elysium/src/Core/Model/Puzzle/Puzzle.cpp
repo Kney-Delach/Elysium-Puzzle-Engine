@@ -5,11 +5,6 @@ namespace Elysium
 {
 	namespace Model
 	{
-		Puzzle::~Puzzle()
-		{
-
-		}
-
 		Puzzle::Puzzle(int size) 
 			: m_Size(size), m_Attributes(PuzzleAttributes())
 		{
@@ -23,19 +18,23 @@ namespace Elysium
 			{
 				m_State.push_back(values[i]);
 			}
-			m_State.push_back(22);
+			m_State.push_back(m_Size * m_Size + m_Size+1);
 		}
 
 		Puzzle::Puzzle(const Puzzle& src)
 		{
 			m_State.clear();	//todo: Verify if this is necessary.
 			m_State = src.m_State; //todo: Verify this works.
+			m_Size = src.m_Size;
+			m_Attributes = src.m_Attributes;
 		}
 
 		Puzzle& Puzzle::operator=(const Puzzle& rhs)
 		{
 			m_State.clear();	//todo: Verify if this is necessary.
 			m_State = rhs.m_State;
+			m_Size = rhs.m_Size;
+			m_Attributes = rhs.m_Attributes;
 			return *this;
 		}
 
@@ -59,7 +58,7 @@ namespace Elysium
 			for (unsigned i = 0; i < puzzle.m_State.size() - 1; i++)
 			{
 				out << puzzle.m_State[i] << " ";
-				if ((i + 1) % puzzle.m_Size == 0)	out << "\n";
+				if (((i + 1) % puzzle.m_Size )== 0)		out << "\n";
 			}
 			out << " \n";
 			out << puzzle.m_Attributes;

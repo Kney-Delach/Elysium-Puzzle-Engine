@@ -19,9 +19,10 @@ namespace Elysium
 		class Puzzle
 		{
 		public:
-			Puzzle(int size = 4);
+			Puzzle() = default;
+			Puzzle(int size);
 			Puzzle(int size, int* values);
-			~Puzzle();
+			~Puzzle() = default;
 			Puzzle(const Puzzle& src);
 			Puzzle& operator=(const Puzzle& rhs);
 			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);

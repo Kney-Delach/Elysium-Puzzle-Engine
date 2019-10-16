@@ -19,22 +19,21 @@ namespace Elysium
 		class Serializer
 		{
 		public:
-			Serializer() : m_InputHandler(new Utility::InputHandler()) {};
-			~Serializer() = default;
-			void Serialize(T& object) const ;
-			void Deserialize(T& object);
+			static void Serialize(T& object);
+			static void Deserialize(T& object);
 		private:
-			Utility::InputHandler* m_InputHandler;
+			Serializer() = default;
+			~Serializer() = default;
 		};
 
 		template<typename T>
-		void Serializer<T>::Serialize(T& object) const
+		void Serializer<T>::Serialize(T& object)
 		{
 			std::string input; 
 			std::ofstream filestream;
 			for (;;)
 			{
-				m_InputHandler->HandleInput("Enter the name of the file (or full path) you would like to save this object to:\n", input);
+				Utility::InputHandler::HandleInput("Enter the name of the file (or full path) you would like to save this object to:\n", input);
 				filestream.open(input.c_str());
 				if (filestream)	break;	 //todo: Maybe implement exceptions here? 
 				std::cout << "Failed to write to that file.";
@@ -50,10 +49,10 @@ namespace Elysium
 			std::ifstream filestream;
 			for (;;)
 			{
-				m_InputHandler->HandleInput("Enter the name of the file (or full path) of configurations which you would like to import:\n", input);
+				Utility::InputHandler::HandleInput("Enter the name of the file (or full path) of configurations which you would like to import:\n", input);
 				filestream.open(input.c_str());
 				if (filestream) break;	//todo: Maybe implement exceptions here? 
-				std::cout << "Failed to write to that file."; 
+				std::cout << "Failed to write to that file. - "; 
 			} 
 			filestream >> object;
 			filestream.close();

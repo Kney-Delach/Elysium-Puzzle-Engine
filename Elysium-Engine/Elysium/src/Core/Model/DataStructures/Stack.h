@@ -8,6 +8,7 @@
  */
 #pragma once
 #include "Core/Utility/Asserts.h"
+#include "Core/Utility/InputHandler.h"
 
 namespace Elysium
 {
@@ -33,10 +34,12 @@ namespace Elysium
 			template <typename E> friend std::ostream& operator<<(std::ostream& out, Stack<E>& stack);
 			template <typename E> friend std::istream& operator>>(std::istream& in, Stack<E>& stack);
 		private:
+			Stack() = delete;
+			void ExpandStack();
+		private:
 			int m_Capacity;
 			int m_Size;
 			T* m_pElements;
-			Stack() = delete;
 		};
 
 		template <typename T>
@@ -48,7 +51,7 @@ namespace Elysium
 
 		template <typename T>
 		Stack<T>::Stack(const Stack<T>& rhs)
-			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size)//, m_pElements(new T[m_Capacity])
+			: m_Capacity(rhs.m_Capacity), m_Size(rhs.m_Size), m_pElements(new T[m_Capacity])
 		{
 			for (int i = 0; i < m_Capacity; i++)	
 				m_pElements[i] = rhs.m_pElements[i];
@@ -78,14 +81,18 @@ namespace Elysium
 		{
 			if (m_Size < m_Capacity)
 			{
-				m_pElements[m_Size++] = object; //todo: FIXME: This is performing a complete copy, implement an emplace.back function.
+				m_pElements[m_Size++] = object; //todo: Optimize: Performing a deep copy, implement an emplace back function.
 				return &(m_pElements[m_Size - 1]);
 			}
-			return nullptr;
+
+			ExpandStack();
+			m_pElements[m_Size++] = object;
+			return &(m_pElements[m_Size - 1]);
 		}
 
+
 		template <typename T>
-		T* Stack<T>::PushFront(const T& object)	//todo: Implement exceptions / assertions, as this will definetely break the stack if not used properly.
+		T* Stack<T>::PushFront(const T& object)	//todo: Implement exceptions / assertions, as this will result in a memory leak if not used properly.
 		{
 			if (m_Size < m_Capacity)
 			{
@@ -144,32 +151,45 @@ namespace Elysium
 			//todo: Implement exception here.
 		}
 
+		template <typename T>
+		void Stack<T>::ExpandStack()
+		{
+			Stack<T> temp = *this;
+			delete[] m_pElements;
+			m_Capacity = 2 * m_Capacity;
+
+			m_pElements = new T[m_Capacity];
+			for (int i = 0; i < m_Size; i++)
+				m_pElements[i] = temp.m_pElements[i];
+		}
+
 		template<typename E>
 		std::ostream& operator<<(std::ostream& out, Stack<E>& stack)
 		{
+			int stackSize = stack.m_Size;
 			out << stack.m_Size << "\n";
-			for (int i = 0; i < stack.m_Size; i++)
+			for (int i = 0; i < stackSize; i++)
 			{
 				out << stack.Top() << "\n";
 				stack.Pop();
 			}
 			return out;
 		}
+
 		template<typename E>
 		std::istream& operator>>(std::istream& in, Stack<E>& stack)
 		{
-			int size = 4;
+			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 10, 3);
 			std::string line;
 			int numberOfConfigs;
 			in >> numberOfConfigs;
 			stack.SetCapacity(numberOfConfigs);
-
 			for (int i = 0; i < numberOfConfigs; i++)
 			{
-				E* element =stack.PushFront(E(size)); //todo: Replace this with the size of the puzzle, which should be included in the save file
+				E* element =stack.PushFront(E(puzzleSize));
 				in >> *element;
 			}
 			return in;
 		}
-}
+	}
 }

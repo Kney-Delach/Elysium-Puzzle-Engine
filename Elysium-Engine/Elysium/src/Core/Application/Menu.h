@@ -7,7 +7,6 @@
  * Useful Links	: Enums -> https://docs.microsoft.com/en-us/cpp/cpp/enumerations-cpp?view=vs-2019
  */
 #pragma once
-#include "Core/Utility/InputHandler.h"
 
 namespace Elysium
 {
@@ -16,9 +15,9 @@ namespace Elysium
 		class Menu
 		{
 		public:
-			Menu() : m_InputHandler(new Utility::InputHandler()) {}
+			Menu() = default;
 			~Menu() = default;
-			void RunOptionsMenu();
+			void RunOptionsMenu() const;
 			bool RunQuitMenu() const;
 		private:
 			enum MenuOptions { QUIT = 0, MANUAL = 1, AUTO = 2, READ = 3, MENU = 6};
@@ -27,8 +26,6 @@ namespace Elysium
 			bool HandleAutoConfig() const;
 			bool HandleReadConfig() const;
 			bool HandleQuit() const;
-		private:
-			Utility::InputHandler* m_InputHandler;
 		};
 	}
 }

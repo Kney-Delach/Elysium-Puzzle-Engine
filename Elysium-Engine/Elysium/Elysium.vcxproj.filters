@@ -39,9 +39,6 @@
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h">
       <Filter>Core\Model\Puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h">
-      <Filter>Core\Model\Puzzle</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Serialization\Serializer.h">
       <Filter>Core\Serialization</Filter>
     </ClInclude>
@@ -64,10 +61,12 @@
     <ClCompile Include="src\Core\Application\Menu.cpp">
       <Filter>Core\Application</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp">
+      <Filter>Core\Model\Puzzle</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Utility\InputHandler.cpp">
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
-    <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp" />
   </ItemGroup>
 </Project>

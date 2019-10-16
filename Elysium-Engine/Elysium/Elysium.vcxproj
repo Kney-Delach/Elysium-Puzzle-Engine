@@ -96,7 +96,6 @@
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />
     <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h" />
-    <ClInclude Include="src\Core\Model\Puzzle\PuzzleProcessor.h" />
     <ClInclude Include="src\Core\Serialization\Serializer.h" />
     <ClInclude Include="src\Core\Utility\Asserts.h" />
     <ClInclude Include="src\Core\Utility\InputHandler.h" />

@@ -6,21 +6,20 @@
  * Description	: This header contains an implementation of a random number generator which produces discrete random numbers. 
  */
 #pragma once
-#include <stdlib.h>  
-#include <time.h>  
+#include <ctime>  
 
 namespace Elysium
 {
 	namespace Utility
 	{
-		class Random //todo: Implement a template here to fit in with the rest of the system
+		class Random
 		{
 		public:
+			static void Randomize(int* arr, int size);
+		private:
+			static void Swap(int* a, int* b);
 			Random() = default;
 			~Random() = default;
-			void Randomize(int* arr, int size);
-		private:
-			void Swap(int* a, int* b);
 		};
 
 		inline void Random::Swap(int* valOne, int* valTwo) //todo: Replace this with a bitwise swap.

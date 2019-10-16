@@ -6,6 +6,7 @@ packages/
 
 # Files
 *.user 
+*.txt
 
 # Photoshop
 *.psd 

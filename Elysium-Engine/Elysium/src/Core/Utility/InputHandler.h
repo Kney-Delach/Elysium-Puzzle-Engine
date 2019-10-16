@@ -10,9 +10,6 @@
 #pragma once
 #include "Core/Utility/Asserts.h"
 #include <string>
-#include <stdarg.h>
-
- //todo: Check if to write private functions for testing this?
 
 namespace Elysium
 {
@@ -21,15 +18,16 @@ namespace Elysium
 		class InputHandler
 		{
 		public:
-			InputHandler() = default;
 			~InputHandler() = default;
 			InputHandler(const InputHandler&) = delete;
 			InputHandler(InputHandler&&) = delete;
 			InputHandler& operator=(const InputHandler&) = delete;
 			InputHandler& operator=(InputHandler&&) = delete;
-			bool HandleInput(const char* requestMessage) const;
-			void HandleInput(const char* requestMessage, std::string& inputString);
-			const int HandleInput(const char* requestMessage, int rangeMax, int rangeMin) const;
+			static bool HandleInput(const char* requestMessage);
+			static void HandleInput(const char* requestMessage, std::string& inputString);
+			static int HandleInput(const char* requestMessage, int rangeMax, int rangeMin);
+		private:
+			InputHandler() = default;
 		};
 	}
 }
