@@ -87,7 +87,6 @@ namespace Elysium
 				m_pElements[m_Size++] = object; //todo: Optimize: Performing a deep copy, implement an emplace back function.
 				return &(m_pElements[m_Size - 1]);
 			}
-
 			ExpandStack();
 			m_pElements[m_Size++] = object;
 			return &(m_pElements[m_Size - 1]);
@@ -105,6 +104,7 @@ namespace Elysium
 			}
 			return nullptr;
 		}
+
 		template <typename T>
 		void Stack<T>::Pop()
 		{
@@ -189,7 +189,8 @@ namespace Elysium
 		template<typename E>
 		std::istream& operator>>(std::istream& in, Stack<E>& stack)
 		{
-			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 10, 3);
+			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 20, 3);
+			//todo: Validate dimension.
 			std::string line;
 			int numberOfConfigs;
 			in >> numberOfConfigs;

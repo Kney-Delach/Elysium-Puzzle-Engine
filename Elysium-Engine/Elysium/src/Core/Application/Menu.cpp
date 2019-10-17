@@ -82,7 +82,7 @@ namespace Elysium
 
 		bool Menu::HandleManualConfig() const	//todo: Implement user choice to process configurations or not.
 		{
-			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configuration:\n-> ", 10, 3);
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configuration:\n-> ", 20, 3);
 			const int maxElement = puzzleSize * puzzleSize + puzzleSize;
 			PuzzleStacker puzzleStack (50, puzzleSize);
 			for (;;)
@@ -114,7 +114,7 @@ namespace Elysium
 
 		bool Menu::HandleAutoConfig() const	//todo: Verify whether or not user should be able to directly process configured puzzles, or if its sufficient to let them read that file in through the loop.
 		{
-			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configurations:\n-> ", 10, 3);
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configurations:\n-> ", 20, 3);
 			const int elementCount = puzzleSize * puzzleSize + puzzleSize;
 			const int puzzleCount = InputHandler::HandleInput("How many configurations would you like to generate? Range -> [1-20000]:\n-> ", 20000, 0);
 			PuzzleStacker puzzleStack(puzzleCount, puzzleSize);
