@@ -16,18 +16,7 @@ namespace Elysium
 	namespace Serialize
 	{
 		template<typename T>
-		class Serializer
-		{
-		public:
-			static void Serialize(T& object);
-			static void Deserialize(T& object);
-		private:
-			Serializer() = default;
-			~Serializer() = default;
-		};
-
-		template<typename T>
-		void Serializer<T>::Serialize(T& object)
+		static void Serializer(T& object)
 		{
 			std::string input; 
 			std::ofstream filestream;
@@ -37,13 +26,13 @@ namespace Elysium
 				filestream.open(input.c_str());
 				if (filestream)	break;	 //todo: Maybe implement exceptions here? 
 				std::cout << "Failed to write to that file.";
-			}
+			}	
 			filestream << object;
 			filestream.close();
 		}
 
 		template<typename T>
-		void Serializer<T>::Deserialize(T& object)
+		static void Deserializer(T& object)
 		{
 			std::string input;
 			std::ifstream filestream;
@@ -52,7 +41,7 @@ namespace Elysium
 				Utility::InputHandler::HandleInput("Enter the name of the file (or full path) of configurations which you would like to import:\n", input);
 				filestream.open(input.c_str());
 				if (filestream) break;	//todo: Maybe implement exceptions here? 
-				std::cout << "Failed to write to that file. - "; 
+				std::cout << "Failed to read from that file. - "; 
 			} 
 			filestream >> object;
 			filestream.close();

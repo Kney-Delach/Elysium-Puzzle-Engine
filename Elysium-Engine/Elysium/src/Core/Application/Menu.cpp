@@ -12,14 +12,12 @@
 #include "Core/Serialization/Serializer.h"
 #include "Core/Utility/InputHandler.h"
 
- //todo: partials -> array of partials to include, give user prompt for n-1 partials (minimum bound = 2 (inclusive)
-
 namespace Elysium
 {
+	using namespace Serialize;
 	using namespace Model;
 	using namespace Utility;
 	using PuzzleStacker = Stack<Puzzle>;
-	using PuzzleSerializer = Serialize::Serializer<PuzzleStacker>;
 
 	namespace Application
 	{
@@ -104,8 +102,13 @@ namespace Elysium
 				if (!InputHandler::HandleInput("That configuration has been saved, do you want to configure another puzzle? Enter [Y/N]:\n-> "))
 					break;
 			}
-			ProcessPuzzle(puzzleStack);	//todo: Insert choice for processing, don't just process
-			PuzzleSerializer::Serialize(puzzleStack);
+			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
+				Serializer(puzzleStack);
+			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
+			{
+				ProcessPuzzle(&puzzleStack);
+				Serializer(puzzleStack);
+			}
 			return true;
 		}
 
@@ -124,51 +127,56 @@ namespace Elysium
 				puzzleStack.Push(Puzzle(puzzleSize, unsortedArray));
 			}
 			delete[] unsortedArray;
-			ProcessPuzzle(puzzleStack);	//todo: Insert choice for processing, don't just process
-			PuzzleSerializer::Serialize(puzzleStack); 
+			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
+				Serializer(puzzleStack);
+			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
+			{
+				ProcessPuzzle(&puzzleStack);
+				Serializer(puzzleStack);
+			}
 			return true;
 		}
 
 		bool Menu::HandleReadConfig() const	//todo: Implement and insert processing call.
 		{
 			PuzzleStacker puzzleStack(1);
-			PuzzleSerializer::Deserialize(puzzleStack);
-			ProcessPuzzle(puzzleStack);
-			PuzzleSerializer::Serialize(puzzleStack);
+			Deserializer(puzzleStack);
+			ProcessPuzzle(&puzzleStack);
+			Serializer(puzzleStack);
 			return true;
 		}
 
-		void Menu::ProcessPuzzle(const Stack<Puzzle>& puzzleStacker) const
+		void Menu::ProcessPuzzle(const Stack<Puzzle>* puzzleStacker) const
 		{
-			//todo: Implement option to display NO continous partials, in order to meet with coursework 1 spec, i.e. set partialIndexes to 0.
 			std::vector<int> partialIndexes;
-			const int initialChoice = InputHandler::HandleInput("Enter a partial you would like to calculate (0 includes all of the N-1 available partials.):\n-> ", puzzleStacker.GetElementSize() - 1, -1);
-			partialIndexes.reserve(puzzleStacker.GetElementSize() - 1);
-			if(initialChoice == 0) //todo: Verify this choice includes all the partials.
+			partialIndexes.reserve(puzzleStacker->GetElementSize() - 1);
+			const int initialChoice = InputHandler::HandleInput("Would you like to calculate [None (0)], [All (-1)] or [Some (1)] of the partial solutions? Enter[0/-1/1]:\n-> ", 1, -2);
+			if(initialChoice == -1) //todo: Verify this choice includes all the partials.
 			{
 				for (unsigned i = 0; i < partialIndexes.capacity(); i++)
 					partialIndexes.emplace_back(i + 2);
 			}
-			else
-			{
-				//todo: Bug: Getting "invalid input" on valid input, also not inserting the "initialChoice" 
+			if (initialChoice == 1)
+			{		
 				for (;;)
 				{
-					const int choice = InputHandler::HandleInput("Enter a partial you would like to calculate:\n-> ", puzzleStacker.GetElementSize() - 1, 0);
-					if (!(std::any_of(partialIndexes.begin(), partialIndexes.end(), [&](int val) { return val == choice; })))
+					const int choice = InputHandler::HandleInput("Enter a partial you would like to calculate:\n-> ", puzzleStacker->GetElementSize(), 1);
+					if (!(std::any_of(partialIndexes.begin(), partialIndexes.end(), [&](const int val) { return val == choice; })))
 					{
-						partialIndexes.push_back(choice);
-						if (!InputHandler::HandleInput("The partial has been added, would you like to insert another partial order to calculate? Enter [Y/N]:\n-> "))
+						partialIndexes.emplace_back(choice);
+						std::cout << "Partial added successfully.\n -> ";
+						if (static_cast<int>(partialIndexes.size()) == (puzzleStacker->GetElementSize() - 1))
+							break;
+						if (!InputHandler::HandleInput("Would you like to include calculations for another partial? Enter [Y/N]:\n-> "))
 							break;
 					}
 					else
-						std::cout << "That partial already exists, insert a different one!\n ->  ";
+						std::cout << "That partial already exists, try a different one!\n -> ";
 				}
+				std::sort(partialIndexes.begin(), partialIndexes.end()); 
 			}
-			for (int i = 0; i < puzzleStacker.GetSize(); ++i)
-			{
-				puzzleStacker[i].RunPuzzleSolver(&partialIndexes);
-			}
+			for (int i = 0; i < puzzleStacker->GetSize(); i++)
+				(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
 		}
 
 		bool Menu::HandleQuit() const

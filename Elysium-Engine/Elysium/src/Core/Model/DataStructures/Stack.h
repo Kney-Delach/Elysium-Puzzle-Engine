@@ -153,7 +153,7 @@ namespace Elysium
 		}
 
 		template <typename T>
-		T& Stack<T>::operator[](int index) const //todo: Verify that removing this index isn't causing problems elsewhere.
+		T& Stack<T>::operator[](int index) const
 		{
 			if (index < m_Capacity)	return m_pElements[m_Size - 1 - index];
 			ASSERT(NULL, "[Stack<T>::[]Operator] Undefined behaviour path reached, attempting to access pointer outside of stack bounds!", true);
@@ -182,6 +182,7 @@ namespace Elysium
 				out << stack.Top() << "\n";
 				stack.Pop();
 			}
+			stack.m_Size = stackSize;
 			return out;
 		}
 
@@ -193,7 +194,7 @@ namespace Elysium
 			int numberOfConfigs;
 			in >> numberOfConfigs;
 			stack.SetCapacity(numberOfConfigs);
-			stack.m_ElementSize = puzzleSize; //todo: Find a better solution for this hack.
+			stack.m_ElementSize = puzzleSize;
 			for (int i = 0; i < numberOfConfigs; i++)
 			{
 				E* element =stack.PushFront(E(puzzleSize));

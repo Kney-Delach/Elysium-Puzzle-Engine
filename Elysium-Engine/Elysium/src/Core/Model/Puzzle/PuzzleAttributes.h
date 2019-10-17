@@ -39,6 +39,8 @@ namespace Elysium
 			out << "row = " << attributes.m_ContinuousRows << "\ncolumn = " << attributes.m_ContinuousCols
 				<< "\nreverse row = " << attributes.m_ContinuousRowsRev << "\nreverse column = " << attributes.m_ContinuousColsRev << "\n";
 
+			if (attributes.m_PartialIndexes.empty())
+				return out;
 			out << "(total for row & column, including reverse, in this configuration)\n";
 			for (unsigned i = 0; i < attributes.m_PartialIndexes.size(); i++)
 			{
