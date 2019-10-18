@@ -26,9 +26,6 @@
     <ClCompile Include="src\CoreTests\ModelTests\DataStructuresTests\StackUnitTests.cpp">
       <Filter>src\CoreTests\ModelTests\DataStructuresTests</Filter>
     </ClCompile>
-    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleProcessorUnitTests.cpp">
-      <Filter>src\CoreTests\ModelTests\PuzzleTests</Filter>
-    </ClCompile>
     <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleUnitTests.cpp">
       <Filter>src\CoreTests\ModelTests\PuzzleTests</Filter>
     </ClCompile>

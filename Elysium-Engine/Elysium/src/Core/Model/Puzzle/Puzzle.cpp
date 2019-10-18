@@ -91,6 +91,7 @@ namespace Elysium
 		__forceinline void Puzzle::ProcessPuzzle()
 		{
 			//todo: Implement the processing puzzle in here.
+			
 		}
 	}
 }

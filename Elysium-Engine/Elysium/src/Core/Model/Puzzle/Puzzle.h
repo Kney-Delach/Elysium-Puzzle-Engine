@@ -37,7 +37,5 @@ namespace Elysium
 			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 
 			PuzzleAttributes m_Attributes;
 		};
-
-
 	}
 }

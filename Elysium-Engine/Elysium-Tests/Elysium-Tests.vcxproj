@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CoreTests\ModelTests\DataStructuresTests\StackUnitTests.cpp" />
-    <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleProcessorUnitTests.cpp" />
     <ClCompile Include="src\CoreTests\ModelTests\PuzzleTests\PuzzleUnitTests.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
