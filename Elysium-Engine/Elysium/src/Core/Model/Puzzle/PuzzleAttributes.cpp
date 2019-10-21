@@ -16,5 +16,33 @@ namespace Elysium
 			for (unsigned i = 0; i < m_ValidTurnsPartials.capacity(); i++)
 				m_ValidTurnsPartials.emplace_back(0);
 		}
+
+		void PuzzleAttributes::SetContinuousValues(int value)
+		{
+			SetContRows(value);
+			SetContCols(value);
+			SetContRowsRev(value);
+			SetContColsRev(value);
+		}
+
+		__forceinline void PuzzleAttributes::SetContRows(int value)
+		{
+			m_ContinuousRows = value;
+		}
+
+		__forceinline void PuzzleAttributes::SetContCols(int value)
+		{
+			m_ContinuousCols = value;
+		}
+
+		__forceinline void PuzzleAttributes::SetContRowsRev(int value)
+		{
+			m_ContinuousRowsRev = value;
+		}
+
+		__forceinline void PuzzleAttributes::SetContColsRev(int value)
+		{
+			m_ContinuousColsRev = value;
+		}
 	}
 }

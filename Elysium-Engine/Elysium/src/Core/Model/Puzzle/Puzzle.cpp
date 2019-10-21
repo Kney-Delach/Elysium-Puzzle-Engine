@@ -90,8 +90,34 @@ namespace Elysium
 
 		__forceinline void Puzzle::ProcessPuzzle()
 		{
-			//todo: Implement the processing puzzle in here.
-			
+			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size));
+		}
+
+		//todo: Move this somewhere else.
+
+		__forceinline int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue)
+		{
+			if (puzzle.empty())
+				return 0;
+			int consCount = 0;
+			std::sort(puzzle.begin(), puzzle.end());
+			for (int i = 0; i < puzzle.size(); i++)
+			{
+				if (i == puzzle.size() - consecutiveValue)
+					break;
+				bool consecutive = true;
+				for (int j = 0; j < consecutiveValue-1; j++)
+				{
+					if ((puzzle[i+j] + 1 - puzzle[i+j + 1]) != 0)
+					{
+						consecutive = false;
+						break;
+					}
+				}
+				if(consecutive)
+					consCount++; 
+			}
+			return consCount;  //todo: Verify this returns correctly
 		}
 	}
 }

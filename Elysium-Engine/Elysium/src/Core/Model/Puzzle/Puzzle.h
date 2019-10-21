@@ -36,6 +36,8 @@ namespace Elysium
 			int m_Size; //todo: Check if to move this further down for faster access 
 			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 
 			PuzzleAttributes m_Attributes;
+			//todo: Abstract these to external location
+			__forceinline int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue);
 		};
 	}
 }

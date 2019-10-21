@@ -53,6 +53,13 @@
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Node.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Actions\IAction.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionUp.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionDown.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionRight.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionLeft.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">

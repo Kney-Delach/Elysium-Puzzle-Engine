@@ -27,7 +27,7 @@ namespace Elysium
 			bool HandleManualConfig() const;
 			bool HandleAutoConfig() const;
 			bool HandleReadConfig() const;
-			void ProcessPuzzle(const Model::Stack<Model::Puzzle>* puzzleStacker) const;
+			void ProcessPuzzle(const Model::Stack<Model::Puzzle>* puzzleStacker) const; //todo: Return a tuple of a puzzle and its attributes
 			bool HandleQuit() const;
 		};
 	}

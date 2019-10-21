@@ -70,7 +70,7 @@ namespace Elysium
 			return OptionsHandler(QUIT);
 		}
 
-		bool Menu::OptionsHandler(MenuOptions option) const //todo: Remove bool return? 
+		bool Menu::OptionsHandler(MenuOptions option) const //todo: Implement seperate threads for each menu option
 		{
 			if(option == MENU)		option = static_cast<MenuOptions>(InputHandler::HandleInput("-> ",3, 0));
 			if(option == MANUAL)	return HandleManualConfig();
@@ -118,6 +118,7 @@ namespace Elysium
 			const int elementCount = puzzleSize * puzzleSize + puzzleSize;
 			const int puzzleCount = InputHandler::HandleInput("How many configurations would you like to generate? Range -> [1-20000]:\n-> ", 20000, 0);
 			PuzzleStacker puzzleStack(puzzleCount, puzzleSize);
+
 			int* unsortedArray = new int[elementCount];
 			for (int i = 0; i < elementCount; ++i)
 				unsortedArray[i] = i + 1;

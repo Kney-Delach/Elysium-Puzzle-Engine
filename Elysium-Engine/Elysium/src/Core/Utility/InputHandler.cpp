@@ -39,7 +39,7 @@ namespace Elysium
 			{
 				std::cout << requestMessage;
 				std::getline(std::cin, inputString);
-				if (inputString.length() > 0)	
+				if (inputString.length() > 0)
 					break;
 				std::cout << "Invalid input! - ";
 			}

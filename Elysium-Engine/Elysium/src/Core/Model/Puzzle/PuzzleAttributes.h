@@ -22,7 +22,13 @@ namespace Elysium
 			void InitAttributes(const std::vector<int>* partialsVector);
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
-		private:
+			void SetContinuousValues(int value);
+
+		private: //todo: inline functionality
+			void SetContRows(int value);
+			void SetContCols(int value);
+			void SetContRowsRev(int value);
+			void SetContColsRev(int value);
 			int m_ContinuousRows = -1; //todo: Replace this with arrays for N size cases
 			int m_ContinuousCols = 0;
 			int m_ContinuousRowsRev = 0;
