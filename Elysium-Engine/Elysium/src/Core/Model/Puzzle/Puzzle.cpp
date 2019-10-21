@@ -1,3 +1,13 @@
+/**
+ * FILENAME		: Puzzle.h
+ * Name			: Ori Lazar
+ * Student ID	: b9061712
+ * Date			: 12/10/2019
+ * Description	: This cpp file contains the template implementation of the puzzle structure, which contains the attributes of the puzzle.
+ *				  The values of puzzle are stored inside a std::vector.
+ * Note			: The empty square is denoted as the integer value 22, this is so that it does not interfere with inversion calculation
+ *				  for configuration validation which is a potential extension of this project.
+ */
 #include "empch.h"
 #include "Core/Model/Puzzle/Puzzle.h"
 
