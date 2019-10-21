@@ -98,14 +98,15 @@ namespace Elysium
 			ProcessPuzzle();
 		}
 
-		__forceinline void Puzzle::ProcessPuzzle()
+		void Puzzle::ProcessPuzzle()
 		{
 			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size));
+
 		}
 
 		//todo: Move this somewhere else.
 
-		__forceinline int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue)
+		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue)
 		{
 			if (puzzle.empty())
 				return 0;

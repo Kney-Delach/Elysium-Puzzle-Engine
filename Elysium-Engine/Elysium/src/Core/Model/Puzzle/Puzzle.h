@@ -29,7 +29,7 @@ namespace Elysium
 			void InsertEmptyBlock();
 			const int GetSize() const;
 			void RunPuzzleSolver(const std::vector<int>* partialsVector);
-			__forceinline void ProcessPuzzle();
+			void ProcessPuzzle();
 			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
 			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 		private:
@@ -37,7 +37,7 @@ namespace Elysium
 			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 
 			PuzzleAttributes m_Attributes;
 			//todo: Abstract these to external location
-			__forceinline int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue);
+			int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue);
 		};
 	}
 }
