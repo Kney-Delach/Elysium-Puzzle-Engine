@@ -189,7 +189,7 @@ namespace Elysium
 		template<typename E>
 		std::istream& operator>>(std::istream& in, Stack<E>& stack)
 		{
-			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 20, 3);
+			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 20, 1);
 			//todo: Validate dimension.
 			std::string line;
 			int numberOfConfigs;
