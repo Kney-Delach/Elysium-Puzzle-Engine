@@ -60,6 +60,8 @@
     <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionDown.h" />
     <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionRight.h" />
     <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionLeft.h" />
+    <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
+    <ClInclude Include="src\Core\Application\Threads\Thread.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">

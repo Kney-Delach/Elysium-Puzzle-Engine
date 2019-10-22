@@ -7,7 +7,6 @@
  *				  i.e the continuous row/column/reverse counts of a puzzle.
  */
 #pragma once
-//todo: Implement getters and setters for attributes.
 #include <vector>
 
 namespace Elysium

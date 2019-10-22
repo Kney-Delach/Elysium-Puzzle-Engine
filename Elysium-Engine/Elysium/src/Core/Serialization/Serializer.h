@@ -13,8 +13,9 @@
 
 namespace Elysium
 {
-	namespace Serialize
+	namespace Serialize //todo: Implement serializer and deserializer to run on Seperate threads.
 	{
+
 		template<typename T>
 		static void Serializer(T& object)
 		{

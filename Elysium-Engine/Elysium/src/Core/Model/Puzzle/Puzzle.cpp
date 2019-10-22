@@ -101,7 +101,6 @@ namespace Elysium
 		void Puzzle::ProcessPuzzle()
 		{
 			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size));
-
 		}
 
 		//todo: Move this somewhere else.
