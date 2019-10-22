@@ -11,6 +11,9 @@
 #include "Core/Utility/Random.h"
 #include "Core/Serialization/Serializer.h"
 #include "Core/Utility/InputHandler.h"
+#include "Core/Model/BruteForce/BinarySearchTree.h"
+
+//todo: Create seperate coursework 1 - 2 builds for constant options for processing.
 
 namespace Elysium
 {
@@ -138,7 +141,7 @@ namespace Elysium
 			return true;
 		}
 
-		bool Menu::HandleReadConfig() const	//todo: Implement and insert processing call.
+		bool Menu::HandleReadConfig() const
 		{
 			PuzzleStacker puzzleStack(1);
 			Deserializer(puzzleStack);
@@ -152,7 +155,7 @@ namespace Elysium
 			std::vector<int> partialIndexes;
 			partialIndexes.reserve(puzzleStacker->GetElementSize() - 1);
 			const int initialChoice = InputHandler::HandleInput("Would you like to calculate [None (0)], [All (-1)] or [Some (1)] of the partial solutions? Enter[0/-1/1]:\n-> ", 1, -2);
-			if(initialChoice == -1) //todo: Verify this choice includes all the partials.
+			if(initialChoice == -1)
 			{
 				for (unsigned i = 0; i < partialIndexes.capacity(); i++)
 					partialIndexes.emplace_back(i + 2);
@@ -177,7 +180,14 @@ namespace Elysium
 				std::sort(partialIndexes.begin(), partialIndexes.end()); 
 			}
 			for (int i = 0; i < puzzleStacker->GetSize(); i++)
+			{
 				(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
+
+				//Brute::BinarySearchTree<Puzzle>* bst = new Brute::BinarySearchTree<Puzzle>((*puzzleStacker)[i], (*puzzleStacker)[i].GetSize(), (*puzzleStacker)[i].GetAttributes());
+				//bst->CalculateAttributes();
+
+				//delete bst;
+			}
 		}
 
 		bool Menu::HandleQuit() const

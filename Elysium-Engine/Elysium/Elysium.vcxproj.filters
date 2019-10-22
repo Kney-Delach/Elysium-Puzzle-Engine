@@ -7,8 +7,14 @@
     <Filter Include="Core\Application">
       <UniqueIdentifier>{F1A4822F-DD9D-A181-06D0-8606F227818D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Application\Threads">
+      <UniqueIdentifier>{AB811F90-97A6-6E10-C0F1-53A0AC756D2E}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Model">
       <UniqueIdentifier>{EE07C4CD-DABF-051B-43C7-DE762F9EA00B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Model\BruteForce">
+      <UniqueIdentifier>{4ED87F87-BA44-3B82-8338-D3DFEF635DEA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\Model\DataStructures">
       <UniqueIdentifier>{DB282FE6-47EB-6270-909B-F1FCFC9C3B4E}</UniqueIdentifier>
@@ -29,6 +35,18 @@
     </ClInclude>
     <ClInclude Include="src\Core\Application\Menu.h">
       <Filter>Core\Application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Application\Threads\Thread.h">
+      <Filter>Core\Application\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h">
+      <Filter>Core\Model\BruteForce</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Model\BruteForce\IComparable.h">
+      <Filter>Core\Model\BruteForce</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Model\BruteForce\Node.h">
+      <Filter>Core\Model\BruteForce</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h">
       <Filter>Core\Model\DataStructures</Filter>
@@ -53,15 +71,6 @@
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Node.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\IAction.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionUp.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionDown.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionRight.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionLeft.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
-    <ClInclude Include="src\Core\Application\Threads\Thread.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">
@@ -73,10 +82,12 @@
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp">
       <Filter>Core\Model\Puzzle</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Model\Puzzle\PuzzleAttributes.cpp">
+      <Filter>Core\Model\Puzzle</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Utility\InputHandler.cpp">
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
-    <ClCompile Include="src\Core\Model\Puzzle\PuzzleAttributes.cpp" />
   </ItemGroup>
 </Project>

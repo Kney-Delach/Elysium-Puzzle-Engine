@@ -94,11 +94,6 @@
     <ClInclude Include="src\Core\Application\Application.h" />
     <ClInclude Include="src\Core\Application\Menu.h" />
     <ClInclude Include="src\Core\Application\Threads\Thread.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionDown.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionLeft.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionRight.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\ActionUp.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Actions\IAction.h" />
     <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
     <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
     <ClInclude Include="src\Core\Model\BruteForce\Node.h" />
