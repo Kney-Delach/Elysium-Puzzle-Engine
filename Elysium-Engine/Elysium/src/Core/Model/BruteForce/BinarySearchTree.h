@@ -6,145 +6,117 @@
 
 namespace Elysium
 {
-	namespace Brute 
+	namespace Brute
 	{
 		template <typename T>
 		class BinarySearchTree
 		{
-			static_assert(std::is_base_of<IComparable, T>::value, "T must derive from interfaces::IComparable");
+			static_assert(std::is_base_of<Model::Puzzle, T>::value, "T must derive from interfaces::IComparable");
 		public:
-			BinarySearchTree(T root, int puzzleSize,Model::PuzzleAttributes& attributes); 
-			~BinarySearchTree();
-			bool InsertLeaf(T& value);
-
-			void CalculateAttributes();
-			void PrintTree();
+			BinarySearchTree() = default;
+			~BinarySearchTree() = default;
+			void TreeSearch(T problem, Model::PuzzleAttributes& attributes);
 		private:
-			node<T>* CreateChildren(T& value);
-			void TerminateTree(node<T>** pNode);
-			__forceinline bool _InsertLeaf(T& value, node<T>** pNode);
-			__forceinline void _PrintTree(node<T>* pNode);
-			bool _SearchTree(node<T>* pNode, const T& value) const;
-		private:
-			node<T>* s_Root; //todo: verify this makes a copy
-			Model::PuzzleAttributes* m_Attributes;
+			std::vector<node<T>*>* Expand(node<T>* node);
 		};
 
-		template <typename T>
-		BinarySearchTree<T>::BinarySearchTree(T root, int puzzleSize, Model::PuzzleAttributes& attributes) : m_Attributes(&attributes)
-		{
-			s_Root = new node<T>(root, 2); //todo: Verify this initializes correctly.
-		}
 
-		template <typename T>
-		BinarySearchTree<T>::~BinarySearchTree()
+		template<typename T>
+		void BinarySearchTree<T>::TreeSearch(T problem , Model::PuzzleAttributes& attributes)
 		{
-			try
+			std::ios::sync_with_stdio(false);
+			std::queue<node<T>*> fringe;
+			std::vector<node<T>*> configurationsVector;
+			int iteration = 0;
+
+			fringe.emplace(new node<T>(problem, 2));
+			configurationsVector.push_back(fringe.front()); //todo: verify this contains the set of non-found configurations
+
+			while (!fringe.empty())
 			{
-				TerminateTree(&s_Root);
+				node<T>* current = fringe.front();
+				std::vector<node<T>*>* successors = Expand(fringe.front());
+				for (unsigned i = 0; i < successors->size(); i++) 
+				{
+					if (!(std::any_of(configurationsVector.begin(), configurationsVector.end(), [&](node<T>* val) { return successors->at(i)->CompareTo(*val); })))
+					{
+						configurationsVector.push_back(successors->at(i)); 
+						fringe.push(successors->at(i));
+					}
+					else
+					{
+						delete successors->at(i);
+					}
+				}
+				fringe.pop();
+				iteration++; 
+				std::cout << (iteration) << "\n";
 			}
-			catch (...)
+
+			auto ProcessVector = [&]()
 			{
-				std::cout << "An exception has been thrown\n"; //todo: Implement exception.
-			}
+				int size = configurationsVector.size();
+				int continuousTotal = 0;
+				for (int i = 0; i < size; i++)
+				{
+					continuousTotal += (*configurationsVector[i]).GetItem().ProcessContinuousValues();
+					delete configurationsVector[i];
+				}
+				attributes.SetContinuousValues(continuousTotal);
+			};
+			ProcessVector();
 		}
 
 		template<typename T>
-		void BinarySearchTree<T>::TerminateTree(node<T>** ppNode)
+		std::vector<node<T>*>* BinarySearchTree<T>::Expand(node<T>* pParentNode)
 		{
-			if (*ppNode != nullptr)
+			std::vector<node<T>*>* successors = new std::vector<node<T>*>();
+			successors->reserve(4);
+			
+			// left node
+			node<T>* leftNode = new node<T>(*pParentNode);
+			if ((leftNode->GetItem().ActionLeft()))
 			{
-				for (int i = 0; i < (*ppNode)->GetChildrenSize(); i++)
-				{
-					if ((*ppNode)->GetChildAtIndex(i) != nullptr)
-					{
-						TerminateTree((*ppNode)->GetChildAtIndex(i));
-						(*ppNode)->SetChildAtIndex(i, nullptr);
-					}
-				}
-				delete* ppNode;
-				*ppNode = nullptr;
+				successors->push_back(&(*leftNode));
 			}
-		}
-
-		template<typename T>
-		void BinarySearchTree<T>::CalculateAttributes()
-		{
-			InsertLeaf();
-			//std::priority_queue<node<T>*> priorityQueue;
-
-			//priorityQueue.push(s_Root);
-			//
-			//while (!priorityQueue.empty()) //todo: abstract into print queue function
-			//{
-			//	//todo: generate children
-			//	
-			//	std::cout << *(static_cast<node<T>*>(priorityQueue.top())) << " ";
-			//	priorityQueue.pop();
-			//}
-		}
-
-		// ------------------------------ Clean this area ------------------------------
-
-
-		template <typename T>
-		node<T>* BinarySearchTree<T>::CreateChildren(T& value)
-		{
-			//todo: calculate the possible children
-			int numberOfMoves = 4;
-			node<T>* newNode = new node<T>(value, numberOfMoves);
-
-			return newNode;
-		}
-
-		template <typename T>
-		bool BinarySearchTree<T>::InsertLeaf(T& value)
-		{
-			return _InsertLeaf(value, &s_Root);
-		}
-
-		template <typename T>
-		__forceinline bool BinarySearchTree<T>::_InsertLeaf(T& value, node<T>** ppNode)
-		{
-			if (*ppNode == nullptr)
+			else
 			{
-				//todo: Implement error handling mechanisms
-				*ppNode = CreateChildren(value);
-				return true;
+				delete leftNode;
 			}
-			for (int i = 0; i < (*ppNode)->GetChildrenSize(); i++)
+			// right node
+			node<T>* rightNode = new node<T>(*pParentNode);
+			if ((rightNode->GetItem().ActionRight()))
 			{
-				if ((*ppNode)->GetChildAtIndex(i) != nullptr)
-				{
-					_InsertLeaf((*ppNode)->GetChildAtIndex(i));
-				}
+				successors->push_back(&(*rightNode));
 			}
-			return false;
-
-		}
-
-		template <typename T>
-		void BinarySearchTree<T>::PrintTree()
-		{
-			_PrintTree(s_Root);
-			std::cout << "\n";
-		}
-
-		template <typename T>
-		void BinarySearchTree<T>::_PrintTree(node<T>* pNode)
-		{
-			if (pNode != nullptr)
+			else
 			{
-				std::cout << "Value: " << pNode->GetItem() << "\n";
-
-				for (int i = 0; i < (*ppNode)->GetChildrenSize(); i++)
-				{
-					if ((*ppNode)->GetChildAtIndex(i) != nullptr)
-					{
-						_PrintTree((*ppNode)->GetChildAtIndex(i));
-					}
-				}
+				delete rightNode;
 			}
+			// up node 
+			node<T>* upNode = new node<T>(*pParentNode);
+
+			if ((upNode->GetItem().ActionUp()))
+			{
+				successors->push_back(&(*upNode));
+			}
+			else
+			{
+				delete upNode;
+			}
+			// down node
+			node<T>* downNode = new node<T>(*pParentNode);
+
+			if ((downNode->GetItem().ActionDown()))
+			{
+				successors->push_back(&(*downNode));
+			}
+			else
+			{
+				delete downNode;
+			}
+
+			return &(*successors);
 		}
 	}
 }

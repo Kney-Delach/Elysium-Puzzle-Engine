@@ -22,13 +22,13 @@ namespace Elysium
 		}
 
 		Puzzle::Puzzle(int size, int* values) 
-			: m_Size(size), m_Attributes(PuzzleAttributes())
+			: m_Size(size), m_Attributes(PuzzleAttributes()), m_BlankPosition(std::make_pair((m_Size - 1), (m_Size - 1)))
 		{
-			for (int i = 0; i < m_Size * m_Size - 1; ++i)
+			for (int i = 0; i < m_Size * m_Size - 1; i++)
 			{
 				m_State.push_back(values[i]);
 			}
-			m_State.push_back(m_Size * m_Size + m_Size + 1);
+			InsertEmptyBlock();
 		}
 
 		Puzzle::Puzzle(const Puzzle& src)
@@ -61,14 +61,9 @@ namespace Elysium
 			return false;
 		}
 
-		void Puzzle::InsertEmptyBlock()
-		{
-			m_State.push_back(m_Size * m_Size + m_Size + 1); //todo: Verify this value isn't referenced in the inversion calculations. (m_Size*m_Size + m_Size+1)
-		}
-
 		std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle)
 		{
-			for (unsigned i = 0; i < puzzle.m_State.size() - 1; i++)
+			for (unsigned i = 0; i < puzzle.m_State.size()- 1; i++)
 			{
 				out << puzzle.m_State[i] << " ";
 				if (((i + 1) % puzzle.m_Size )== 0)		out << "\n";
@@ -144,43 +139,19 @@ namespace Elysium
 		int Puzzle::CompareTo(const Brute::IComparable& rhs)
 		{
 			const Puzzle* rhsPuzzle = static_cast<const Puzzle*>(&rhs); //todo: Verify this casts the memory address of the Comparable object
-			ASSERT(rhsPuzzle->m_Size == m_Size, "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true) //todo: Verify this asserts correctly, maybe replace with exception.
-			if (m_State == rhsPuzzle->m_State)
-				return 0; //todo: Verify this returns that the two puzzles ARE the same.
-			return 1; //todo: Verify this returns that the two puzzles ARE NOT the same.
-		}
-
-
-		bool Puzzle::ActionLeft()
-		{
-			if(m_BlankPosition.second <= 0)
-				return false;
-			//todo: process up action
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second-1);
-			m_BlankPosition.second = m_BlankPosition.second - 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_Size * m_Size + m_Size + 1;
-			return true;
-		}
-
-		bool Puzzle::ActionRight()
-		{
-			if (m_BlankPosition.second >= (m_Size-1))
-				return false;
-			//todo: process down action
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second + 1);
-			m_BlankPosition.second = m_BlankPosition.second + 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_Size * m_Size + m_Size + 1;
-			return true;
+			ASSERT(!(rhsPuzzle->m_Size == m_Size), "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true) //todo: Verify this asserts correctly, maybe replace with exception.
+				if (m_State == rhsPuzzle->m_State)
+					return 1;
+			return 0;
 		}
 
 		bool Puzzle::ActionUp()
 		{
 			if (m_BlankPosition.first >= (m_Size - 1))
 				return false;
-			//todo: process right action
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first + 1 * m_Size + m_BlankPosition.second);
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first + 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first + 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_Size * m_Size + m_Size + 1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
 			return true;
 		}
 
@@ -188,11 +159,56 @@ namespace Elysium
 		{
 			if (m_BlankPosition.first <= 0)
 				return false;
-			//todo: process left action
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first - 1 * m_Size + m_BlankPosition.second);
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first - 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first - 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_Size * m_Size + m_Size + 1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
 			return true;
+		}
+
+		bool Puzzle::ActionRight()
+		{
+			if (m_BlankPosition.second >= (m_Size - 1))
+				return false;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second + 1);
+			m_BlankPosition.second = m_BlankPosition.second + 1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			return true;
+		}
+
+		bool Puzzle::ActionLeft()
+		{
+			if(m_BlankPosition.second <= 0)
+				return false;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second-1);
+			m_BlankPosition.second = m_BlankPosition.second - 1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			return true;
+		}
+
+		bool Puzzle::IsRowContinuous(int rowNumber) const
+		{
+			int rowIndex = rowNumber * m_Size;
+			for (int i = 0; i < m_Size-1; i++)
+			{
+				if (!((m_State[rowIndex + i] - m_State[rowIndex + (i + 1)]) == -1))
+					return false;
+			}
+			return true;
+		}
+		int Puzzle::ProcessContinuousValues()
+		{
+			if (!(m_BlankPosition.first == (m_Size - 1) && m_BlankPosition.second == (m_Size - 1)))
+				return 0;
+			else
+			{
+				int totalContinuous = 0; 
+				for (int i = 0; i < m_Size; i++)
+				{
+					if (IsRowContinuous(i))
+						totalContinuous++;
+				}
+				return totalContinuous;
+			}
 		}
 	}
 }

@@ -27,7 +27,10 @@ namespace Elysium
 			Puzzle(const Puzzle& src);
 			Puzzle& operator=(const Puzzle& rhs);
 			const bool InsertValue(int newValue);
-			void InsertEmptyBlock();
+			__forceinline void InsertEmptyBlock()
+			{
+				m_State.push_back(-1);//m_State.push_back(m_Size * m_Size + m_Size + 2);
+			}
 			const int GetSize() const;
 			void RunPuzzleSolver(const std::vector<int>* partialsVector);
 			void ProcessPuzzle();
@@ -36,6 +39,9 @@ namespace Elysium
 			bool ActionDown();
 			bool ActionRight();
 			bool ActionLeft();
+			int ProcessContinuousValues(); 
+			bool IsRowContinuous(int rowNumber) const;
+			virtual int CompareTo(const IComparable& rhs) override;
 			inline std::vector<int> GetState()
 			{
 				return m_State;
@@ -52,7 +58,6 @@ namespace Elysium
 			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 		private:
 			int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue); //todo: Abstract this.
-			virtual int CompareTo(const IComparable& rhs) override;
 		private:
 			int m_Size; //todo: Check if to move this further down for faster access.
 			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 

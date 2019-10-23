@@ -12,16 +12,17 @@ namespace Elysium
 		template <typename T>
 		struct node
 		{
-			static_assert(std::is_base_of<IComparable, T>::value, "T must derive from interfaces::IComparable");
+			static_assert(std::is_base_of<Model::Puzzle, T>::value, "T must derive from interfaces::IComparable");
 		public:
 			node(T& item, int possibleChildren);
+			node(const node<T>& src); //todo: verify this copy constructor works
 			~node();
-			const T& GetItem() const;
+			__forceinline T& GetItem();
 			void AddChild(node<T>* pNode);
 			node<T>** GetChildAtIndex(int index);
 			void SetChildAtIndex(int index, node<T>* value);
 			int GetChildrenSize() const; 
-			const int CompareTo(const T& rhs);
+			const int CompareTo(node<T>& rhs);
 			template <typename E>
 			friend std::ostream& operator<<(std::ostream& out, const node<E>& value);
 		protected:
@@ -36,13 +37,20 @@ namespace Elysium
 			m_Children.reserve(possibleChildren);
 		}
 
+		template<typename T>
+		inline node<T>::node(const node<T>& src)
+		{
+			m_Item = src.m_Item;
+			m_Children.reserve(2);
+		}
+
 		template <typename T>
 		node<T>::~node() //todo: Implement memory removal
 		{
 		}
 
 		template <typename T>
-		const T& node<T>::GetItem() const
+		__forceinline T& node<T>::GetItem()
 		{
 			return m_Item;
 		}
@@ -74,9 +82,9 @@ namespace Elysium
 		}
 
 		template <typename T>
-		const int node<T>::CompareTo(const T& rhs)
+		const int node<T>::CompareTo(node<T>& rhs)
 		{
-			return m_Item.CompareTo(rhs);
+			return m_Item.CompareTo(rhs.GetItem());
 		}
 
 		template <typename E>

@@ -22,7 +22,6 @@ namespace Elysium
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 			void SetContinuousValues(int value);
-
 		private: //todo: inline functionality
 			void SetContRows(int value);
 			void SetContCols(int value);

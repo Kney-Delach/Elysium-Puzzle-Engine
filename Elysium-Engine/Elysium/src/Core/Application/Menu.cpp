@@ -182,11 +182,12 @@ namespace Elysium
 			for (int i = 0; i < puzzleStacker->GetSize(); i++)
 			{
 				(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
-
-				//Brute::BinarySearchTree<Puzzle>* bst = new Brute::BinarySearchTree<Puzzle>((*puzzleStacker)[i], (*puzzleStacker)[i].GetSize(), (*puzzleStacker)[i].GetAttributes());
-				//bst->CalculateAttributes();
-
-				//delete bst;
+				if (puzzleStacker->GetSize() <= 4)
+				{
+					Brute::BinarySearchTree<Puzzle>* bst = new Brute::BinarySearchTree<Puzzle>();
+					bst->TreeSearch((*puzzleStacker)[i], (*puzzleStacker)[i].GetAttributes());
+					delete bst;
+				}
 			}
 		}
 
