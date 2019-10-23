@@ -16,13 +16,13 @@ namespace Elysium
 	namespace Model
 	{
 		Puzzle::Puzzle(int size) 
-			: m_Size(size), m_Attributes(PuzzleAttributes()), m_BlankPosition(std::make_pair((m_Size - 1), (m_Size - 1)))
+			: m_Size(size), m_BlankPosition(std::make_pair((m_Size - 1), (m_Size - 1))), m_Attributes(PuzzleAttributes())
 		{
 			m_State.reserve(m_Size * m_Size);
 		}
 
 		Puzzle::Puzzle(int size, int* values) 
-			: m_Size(size), m_Attributes(PuzzleAttributes()), m_BlankPosition(std::make_pair((m_Size - 1), (m_Size - 1)))
+			: m_Size(size), m_BlankPosition(std::make_pair((m_Size - 1), (m_Size - 1))), m_Attributes(PuzzleAttributes())
 		{
 			for (int i = 0; i < m_Size * m_Size - 1; i++)
 			{
@@ -38,6 +38,23 @@ namespace Elysium
 			m_State = src.m_State; //todo: Verify this works.
 			m_Attributes = src.m_Attributes;
 			m_BlankPosition = src.m_BlankPosition;
+		}
+
+		Puzzle::Puzzle(const Puzzle& src, const ActionDirection direction)
+		{
+			m_Size = src.m_Size;
+			m_State.clear();	//todo: Verify if this is necessary.
+			m_State = src.m_State; //todo: Verify this works.
+			m_Attributes = src.m_Attributes;
+			m_BlankPosition = src.m_BlankPosition;
+			if (direction == ActionDirection::LEFT)
+				ActionLeft();
+			else if (direction == ActionDirection::RIGHT)
+				ActionRight();
+			else if (direction == ActionDirection::UP)
+				ActionUp();
+			else if (direction == ActionDirection::DOWN)
+				ActionDown();
 		}
 
 		Puzzle& Puzzle::operator=(const Puzzle& rhs)
@@ -101,18 +118,7 @@ namespace Elysium
 			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size));
 		}
 
-		int Puzzle::operator()(int rowPos, int colPos) //todo: Test this function
-		{
-			//todo: Implement error checking.
-			if((0 <= rowPos < m_Size) && (0 <= colPos < m_Size))
-				return m_State[rowPos*m_Size + colPos];
-			else
-			{
-				return -1; //todo: Implement error handling mechanisms
-			}
-		}
-
-		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) //todo: Move this somewhere else.
+		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue)
 		{
 			if (puzzle.empty())
 				return 0;
@@ -134,63 +140,50 @@ namespace Elysium
 				if(consecutive)
 					consCount++; 
 			}
-			return consCount;  //todo: Verify this returns correctly
+			return consCount;
 		}
 		int Puzzle::CompareTo(const Brute::IComparable& rhs)
 		{
-			const Puzzle* rhsPuzzle = static_cast<const Puzzle*>(&rhs); //todo: Verify this casts the memory address of the Comparable object
-			ASSERT(!(rhsPuzzle->m_Size == m_Size), "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true) //todo: Verify this asserts correctly, maybe replace with exception.
-				if (m_State == rhsPuzzle->m_State)
-					return 1;
+			const Puzzle* rhsPuzzle = static_cast<const Puzzle*>(&rhs);
+			ASSERT(!(rhsPuzzle->m_Size == m_Size), "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true)
+			if (m_State == rhsPuzzle->m_State)
+				return 1;
 			return 0;
 		}
 
-		bool Puzzle::ActionUp()
+		void Puzzle::ActionUp()
 		{
-			if (m_BlankPosition.first >= (m_Size - 1))
-				return false;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first + 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first + 1;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
-			return true;
 		}
 
-		bool Puzzle::ActionDown()
+		void Puzzle::ActionDown()
 		{
-			if (m_BlankPosition.first <= 0)
-				return false;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first - 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first - 1;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
-			return true;
 		}
 
-		bool Puzzle::ActionRight()
+		void Puzzle::ActionRight()
 		{
-			if (m_BlankPosition.second >= (m_Size - 1))
-				return false;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second + 1);
 			m_BlankPosition.second = m_BlankPosition.second + 1;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
-			return true;
 		}
 
-		bool Puzzle::ActionLeft()
+		void Puzzle::ActionLeft()
 		{
-			if(m_BlankPosition.second <= 0)
-				return false;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second-1);
 			m_BlankPosition.second = m_BlankPosition.second - 1;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
-			return true;
 		}
 
 		bool Puzzle::IsRowContinuous(int rowNumber) const
 		{
-			int rowIndex = rowNumber * m_Size;
 			for (int i = 0; i < m_Size-1; i++)
 			{
-				if (!((m_State[rowIndex + i] - m_State[rowIndex + (i + 1)]) == -1))
+				if (!((m_State[rowNumber * m_Size + i] - m_State[rowNumber * m_Size + (i + 1)]) == -1))
 					return false;
 			}
 			return true;

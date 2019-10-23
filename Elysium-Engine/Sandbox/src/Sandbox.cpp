@@ -6,16 +6,17 @@
  * Description	: This file should be the entry point for an application that uses the Elysium Puzzle Engine.
  *				: It was created with the goal of providing a clearer abstraction of the system entry point.
  */
-#include "Elysium.h"
 
 #ifdef EM_PLATFORM_WINDOWS
+#include "Elysium.h"
 
 int main()
 {
-	auto app = new Elysium::Application::Application();
-	ASSERT(app, "[Sandox::main::Application] - Application is null!", true);
-	app->Run();
-	delete app;
+	auto app1 = new Elysium::Application::Application(1);
+	ASSERT(app1, "[Sandox::main::Application] - Application is null!", true);
+	app1->Start();
+	app1->Join();
+	delete app1;
 	return 0;
 }
 #endif

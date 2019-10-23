@@ -13,8 +13,6 @@
 #include "Core/Utility/InputHandler.h"
 #include "Core/Model/BruteForce/BinarySearchTree.h"
 
-//todo: Create seperate coursework 1 - 2 builds for constant options for processing.
-
 namespace Elysium
 {
 	using namespace Serialize;
@@ -121,7 +119,6 @@ namespace Elysium
 			const int elementCount = puzzleSize * puzzleSize + puzzleSize;
 			const int puzzleCount = InputHandler::HandleInput("How many configurations would you like to generate? Range -> [1-20000]:\n-> ", 20000, 0);
 			PuzzleStacker puzzleStack(puzzleCount, puzzleSize);
-
 			int* unsortedArray = new int[elementCount];
 			for (int i = 0; i < elementCount; ++i)
 				unsortedArray[i] = i + 1;
@@ -182,7 +179,7 @@ namespace Elysium
 			for (int i = 0; i < puzzleStacker->GetSize(); i++)
 			{
 				(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
-				if (puzzleStacker->GetSize() <= 4)
+				if (puzzleStacker->GetSize() <= 3)
 				{
 					Brute::BinarySearchTree<Puzzle>* bst = new Brute::BinarySearchTree<Puzzle>();
 					bst->TreeSearch((*puzzleStacker)[i], (*puzzleStacker)[i].GetAttributes());

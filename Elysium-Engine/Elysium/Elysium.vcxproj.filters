@@ -45,9 +45,6 @@
     <ClInclude Include="src\Core\Model\BruteForce\IComparable.h">
       <Filter>Core\Model\BruteForce</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Model\BruteForce\Node.h">
-      <Filter>Core\Model\BruteForce</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h">
       <Filter>Core\Model\DataStructures</Filter>
     </ClInclude>
@@ -67,6 +64,9 @@
       <Filter>Core\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Utility\Random.h">
+      <Filter>Core\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Utility\Timer.h">
       <Filter>Core\Utility</Filter>
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
@@ -89,5 +89,6 @@
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
+    <ClCompile Include="src\Core\Application\Threads\Thread.cpp" />
   </ItemGroup>
 </Project>

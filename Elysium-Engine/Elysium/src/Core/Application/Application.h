@@ -6,17 +6,18 @@
  * Description	: This file contains the declaration of the interface which is used to interact with the client (user).
  */
 #pragma once
+#include "Threads/Thread.h"
 
 namespace Elysium
 {
 	namespace Application
 	{
-		class Application
+		class Application : public ElysiumThread
 		{
 		public:
-			Application() = default;
+			Application(DWORD id) { m_Id = id; }
 			~Application() = default;
-			void Run();
+			virtual void Run() override;
 		private:
 			bool m_Running = true;
 		};

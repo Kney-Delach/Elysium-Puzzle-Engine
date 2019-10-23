@@ -3,51 +3,36 @@
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 21/10/2019
- * Description	: This header contains the implementation for the abstract thread class for this engine.
+ * Description	: This header contains the implementation for the abstract thread class for this engine, used to run the application.
+                  Can be extended to run multiple instances of the application simultaneously using: https://docs.microsoft.com/en-us/windows/console/creation-of-a-console?redirectedfrom=MSDN
+                  and https://www.codeproject.com/Articles/13368/Multiple-consoles-for-a-single-application
  */
 #pragma once
 
 #ifdef EM_PLATFORM_WINDOWS
 #include <windows.h>
 
-class Thread
+namespace Elysium
 {
-public:
-	Thread() {}
-	virtual ~Thread() { CloseHandle(m_Handle); }
-	virtual void Start();
-	virtual void Join();
-	inline virtual DWORD GetId() const { return m_Id; }
-protected:
-	virtual void run() = 0;
-	friend DWORD ThreadFunction(LPVOID T);
-	HANDLE m_Handle;
-	DWORD m_Id;
-private:
-	Thread(const Thread& src);
-	Thread& operator=(const Thread& rhs);
-};
+	namespace Application
+	{
+		class ElysiumThread
+		{
+		public:
+			ElysiumThread() {}
+			virtual ~ElysiumThread() { CloseHandle(m_Handle); }
+			virtual void Start();
+			virtual void Join();
+			inline virtual DWORD GetId() const { return m_Id; }
+		protected:
+			virtual void Run() = 0;
+			friend DWORD ThreadFunction(LPVOID T);
+			HANDLE m_Handle;
+			DWORD m_Id;
+		private:
+			ElysiumThread(const ElysiumThread& src);
+			ElysiumThread& operator=(const ElysiumThread& rhs);
+		};
 #endif
-
-inline DWORD ThreadFunction(LPVOID T)
-{
-	Thread* t = static_cast<Thread*>(T);
-	t->run();
-	return NULL;
-}
-
-void Thread::Start()
-{
-	m_Handle = CreateThread(
-		NULL,
-		0,
-		(LPTHREAD_START_ROUTINE)& ThreadFunction,
-		(LPVOID)this,
-		0,
-		&m_Id);
-}
-
-void Thread::Join()
-{
-	WaitForSingleObject(m_Handle, INFINITE);
+	}
 }

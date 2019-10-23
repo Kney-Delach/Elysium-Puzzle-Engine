@@ -12,11 +12,15 @@
 #include <vector>
 #include "Core/Model/Puzzle/PuzzleAttributes.h"
 #include "Core/Model/BruteForce/IComparable.h"
+#include <limits>
+#include <math.h>
 
 namespace Elysium
 {
 	namespace Model
 	{
+		enum ActionDirection { LEFT, RIGHT, UP, DOWN};
+
 		class Puzzle : public Brute::IComparable
 		{
 		public:
@@ -25,20 +29,45 @@ namespace Elysium
 			Puzzle(int size, int* values);
 			~Puzzle() = default;
 			Puzzle(const Puzzle& src);
+			Puzzle(const Puzzle& src, const ActionDirection direction);
+
 			Puzzle& operator=(const Puzzle& rhs);
 			const bool InsertValue(int newValue);
-			__forceinline void InsertEmptyBlock()
-			{
-				m_State.push_back(-1);//m_State.push_back(m_Size * m_Size + m_Size + 2);
-			}
 			const int GetSize() const;
 			void RunPuzzleSolver(const std::vector<int>* partialsVector);
 			void ProcessPuzzle();
-			int operator()(int rowPos, int colPos);
-			bool ActionUp();
-			bool ActionDown();
-			bool ActionRight();
-			bool ActionLeft();
+			void ActionUp();
+			void ActionDown();
+			void ActionRight();
+			void ActionLeft();
+			__forceinline void InsertEmptyBlock()
+			{
+				m_State.push_back(-1);
+			}
+			__forceinline bool CanGoUp()
+			{
+				if (m_BlankPosition.first >= (m_Size - 1))
+					return false;
+				return true;
+			}
+			__forceinline bool CanGoDown()
+			{
+				if (m_BlankPosition.first <= 0)
+					return false;
+				return true;
+			}
+			__forceinline bool CanGoRight()
+			{
+				if (m_BlankPosition.second >= (m_Size - 1))
+					return false;
+				return true;
+			}
+			__forceinline bool CanGoLeft()
+			{
+				if (m_BlankPosition.second <= 0)
+					return false;
+				return true;
+			}
 			int ProcessContinuousValues(); 
 			bool IsRowContinuous(int rowNumber) const;
 			virtual int CompareTo(const IComparable& rhs) override;
@@ -57,12 +86,13 @@ namespace Elysium
 			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
 			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 		private:
-			int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue); //todo: Abstract this.
+			int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue);
 		private:
-			int m_Size; //todo: Check if to move this further down for faster access.
-			std::vector<int> m_State; //todo: Replace this with a matrix maybe? 
-			PuzzleAttributes m_Attributes; //todo: abstract attributes from here, and put them as an external tuple.
+			std::vector<int> m_State;
+			int m_Size;
+			unsigned long long m_UId;
 			std::pair<int, int> m_BlankPosition;
+			PuzzleAttributes m_Attributes;
 		};
 	}
 }

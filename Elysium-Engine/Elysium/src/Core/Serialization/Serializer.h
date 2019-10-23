@@ -13,7 +13,7 @@
 
 namespace Elysium
 {
-	namespace Serialize //todo: Implement serializer and deserializer to run on Seperate threads.
+	namespace Serialize
 	{
 
 		template<typename T>
@@ -25,7 +25,7 @@ namespace Elysium
 			{
 				Utility::InputHandler::HandleInput("Enter the name of the file (or full path) you would like to save this object to:\n", input);
 				filestream.open(input.c_str());
-				if (filestream)	break;	 //todo: Maybe implement exceptions here? 
+				if (filestream)	break;	 //todo: Implement exceptions here.
 				std::cout << "Failed to write to that file.";
 			}	
 			filestream << object;
@@ -41,7 +41,7 @@ namespace Elysium
 			{
 				Utility::InputHandler::HandleInput("Enter the name of the file (or full path) of configurations which you would like to import:\n", input);
 				filestream.open(input.c_str());
-				if (filestream) break;	//todo: Maybe implement exceptions here? 
+				if (filestream) break;	//todo: Implement exceptions here.
 				std::cout << "Failed to read from that file. - "; 
 			} 
 			filestream >> object;

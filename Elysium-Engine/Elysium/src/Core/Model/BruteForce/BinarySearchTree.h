@@ -1,9 +1,17 @@
+/**
+ * FILENAME		: BinarySearchTree.h
+ * Name			: Ori Lazar
+ * Student ID	: b9061712
+ * Date			: 23/10/2019
+ * Description	: This file contains the implementation of a Tree to search for the number of continuous rows and columns 
+                  of a nxn configuration, note, it takes a very long time to process currently and should be optimized.
+ */
 #pragma once
 #include <queue>
-
-#include "Core/Model/BruteForce/Node.h"
 #include "Core/Model/Puzzle/PuzzleAttributes.h"
+#include "Core/Utility/Timer.h"
 
+//todo: Optimize this.
 namespace Elysium
 {
 	namespace Brute
@@ -17,49 +25,47 @@ namespace Elysium
 			~BinarySearchTree() = default;
 			void TreeSearch(T problem, Model::PuzzleAttributes& attributes);
 		private:
-			std::vector<node<T>*>* Expand(node<T>* node);
+			std::vector<T*>* Expand(T* node);
 		};
-
 
 		template<typename T>
 		void BinarySearchTree<T>::TreeSearch(T problem , Model::PuzzleAttributes& attributes)
 		{
 			std::ios::sync_with_stdio(false);
-			std::queue<node<T>*> fringe;
-			std::vector<node<T>*> configurationsVector;
-			int iteration = 0;
-
-			fringe.emplace(new node<T>(problem, 2));
-			configurationsVector.push_back(fringe.front()); //todo: verify this contains the set of non-found configurations
-
-			while (!fringe.empty())
+			std::queue<T*> fringe;
+			std::vector<T*> configurationsVector;
+			fringe.emplace(new T(problem));
+			configurationsVector.emplace_back(fringe.front()); 
+			int iteration = 0; 
 			{
-				node<T>* current = fringe.front();
-				std::vector<node<T>*>* successors = Expand(fringe.front());
-				for (unsigned i = 0; i < successors->size(); i++) 
+				Utilities::Timer localTimer;
+				while (!fringe.empty())
 				{
-					if (!(std::any_of(configurationsVector.begin(), configurationsVector.end(), [&](node<T>* val) { return successors->at(i)->CompareTo(*val); })))
+					T* current = fringe.front();
+					std::vector<T*>* successors = Expand(current);
+					for (unsigned i = 0; i < successors->size(); i++)
 					{
-						configurationsVector.push_back(successors->at(i)); 
-						fringe.push(successors->at(i));
+						if (!(std::any_of(configurationsVector.begin(), configurationsVector.end(), [&](T* val) { return (*successors)[i]->CompareTo(*val); })))
+						{
+							configurationsVector.push_back((*successors)[i]);
+							fringe.push((*successors)[i]);
+						}
+						else
+						{
+							delete (*successors)[i];
+						}
 					}
-					else
-					{
-						delete successors->at(i);
-					}
+					fringe.pop();
+					std::cout << ++iteration << "\n";
 				}
-				fringe.pop();
-				iteration++; 
-				std::cout << (iteration) << "\n";
 			}
-
 			auto ProcessVector = [&]()
 			{
 				int size = configurationsVector.size();
 				int continuousTotal = 0;
 				for (int i = 0; i < size; i++)
 				{
-					continuousTotal += (*configurationsVector[i]).GetItem().ProcessContinuousValues();
+					continuousTotal += (*configurationsVector[i]).ProcessContinuousValues();
 					delete configurationsVector[i];
 				}
 				attributes.SetContinuousValues(continuousTotal);
@@ -68,54 +74,27 @@ namespace Elysium
 		}
 
 		template<typename T>
-		std::vector<node<T>*>* BinarySearchTree<T>::Expand(node<T>* pParentNode)
+		std::vector<T*>* BinarySearchTree<T>::Expand(T* pParentNode)
 		{
-			std::vector<node<T>*>* successors = new std::vector<node<T>*>();
+			std::vector<T*>* successors = new std::vector<T*>();
 			successors->reserve(4);
 			
-			// left node
-			node<T>* leftNode = new node<T>(*pParentNode);
-			if ((leftNode->GetItem().ActionLeft()))
+			if (pParentNode->CanGoLeft())
 			{
-				successors->push_back(&(*leftNode));
+				successors->emplace_back(new T(*pParentNode, ActionDirection::LEFT));
 			}
-			else
+			if (pParentNode->CanGoRight())
 			{
-				delete leftNode;
+				successors->emplace_back(new T(*pParentNode, ActionDirection::RIGHT));
 			}
-			// right node
-			node<T>* rightNode = new node<T>(*pParentNode);
-			if ((rightNode->GetItem().ActionRight()))
+			if (pParentNode->CanGoUp())
 			{
-				successors->push_back(&(*rightNode));
+				successors->emplace_back(new T(*pParentNode, ActionDirection::UP));
 			}
-			else
+			if (pParentNode->CanGoDown())
 			{
-				delete rightNode;
+				successors->emplace_back(new T(*pParentNode, ActionDirection::DOWN));
 			}
-			// up node 
-			node<T>* upNode = new node<T>(*pParentNode);
-
-			if ((upNode->GetItem().ActionUp()))
-			{
-				successors->push_back(&(*upNode));
-			}
-			else
-			{
-				delete upNode;
-			}
-			// down node
-			node<T>* downNode = new node<T>(*pParentNode);
-
-			if ((downNode->GetItem().ActionDown()))
-			{
-				successors->push_back(&(*downNode));
-			}
-			else
-			{
-				delete downNode;
-			}
-
 			return &(*successors);
 		}
 	}

@@ -96,7 +96,6 @@
     <ClInclude Include="src\Core\Application\Threads\Thread.h" />
     <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
     <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\Node.h" />
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />
     <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h" />
@@ -104,12 +103,14 @@
     <ClInclude Include="src\Core\Utility\Asserts.h" />
     <ClInclude Include="src\Core\Utility\InputHandler.h" />
     <ClInclude Include="src\Core\Utility\Random.h" />
+    <ClInclude Include="src\Core\Utility\Timer.h" />
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp" />
     <ClCompile Include="src\Core\Application\Menu.cpp" />
+    <ClCompile Include="src\Core\Application\Threads\Thread.cpp" />
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp" />
     <ClCompile Include="src\Core\Model\Puzzle\PuzzleAttributes.cpp" />
     <ClCompile Include="src\Core\Utility\InputHandler.cpp" />
