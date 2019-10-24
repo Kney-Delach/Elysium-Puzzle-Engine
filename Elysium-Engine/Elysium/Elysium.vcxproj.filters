@@ -39,9 +39,6 @@
     <ClInclude Include="src\Core\Application\Menu.h">
       <Filter>Core\Application</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Application\Threads\Thread.h">
-      <Filter>Core\Application\Threads</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Exceptions\ElysiumExceptions.h">
       <Filter>Core\Exceptions</Filter>
     </ClInclude>
@@ -80,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="src\Elysium.h" />
     <ClInclude Include="src\empch.h" />
+    <ClInclude Include="src\Core\Application\Threads\ElysiumThread.h">
+      <Filter>Core\Application\Threads</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp">
@@ -87,9 +87,6 @@
     </ClCompile>
     <ClCompile Include="src\Core\Application\Menu.cpp">
       <Filter>Core\Application</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Core\Application\Threads\Thread.cpp">
-      <Filter>Core\Application\Threads</Filter>
     </ClCompile>
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp">
       <Filter>Core\Model\Puzzle</Filter>
@@ -101,5 +98,8 @@
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
+    <ClCompile Include="src\Core\Application\Threads\ElysiumThread.cpp">
+      <Filter>Core\Application\Threads</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

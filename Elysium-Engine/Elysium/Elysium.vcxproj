@@ -91,7 +91,7 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Application\Application.h" />
     <ClInclude Include="src\Core\Application\Menu.h" />
-    <ClInclude Include="src\Core\Application\Threads\Thread.h" />
+    <ClInclude Include="src\Core\Application\Threads\ElysiumThread.h" />
     <ClInclude Include="src\Core\Exceptions\ElysiumExceptions.h" />
     <ClInclude Include="src\Core\Exceptions\StackOutOfBoundsAccessException.h" />
     <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
@@ -110,7 +110,7 @@
   <ItemGroup>
     <ClCompile Include="src\Core\Application\Application.cpp" />
     <ClCompile Include="src\Core\Application\Menu.cpp" />
-    <ClCompile Include="src\Core\Application\Threads\Thread.cpp" />
+    <ClCompile Include="src\Core\Application\Threads\ElysiumThread.cpp" />
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp" />
     <ClCompile Include="src\Core\Model\Puzzle\PuzzleAttributes.cpp" />
     <ClCompile Include="src\Core\Utility\InputHandler.cpp" />

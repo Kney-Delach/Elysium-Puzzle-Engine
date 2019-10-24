@@ -6,7 +6,7 @@
  * Description	: This file contains the declaration of the interface which is used to interact with the client (user).
  */
 #pragma once
-#include "Threads/Thread.h"
+#include "Threads/ElysiumThread.h"
 
 namespace Elysium
 {

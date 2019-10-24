@@ -3,7 +3,7 @@
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 21/10/2019
- * Description	: This header contains the implementation for the abstract thread class for this engine, used to run the application.
+ * Description	: This header contains the declaration for the abstract thread class for this engine, used to run the application.
  *                Can be extended to run multiple instances of the application simultaneously using: https://docs.microsoft.com/en-us/windows/console/creation-of-a-console?redirectedfrom=MSDN
  *                and https://www.codeproject.com/Articles/13368/Multiple-consoles-for-a-single-application
  */
