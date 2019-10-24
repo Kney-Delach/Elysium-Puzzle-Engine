@@ -25,14 +25,14 @@ namespace Elysium
 				m_ValidTurnsPartials.emplace_back(0);
 		}
 
-		void PuzzleAttributes::SetContinuousValues(unsigned long long value)
+		void PuzzleAttributes::SetContinuousValues(BigInteger value)
 		{
 			SetContRows(value);
 			SetContCols(value);
 			SetContRowsRev(value);
 			SetContColsRev(value);
 		}
-		void PuzzleAttributes::SetPartialAttribute(int index, unsigned long long& value)
+		void PuzzleAttributes::SetPartialAttribute(int index, BigInteger& value)
 		{
 			if (index >= m_PartialIndexes.size())
 			{
@@ -43,7 +43,7 @@ namespace Elysium
 				m_ValidTurnsPartials[index] = value;
 			}
 		}
-		void PuzzleAttributes::SetPartialStartConfigAttribute(int index, unsigned long long& value)
+		void PuzzleAttributes::SetPartialStartConfigAttribute(int index, BigInteger& value)
 		{
 			if (index >= m_PartialIndexes.size())
 			{

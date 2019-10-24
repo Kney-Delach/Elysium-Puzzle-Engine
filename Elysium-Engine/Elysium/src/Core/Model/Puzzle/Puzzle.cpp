@@ -64,27 +64,27 @@ namespace Elysium
 			CalculateContinuousData();
 			for (unsigned i = 0; i < partialsVector->size(); i++)
 			{
-				unsigned long long configPartialValue = CalculateStartConfigPartial((*partialsVector)[i]);;
+				BigInteger configPartialValue = CalculateStartConfigPartial((*partialsVector)[i]);;
 				m_Attributes.SetPartialStartConfigAttribute(i, configPartialValue);
 
-				unsigned long long turnsPartialValue = CalculatePartialValue((*partialsVector)[i]);
+				BigInteger turnsPartialValue = CalculatePartialValue((*partialsVector)[i]);
 				m_Attributes.SetPartialAttribute(i, turnsPartialValue);
 			}
 		}
 
-		unsigned long long Puzzle::Factorial(const int x) //todo: Alter this into a recursive solution
+		BigInteger Puzzle::Factorial(const int x) //todo: Alter this into a recursive solution
 		{
-			unsigned long long facSum = 1;
+			BigInteger facSum = 1;
 			for (int count = x; count > 0; count--)
 				facSum = facSum * count;
 			return facSum;
 		}
 
-		unsigned long long Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const
+		BigInteger Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const
 		{
 			if (puzzle.empty())
 				return 0;
-			unsigned long long consCount = 0;
+			BigInteger consCount = 0;
 			std::sort(puzzle.begin(), puzzle.end());
 			for (unsigned i = 0; i < puzzle.size()-(consecutiveValue-1); i++)
 			{				
@@ -94,9 +94,9 @@ namespace Elysium
 			return consCount;
 		}
 
-		unsigned long long Puzzle::CalculateStartConfigPartial(int consecutiveValue) const //todo: COMPLETE THIS IMPLEMENTATION
+		BigInteger Puzzle::CalculateStartConfigPartial(int consecutiveValue) const //todo: COMPLETE THIS IMPLEMENTATION
 		{
-			unsigned long long consCount = 0;
+			BigInteger consCount = 0;
 			for (unsigned i = 0; i < m_Size; i++)
 			{
 				for (unsigned j = 0; j < m_Size-(consecutiveValue-1); j++)

@@ -8,48 +8,50 @@
  */
 #pragma once
 #include <vector>
-
+#include <boost/multiprecision/cpp_int.hpp>
 namespace Elysium
 {
 	namespace Model
 	{
+		using  BigInteger = boost::multiprecision::cpp_int;
+
 		class PuzzleAttributes
 		{
 		public:
 			PuzzleAttributes() = default;
 			~PuzzleAttributes() = default;
 			void InitAttributes(const std::vector<int>* partialsVector);
-			void SetContinuousValues(unsigned long long value);
-			void SetPartialAttribute(int index, unsigned long long& value);
-			void SetPartialStartConfigAttribute(int index, unsigned long long& value);
+			void SetContinuousValues(BigInteger value);
+			void SetPartialAttribute(int index, BigInteger& value);
+			void SetPartialStartConfigAttribute(int index, BigInteger& value);
 
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private: 
-			__forceinline void PuzzleAttributes::SetContRows(unsigned long long value)
+			__forceinline void PuzzleAttributes::SetContRows(BigInteger value)
 			{
 				m_ContinuousRows = value;
 			}
-			__forceinline void PuzzleAttributes::SetContCols(unsigned long long value)
+			__forceinline void PuzzleAttributes::SetContCols(BigInteger value)
 			{
 				m_ContinuousCols = value;
 			}
-			__forceinline void PuzzleAttributes::SetContRowsRev(unsigned long long value)
+			__forceinline void PuzzleAttributes::SetContRowsRev(BigInteger value)
 			{
 				m_ContinuousRowsRev = value;
 			}
-			__forceinline void PuzzleAttributes::SetContColsRev(unsigned long long value)
+			__forceinline void PuzzleAttributes::SetContColsRev(BigInteger value)
 			{
 				m_ContinuousColsRev = value;
 			}
 		private:
-			unsigned long long m_ContinuousRows = -1;
-			unsigned long long m_ContinuousCols = 0;
-			unsigned long long m_ContinuousRowsRev = 0;
-			unsigned long long m_ContinuousColsRev = 0;
+			BigInteger m_ContinuousRows = -1;
+			BigInteger m_ContinuousCols = 0;
+			BigInteger m_ContinuousRowsRev = 0;
+			BigInteger m_ContinuousColsRev = 0;
 			std::vector<int> m_PartialIndexes;
-			std::vector<unsigned long long> m_StartConfigPartials;
-			std::vector<unsigned long long> m_ValidTurnsPartials;
+			std::vector<BigInteger> m_StartConfigPartials;
+			std::vector<BigInteger> m_ValidTurnsPartials;
 		};
 
 		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes)
