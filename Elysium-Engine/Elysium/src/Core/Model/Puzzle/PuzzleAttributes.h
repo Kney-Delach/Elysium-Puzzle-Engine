@@ -24,7 +24,6 @@ namespace Elysium
 			void SetContinuousValues(BigInteger value);
 			void SetPartialAttribute(int index, BigInteger& value);
 			void SetPartialStartConfigAttribute(int index, BigInteger& value);
-
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private: 

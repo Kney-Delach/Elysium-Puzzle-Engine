@@ -14,7 +14,6 @@ namespace Elysium
 {
 	namespace Model
 	{
-
 		class Puzzle
 		{
 		public:

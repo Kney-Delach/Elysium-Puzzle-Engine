@@ -89,31 +89,84 @@ namespace Elysium
 			for (unsigned i = 0; i < puzzle.size()-(consecutiveValue-1); i++)
 			{				
 				if ((puzzle[i] - puzzle[i + consecutiveValue - 1]) == (1-consecutiveValue))
-					consCount++;
+					consCount += 1;
 			}
 			return consCount;
 		}
 
-		BigInteger Puzzle::CalculateStartConfigPartial(int consecutiveValue) const //todo: COMPLETE THIS IMPLEMENTATION
+		BigInteger Puzzle::CalculateStartConfigPartial(int consecutiveValue) const
 		{
 			BigInteger consCount = 0;
-			for (unsigned i = 0; i < m_Size; i++)
+
+			for (int i = 0; i < m_Size; i++) //todo: optimize this row search
 			{
-				for (unsigned j = 0; j < m_Size-(consecutiveValue-1); j++)
+				int totalContinuous = 0; 
+				for (int j = 0; j < m_Size-1; j++)
 				{
-					if ((m_State[i*m_Size + j] - m_State[i * m_Size + j + consecutiveValue - 1]) == (1 - consecutiveValue))
-						consCount++;
+					if ((m_State[i * m_Size + j] - m_State[i * m_Size + j + 1]) == -1)
+						totalContinuous += 1;
+					else
+						totalContinuous = 0;
 
-					if ((m_State[i*m_Size + (m_Size-1 - j)] - m_State[i * m_Size + (m_Size -1 - j - consecutiveValue+1)]) == (1 - consecutiveValue))
-						consCount++;
-
-					if ((m_State[i + m_Size * j] - m_State[i + m_Size * (j + consecutiveValue - 1)]) == (1 - consecutiveValue))
-						consCount++;
-
-					if ((m_State[i + m_Size * (m_Size-1-j)] - m_State[i + m_Size * (m_Size - j - consecutiveValue)]) == (1 - consecutiveValue))
-						consCount++;
+					if (totalContinuous == (consecutiveValue - 1))
+					{
+						consCount += 1;
+						totalContinuous--;
+					}
 				}
 			}
+			for (int i = 0; i < m_Size; i++) //todo: optimize this reverse row search
+			{
+				int totalContinuous = 0;
+				for (int j = 0; j < m_Size - 1; j++)
+				{
+					if ((m_State[i * m_Size + (m_Size - j- 1)] - m_State[i * m_Size + (m_Size  - j - 2)]) == -1)
+						totalContinuous += 1;
+					else
+						totalContinuous = 0;
+
+					if (totalContinuous == (consecutiveValue - 1))
+					{
+						consCount += 1;
+						totalContinuous--;
+					}
+				}
+			}
+			for (int i = 0; i < m_Size; i++) //todo: optimize this column search
+			{
+				int totalContinuous = 0;
+				for (int j = 0; j < m_Size - 1; j++)
+				{
+					if ((m_State[i + m_Size * j] - m_State[i + m_Size * (j + 1)]) == -1)
+						totalContinuous += 1;
+					else
+						totalContinuous = 0;
+
+					if (totalContinuous == (consecutiveValue - 1))
+					{
+						consCount += 1;
+						totalContinuous--;
+					}
+				}
+			}
+			for (int i = 0; i < m_Size; i++) //todo: optimize this reverse column search
+			{
+				int totalContinuous = 0;
+				for (int j = 0; j < m_Size - 1; j++)
+				{
+					if ((m_State[i + m_Size * (m_Size - 1 - j)] - m_State[i + m_Size * (m_Size - 2 - j)]) == -1)
+						totalContinuous += 1;
+					else
+						totalContinuous = 0;
+
+					if (totalContinuous == (consecutiveValue - 1))
+					{
+						consCount += 1;
+						totalContinuous--;
+					}
+				}
+			}
+
 			return consCount;
 		}
 		std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle)
