@@ -1,0 +1,21 @@
+1
+17 27 20 3 5 
+18 29 30 16 26 
+7 9 14 19 6 
+12 24 15 8 4 
+21 22 1 11  
+row = 1946321606541312000
+column = 1946321606541312000
+reverse row = 1946321606541312000
+reverse column = 1946321606541312000
+(total for row & column, including reverse, in this configuration)
+2 = 2
+3 = 0
+4 = 0
+5 = 0
+(total for row & column, including reverse, for all valid turns)
+2 = 3729914979190571008
+3 = 1861209107634061312
+4 = 4423875739620737024
+5 = 7785286426165248000
+

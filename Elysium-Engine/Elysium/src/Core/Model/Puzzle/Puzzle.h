@@ -9,17 +9,13 @@
 #pragma once
 #include <vector>
 #include "Core/Model/Puzzle/PuzzleAttributes.h"
-#include "Core/Model/BruteForce/IComparable.h"
- //todo: Replace InsertValue function with emplace_back function, using variadric arguments.
- //todo: Optimize ProcessContinuousValues and IsRowContinuous, as these are used for the (currently) too slow brute force search.
+#include <iostream> //todo: remove me
 
 namespace Elysium
 {
 	namespace Model
 	{
-		enum ActionDirection { LEFT, RIGHT, UP, DOWN};
-
-		class Puzzle : public Brute::IComparable
+		class Puzzle
 		{
 		public:
 			Puzzle() = default;
@@ -27,56 +23,35 @@ namespace Elysium
 			Puzzle(int size);
 			Puzzle(int size, int* values);
 			Puzzle(const Puzzle& src);
-			Puzzle(const Puzzle& src, const ActionDirection direction);
 			Puzzle& operator=(const Puzzle& rhs);
 			bool InsertValue(int newValue); 
-			int GetSize() const;
-			void RunPuzzleSolver(const std::vector<int>* partialsVector);
-			int ProcessContinuousValues() const;
-			void ActionUp();
-			void ActionDown();
-			void ActionRight();
-			void ActionLeft();
-			virtual int CompareTo(const IComparable& rhs) override;
-			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
-			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
+			void RunPuzzleSolver(std::vector<int>* partialsVector);
 			__forceinline void InsertEmptyBlock()
 			{
 				m_State.push_back(INT_MAX);
 			}
-			__forceinline bool CanGoUp() const
-			{
-				return !(m_BlankPosition.first >= (m_Size - 1));
-			}
-			__forceinline bool CanGoDown() const
-			{
-				return !(m_BlankPosition.first <= 0);
-			}
-			__forceinline bool CanGoRight() const
-			{
-				return !(m_BlankPosition.second >= (m_Size - 1));
-			}
-			__forceinline bool CanGoLeft() const
-			{
-				return !(m_BlankPosition.second <= 0);
-			}
-			__forceinline PuzzleAttributes& GetAttributes()
-			{
-				return m_Attributes;
-			}
-			__forceinline std::pair<int, int>& GetBlankPosition()
-			{
-				return m_BlankPosition;
-			}
-			unsigned long long Factorial(const int x);
+			friend std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle);
+			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 		private:
-			void ProcessPuzzleLocalContinuousData();
+			unsigned long long Factorial(const int x); //todo: Optimize with threading
+			__forceinline void CalculateContinuousData()
+			{
+				m_Attributes.SetContinuousValues((CalculatePartialValue(m_Size)/4ull));//3ull * (Factorial((m_Size * m_Size - (m_Size + 1))) * (GetConsecutiveCount(m_State, m_Size)) / 2ull));
+			}
+			__forceinline unsigned long long CalculatePartialValue(int partialValue)
+			{
+				unsigned long long partialLong = static_cast<unsigned long long>(partialValue);
+				int partialSizeArrangements = (m_Size - partialValue + 1) * m_Size - 1; // partialLong*(m_Size - partialLong + 1)*(m_Size - partialLong + 1) - 1;
+				//unsigned long long partialSizeArrangements = ((m_Size - partialValue + 1) * m_Size) - 1; // partialLong*(m_Size - partialLong + 1)*(m_Size - partialLong + 1) - 1;
+				unsigned long long consecutiveCount = GetConsecutiveCount(m_State, partialValue);
+				unsigned long long otherValueArrangements = Factorial(m_Size*m_Size - partialValue - 1);
+				return (4ull*(static_cast<unsigned long long>(partialSizeArrangements) * consecutiveCount * otherValueArrangements)/2ull);
+			}
+			unsigned long long CalculateStartConfigPartial(int consecutiveValue) const;
 			unsigned long long GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const;
-			bool IsRowContinuous(int rowNumber) const;
 		private:
-			std::vector<int> m_State;
 			int m_Size;
-			std::pair<int, int> m_BlankPosition;
+			std::vector<int> m_State;
 			PuzzleAttributes m_Attributes;
 		};
 	}

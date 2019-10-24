@@ -45,12 +45,6 @@
     <ClInclude Include="src\Core\Exceptions\StackOutOfBoundsAccessException.h">
       <Filter>Core\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h">
-      <Filter>Core\Model\BruteForce</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Core\Model\BruteForce\IComparable.h">
-      <Filter>Core\Model\BruteForce</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h">
       <Filter>Core\Model\DataStructures</Filter>
     </ClInclude>

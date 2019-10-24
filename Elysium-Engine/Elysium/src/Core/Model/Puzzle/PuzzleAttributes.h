@@ -20,6 +20,9 @@ namespace Elysium
 			~PuzzleAttributes() = default;
 			void InitAttributes(const std::vector<int>* partialsVector);
 			void SetContinuousValues(unsigned long long value);
+			void SetPartialAttribute(int index, unsigned long long& value);
+			void SetPartialStartConfigAttribute(int index, unsigned long long& value);
+
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private: 

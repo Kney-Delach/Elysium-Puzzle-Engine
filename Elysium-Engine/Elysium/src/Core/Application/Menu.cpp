@@ -11,7 +11,6 @@
 #include "Core/Utility/Random.h"
 #include "Core/Serialization/FileManager.h"
 #include "Core/Utility/InputHandler.h"
-#include "Core/Model/BruteForce/BinarySearchTree.h"
 
 namespace Elysium
 {
@@ -76,7 +75,7 @@ namespace Elysium
 			if(option == MENU)		option = static_cast<MenuOptions>(InputHandler::HandleInput("-> ",3, 0));
 			if(option == MANUAL)	return HandleManualConfig();
 			if(option == AUTO)		return HandleAutoConfig();
-			if (option == READ)		return HandleReadConfig();
+			if(option == READ)		return HandleReadConfig();
 			if(option == QUIT)		return HandleQuit();
 			return false;
 		}
@@ -176,19 +175,13 @@ namespace Elysium
 					else
 						std::cout << "That partial already exists, try a different one!\n -> ";
 				}
-				std::sort(partialIndexes.begin(), partialIndexes.end()); 
+				std::sort(partialIndexes.begin(), partialIndexes.end()); //todo: Optimize with custom search
 			}
 			for (int i = 0; i < puzzleStacker->GetSize(); i++)
 			{
 				try
 				{
 					(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
-					if (puzzleStacker->GetElementSize() <= 3)
-					{
-						auto bst = new Brute::BinarySearchTree<Puzzle>();
-						bst->TreeSearch((*puzzleStacker)[i], (*puzzleStacker)[i].GetAttributes());
-						delete bst;
-					}
 				}catch (const StackOutOfBoundsAccessException& soe)
 				{
 					LOG_EXCEPTION(soe)

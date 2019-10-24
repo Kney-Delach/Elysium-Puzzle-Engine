@@ -94,8 +94,6 @@
     <ClInclude Include="src\Core\Application\Threads\ElysiumThread.h" />
     <ClInclude Include="src\Core\Exceptions\ElysiumExceptions.h" />
     <ClInclude Include="src\Core\Exceptions\StackOutOfBoundsAccessException.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
-    <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />
     <ClInclude Include="src\Core\Model\Puzzle\Puzzle.h" />
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h" />

@@ -32,5 +32,27 @@ namespace Elysium
 			SetContRowsRev(value);
 			SetContColsRev(value);
 		}
+		void PuzzleAttributes::SetPartialAttribute(int index, unsigned long long& value)
+		{
+			if (index >= m_PartialIndexes.size())
+			{
+				//todo throw an index out of bounds exception
+			}
+			else
+			{
+				m_ValidTurnsPartials[index] = value;
+			}
+		}
+		void PuzzleAttributes::SetPartialStartConfigAttribute(int index, unsigned long long& value)
+		{
+			if (index >= m_PartialIndexes.size())
+			{
+				//todo throw an index out of bounds exception
+			}
+			else
+			{
+				m_StartConfigPartials[index] = value;
+			}
+		}
 	}
 }
