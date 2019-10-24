@@ -173,7 +173,7 @@ namespace Elysium
 				return 0;
 			int consCount = 0;
 			std::sort(puzzle.begin(), puzzle.end());
-			for (int i = 0; i < puzzle.size(); i++)
+			for (unsigned i = 0; i < puzzle.size(); i++)
 			{
 				if (i == puzzle.size() - consecutiveValue)
 					break;
