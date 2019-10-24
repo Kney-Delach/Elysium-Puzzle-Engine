@@ -1,5 +1,5 @@
 /**
- * FILENAME		: Thread.cpp
+ * FILENAME		: ElysiumThread.cpp
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 21/10/2019

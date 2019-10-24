@@ -19,34 +19,34 @@ namespace Elysium
 			PuzzleAttributes() = default;
 			~PuzzleAttributes() = default;
 			void InitAttributes(const std::vector<int>* partialsVector);
-			void SetContinuousValues(int value);
+			void SetContinuousValues(unsigned long long value);
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
 		private: 
-			__forceinline void PuzzleAttributes::SetContRows(int value)
+			__forceinline void PuzzleAttributes::SetContRows(unsigned long long value)
 			{
 				m_ContinuousRows = value;
 			}
-			__forceinline void PuzzleAttributes::SetContCols(int value)
+			__forceinline void PuzzleAttributes::SetContCols(unsigned long long value)
 			{
 				m_ContinuousCols = value;
 			}
-			__forceinline void PuzzleAttributes::SetContRowsRev(int value)
+			__forceinline void PuzzleAttributes::SetContRowsRev(unsigned long long value)
 			{
 				m_ContinuousRowsRev = value;
 			}
-			__forceinline void PuzzleAttributes::SetContColsRev(int value)
+			__forceinline void PuzzleAttributes::SetContColsRev(unsigned long long value)
 			{
 				m_ContinuousColsRev = value;
 			}
 		private:
-			int m_ContinuousRows = -1;
-			int m_ContinuousCols = 0;
-			int m_ContinuousRowsRev = 0;
-			int m_ContinuousColsRev = 0;
+			unsigned long long m_ContinuousRows = -1;
+			unsigned long long m_ContinuousCols = 0;
+			unsigned long long m_ContinuousRowsRev = 0;
+			unsigned long long m_ContinuousColsRev = 0;
 			std::vector<int> m_PartialIndexes;
-			std::vector<int> m_StartConfigPartials;
-			std::vector<int> m_ValidTurnsPartials;
+			std::vector<unsigned long long> m_StartConfigPartials;
+			std::vector<unsigned long long> m_ValidTurnsPartials;
 		};
 
 		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes)

@@ -60,9 +60,6 @@
     <ClInclude Include="src\Core\Model\Puzzle\PuzzleAttributes.h">
       <Filter>Core\Model\Puzzle</Filter>
     </ClInclude>
-    <ClInclude Include="src\Core\Serialization\Serializer.h">
-      <Filter>Core\Serialization</Filter>
-    </ClInclude>
     <ClInclude Include="src\Core\Utility\Asserts.h">
       <Filter>Core\Utility</Filter>
     </ClInclude>
@@ -79,6 +76,9 @@
     <ClInclude Include="src\empch.h" />
     <ClInclude Include="src\Core\Application\Threads\ElysiumThread.h">
       <Filter>Core\Application\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Serialization\FileManager.h">
+      <Filter>Core\Serialization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

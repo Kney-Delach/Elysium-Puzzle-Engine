@@ -1,5 +1,5 @@
 /**
- * FILENAME		: Serializer.h
+ * FILENAME		: FileManager.h
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 15/10/2019
@@ -36,7 +36,7 @@ namespace Elysium
 				filestream.open(input.c_str());
 				if (filestream)	
 					break;
-				std::cout << "Failed to write to that file.";
+				std::cout << "Failed to write to that file, you might have entered unusable characters - ";
 			}	
 			filestream << object;
 			filestream.close();
@@ -53,7 +53,7 @@ namespace Elysium
 				filestream.open(input.c_str());
 				if (filestream) 
 					break;
-				std::cout << "Failed to read from that file. - "; 
+				std::cout << "Failed to read from that file, it might not exist - "; 
 			}
 			filestream >> object;
 			filestream.close();

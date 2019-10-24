@@ -1,5 +1,5 @@
 /**
- * FILENAME		: Thread.h
+ * FILENAME		: ElysiumThread.h
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 21/10/2019

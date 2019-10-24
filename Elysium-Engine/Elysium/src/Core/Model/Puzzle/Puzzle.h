@@ -42,7 +42,7 @@ namespace Elysium
 			friend std::istream& operator>>(std::istream& in, Puzzle& puzzle);
 			__forceinline void InsertEmptyBlock()
 			{
-				m_State.push_back(-1);
+				m_State.push_back(INT_MAX);
 			}
 			__forceinline bool CanGoUp() const
 			{
@@ -68,9 +68,10 @@ namespace Elysium
 			{
 				return m_BlankPosition;
 			}
+			unsigned long long Factorial(const int x);
 		private:
 			void ProcessPuzzleLocalContinuousData();
-			int GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const;
+			unsigned long long GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const;
 			bool IsRowContinuous(int rowNumber) const;
 		private:
 			std::vector<int> m_State;

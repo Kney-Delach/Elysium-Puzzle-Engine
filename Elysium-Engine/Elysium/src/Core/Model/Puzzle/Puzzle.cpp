@@ -105,28 +105,28 @@ namespace Elysium
 		{
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first + 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first + 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = INT_MAX;
 		}
 
 		void Puzzle::ActionDown()
 		{
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at((m_BlankPosition.first - 1) * m_Size + m_BlankPosition.second);
 			m_BlankPosition.first = m_BlankPosition.first - 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = INT_MAX;
 		}
 
 		void Puzzle::ActionRight()
 		{
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second + 1);
 			m_BlankPosition.second = m_BlankPosition.second + 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = INT_MAX;
 		}
 
 		void Puzzle::ActionLeft()
 		{
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second - 1);
 			m_BlankPosition.second = m_BlankPosition.second - 1;
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = INT_MAX;
 		}
 
 		int Puzzle::CompareTo(const Brute::IComparable& rhs)
@@ -162,33 +162,48 @@ namespace Elysium
 			return in;
 		}
 
+		unsigned long long Puzzle::Factorial(const int x) {
+
+			unsigned long long facSum = 1;
+
+			for (int count = x; count > 0; count--)
+				facSum = facSum * count;
+
+			return facSum;
+		}
 		void Puzzle::ProcessPuzzleLocalContinuousData()
 		{
-			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size)); //todo: Currently a placeholder for 4-partial, replace with choice of N partial.
+			m_Attributes.SetContinuousValues(3ull*(Factorial(11)*(GetConsecutiveCount(m_State, m_Size))/2ull)); //todo: Currently a placeholder for 4-partial, replace with choice of N partial.
 		}
 
-		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const
+		unsigned long long Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const
 		{
 			if (puzzle.empty())
 				return 0;
-			int consCount = 0;
+			unsigned long long consCount = 0;
 			std::sort(puzzle.begin(), puzzle.end());
-			for (unsigned i = 0; i < puzzle.size(); i++)
+			std::cout << this << "\n"; //todo: remove me
+			for (unsigned i = 0; i < puzzle.size()-(consecutiveValue-1); i++)
 			{
-				if (i == puzzle.size() - consecutiveValue)
-					break;
-				bool consecutive = true;
-				for (int j = 0; j < consecutiveValue-1; j++)
-				{
-					if ((puzzle[i+j] + 1 - puzzle[i+j + 1]) != 0)
-					{
-						consecutive = false;
-						break;
-					}
-				}
-				if(consecutive)
-					consCount++; 
+				//todo: for [i] - [i+consvalue-1] --> is equal to -3, then consecutive, else not
+				
+				if ((puzzle[i] - puzzle[i + consecutiveValue - 1]) == -3)
+					consCount++;
+				//if (i == puzzle.size() - consecutiveValue)
+				//	break;
+				//bool consecutive = true;
+				//for (int j = 0; j < consecutiveValue-1; j++)
+				//{
+				//	if ((puzzle[i+j] + 1 - puzzle[i+j + 1]) != 0)
+				//	{
+				//		consecutive = false;
+				//		break;
+				//	}
+				//}
+				//if(consecutive)
+				//	consCount++; 
 			}
+			std::cout << consCount << "\n";  //todo: remove me
 			return consCount;
 		}
 

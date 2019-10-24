@@ -25,7 +25,7 @@ namespace Elysium
 				m_ValidTurnsPartials.emplace_back(0);
 		}
 
-		void PuzzleAttributes::SetContinuousValues(int value)
+		void PuzzleAttributes::SetContinuousValues(unsigned long long value)
 		{
 			SetContRows(value);
 			SetContCols(value);
