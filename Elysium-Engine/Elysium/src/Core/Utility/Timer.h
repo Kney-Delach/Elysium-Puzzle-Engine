@@ -3,7 +3,8 @@
  * Name			: Ori Lazar
  * Student ID	: b9061712
  * Date			: 23/10/2019
- * Description	: This file contains the implementation of a timer to benchmark the time taken to search for solutions in the binary tree.
+ * Description	: This file contains the implementation of a timer to benchmark the time taken to search for solutions in the brute force implementation. 
+                  This can be used in the extension of this engine, so I am not removing it.
  */
 #pragma once
 #include <iostream>
