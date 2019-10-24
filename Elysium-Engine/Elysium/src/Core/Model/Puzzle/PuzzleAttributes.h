@@ -19,15 +19,28 @@ namespace Elysium
 			PuzzleAttributes() = default;
 			~PuzzleAttributes() = default;
 			void InitAttributes(const std::vector<int>* partialsVector);
+			void SetContinuousValues(int value);
 			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
 			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
-			void SetContinuousValues(int value);
-		private: //todo: inline functionality
-			void SetContRows(int value);
-			void SetContCols(int value);
-			void SetContRowsRev(int value);
-			void SetContColsRev(int value);
-			int m_ContinuousRows = -1; //todo: Replace this with arrays for N size cases
+		private: 
+			__forceinline void PuzzleAttributes::SetContRows(int value)
+			{
+				m_ContinuousRows = value;
+			}
+			__forceinline void PuzzleAttributes::SetContCols(int value)
+			{
+				m_ContinuousCols = value;
+			}
+			__forceinline void PuzzleAttributes::SetContRowsRev(int value)
+			{
+				m_ContinuousRowsRev = value;
+			}
+			__forceinline void PuzzleAttributes::SetContColsRev(int value)
+			{
+				m_ContinuousColsRev = value;
+			}
+		private:
+			int m_ContinuousRows = -1;
 			int m_ContinuousCols = 0;
 			int m_ContinuousRowsRev = 0;
 			int m_ContinuousColsRev = 0;
@@ -36,10 +49,10 @@ namespace Elysium
 			std::vector<int> m_ValidTurnsPartials;
 		};
 
-		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes) //todo: Replace with an faster implementation.
+		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes)
 		{
 
-			if (attributes.m_ContinuousRows == -1) return out;	//Todo: Replace with the following if doesn't work. "attributes.NotProcessed()"
+			if (attributes.m_ContinuousRows == -1) return out;
 			out << "row = " << attributes.m_ContinuousRows << "\ncolumn = " << attributes.m_ContinuousCols
 				<< "\nreverse row = " << attributes.m_ContinuousRowsRev << "\nreverse column = " << attributes.m_ContinuousColsRev << "\n";
 

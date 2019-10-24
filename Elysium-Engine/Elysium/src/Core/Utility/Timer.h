@@ -11,14 +11,14 @@
 
 namespace Elysium
 {
-	namespace Utilities
+	namespace Utility
 	{
 		class Timer
 		{
 		public:
 			Timer()
 			{
-				std::cout << "Timer started: \n";
+				std::cout << "Timer Constructed\n";
 				m_StartTimepoint = std::chrono::high_resolution_clock::now();
 			}
 			~Timer()

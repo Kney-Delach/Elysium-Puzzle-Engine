@@ -50,7 +50,7 @@ namespace Elysium
 			for(;;)
 			{
 				int inputNumber = 0;
-				std::string inputString = "";
+				std::string inputString;
 				std::cout << requestMessage;
 				std::getline(std::cin, inputString);
 				std::stringstream myStream(inputString);

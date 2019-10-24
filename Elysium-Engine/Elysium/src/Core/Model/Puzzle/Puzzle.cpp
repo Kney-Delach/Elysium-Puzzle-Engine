@@ -34,8 +34,8 @@ namespace Elysium
 		Puzzle::Puzzle(const Puzzle& src)
 		{
 			m_Size = src.m_Size;
-			m_State.clear();	//todo: Verify if this is necessary.
-			m_State = src.m_State; //todo: Verify this works.
+			m_State.clear();
+			m_State = src.m_State;
 			m_Attributes = src.m_Attributes;
 			m_BlankPosition = src.m_BlankPosition;
 		}
@@ -43,66 +43,41 @@ namespace Elysium
 		Puzzle::Puzzle(const Puzzle& src, const ActionDirection direction)
 		{
 			m_Size = src.m_Size;
-			m_State.clear();	//todo: Verify if this is necessary.
-			m_State = src.m_State; //todo: Verify this works.
+			m_State.clear();
+			m_State = src.m_State;
 			m_Attributes = src.m_Attributes;
 			m_BlankPosition = src.m_BlankPosition;
-			if (direction == ActionDirection::LEFT)
+			if (direction == LEFT)
 				ActionLeft();
-			else if (direction == ActionDirection::RIGHT)
+			else if (direction == RIGHT)
 				ActionRight();
-			else if (direction == ActionDirection::UP)
+			else if (direction == UP)
 				ActionUp();
-			else if (direction == ActionDirection::DOWN)
+			else if (direction == DOWN)
 				ActionDown();
 		}
 
 		Puzzle& Puzzle::operator=(const Puzzle& rhs)
 		{
 			m_Size = rhs.m_Size;
-			m_State.clear();	//todo: Verify if this is necessary.
+			m_State.clear();
 			m_State = rhs.m_State;
 			m_Attributes = rhs.m_Attributes;
 			m_BlankPosition = rhs.m_BlankPosition;
-
 			return *this;
 		}
 
-		const bool Puzzle::InsertValue(int newValue) //todo: Replace with emplace back for variadric arguments for speed increase?
+		bool Puzzle::InsertValue(int newValue)
 		{
 			if (!(std::any_of(m_State.begin(), m_State.end(), [&](int val) { return val == newValue; })))
 			{
-				m_State.push_back(newValue); //todo: Verify that this is as fast as emplace_back
+				m_State.push_back(newValue);
 				return true;
 			}
 			return false;
 		}
 
-		std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle)
-		{
-			for (unsigned i = 0; i < puzzle.m_State.size()- 1; i++)
-			{
-				out << puzzle.m_State[i] << " ";
-				if (((i + 1) % puzzle.m_Size )== 0)		out << "\n";
-			}
-			out << " \n";
-			out << puzzle.m_Attributes;
-			return out;
-		}
-
-		std::istream& operator>>(std::istream& in, Puzzle& puzzle)
-		{
-			int temp;
-			for (int i = 0; i < (puzzle.m_Size * puzzle.m_Size - 1); i++)
-			{
-				in >> temp;
-				puzzle.m_State.push_back(temp);
-			}
-			puzzle.InsertEmptyBlock();
-			return in;
-		}
-
-		const int Puzzle::GetSize() const
+		int Puzzle::GetSize() const
 		{
 			return m_Size * m_Size;
 		}
@@ -110,45 +85,20 @@ namespace Elysium
 		void Puzzle::RunPuzzleSolver(const std::vector<int>* partialsVector)
 		{
 			m_Attributes.InitAttributes(partialsVector);
-			ProcessPuzzle();
+			ProcessPuzzleLocalContinuousData();
 		}
 
-		void Puzzle::ProcessPuzzle()
+		int Puzzle::ProcessContinuousValues() const
 		{
-			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size));
-		}
-
-		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue)
-		{
-			if (puzzle.empty())
+			if (!(m_BlankPosition.first == (m_Size - 1) && m_BlankPosition.second == (m_Size - 1)))
 				return 0;
-			int consCount = 0;
-			std::sort(puzzle.begin(), puzzle.end());
-			for (int i = 0; i < puzzle.size(); i++)
+			int totalContinuous = 0;
+			for (int i = 0; i < m_Size; i++)
 			{
-				if (i == puzzle.size() - consecutiveValue)
-					break;
-				bool consecutive = true;
-				for (int j = 0; j < consecutiveValue-1; j++)
-				{
-					if ((puzzle[i+j] + 1 - puzzle[i+j + 1]) != 0)
-					{
-						consecutive = false;
-						break;
-					}
-				}
-				if(consecutive)
-					consCount++; 
+				if (IsRowContinuous(i))
+					totalContinuous++;
 			}
-			return consCount;
-		}
-		int Puzzle::CompareTo(const Brute::IComparable& rhs)
-		{
-			const Puzzle* rhsPuzzle = static_cast<const Puzzle*>(&rhs);
-			ASSERT(!(rhsPuzzle->m_Size == m_Size), "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true)
-			if (m_State == rhsPuzzle->m_State)
-				return 1;
-			return 0;
+			return totalContinuous;
 		}
 
 		void Puzzle::ActionUp()
@@ -174,34 +124,82 @@ namespace Elysium
 
 		void Puzzle::ActionLeft()
 		{
-			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second-1);
+			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second - 1);
 			m_BlankPosition.second = m_BlankPosition.second - 1;
 			m_State.at(m_BlankPosition.first * m_Size + m_BlankPosition.second) = -1;
 		}
 
+		int Puzzle::CompareTo(const Brute::IComparable& rhs)
+		{
+			const Puzzle* rhsPuzzle = static_cast<const Puzzle*>(&rhs);
+			ASSERT(!(rhsPuzzle->m_Size == m_Size), "[IComparable::Puzzle] - Puzzles being compared must be of the same size.", true)
+			if (m_State == rhsPuzzle->m_State)
+				return 1;
+			return 0;
+		}
+
+		std::ostream& operator<<(std::ostream& out, const Puzzle& puzzle)
+		{
+			for (unsigned i = 0; i < puzzle.m_State.size() - 1; i++)
+			{
+				out << puzzle.m_State[i] << " ";
+				if (((i + 1) % puzzle.m_Size) == 0)		out << "\n";
+			}
+			out << " \n";
+			out << puzzle.m_Attributes;
+			return out;
+		}
+
+		std::istream& operator>>(std::istream& in, Puzzle& puzzle)
+		{
+			int temp;
+			for (int i = 0; i < (puzzle.m_Size * puzzle.m_Size - 1); i++)
+			{
+				in >> temp;
+				puzzle.m_State.push_back(temp);
+			}
+			puzzle.InsertEmptyBlock();
+			return in;
+		}
+
+		void Puzzle::ProcessPuzzleLocalContinuousData()
+		{
+			m_Attributes.SetContinuousValues(GetConsecutiveCount(m_State, m_Size)); //todo: Currently a placeholder for 4-partial, replace with choice of N partial.
+		}
+
+		int Puzzle::GetConsecutiveCount(std::vector<int> puzzle, int consecutiveValue) const
+		{
+			if (puzzle.empty())
+				return 0;
+			int consCount = 0;
+			std::sort(puzzle.begin(), puzzle.end());
+			for (int i = 0; i < puzzle.size(); i++)
+			{
+				if (i == puzzle.size() - consecutiveValue)
+					break;
+				bool consecutive = true;
+				for (int j = 0; j < consecutiveValue-1; j++)
+				{
+					if ((puzzle[i+j] + 1 - puzzle[i+j + 1]) != 0)
+					{
+						consecutive = false;
+						break;
+					}
+				}
+				if(consecutive)
+					consCount++; 
+			}
+			return consCount;
+		}
+
 		bool Puzzle::IsRowContinuous(int rowNumber) const
 		{
-			for (int i = 0; i < m_Size-1; i++)
+			for (int i = 0; i < m_Size - 1; i++)
 			{
 				if (!((m_State[rowNumber * m_Size + i] - m_State[rowNumber * m_Size + (i + 1)]) == -1))
 					return false;
 			}
 			return true;
-		}
-		int Puzzle::ProcessContinuousValues()
-		{
-			if (!(m_BlankPosition.first == (m_Size - 1) && m_BlankPosition.second == (m_Size - 1)))
-				return 0;
-			else
-			{
-				int totalContinuous = 0; 
-				for (int i = 0; i < m_Size; i++)
-				{
-					if (IsRowContinuous(i))
-						totalContinuous++;
-				}
-				return totalContinuous;
-			}
 		}
 	}
 }

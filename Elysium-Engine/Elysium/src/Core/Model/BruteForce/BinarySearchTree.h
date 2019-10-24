@@ -10,8 +10,8 @@
 #include <queue>
 #include "Core/Model/Puzzle/PuzzleAttributes.h"
 #include "Core/Utility/Timer.h"
+//todo: Optimize brute force.
 
-//todo: Optimize this.
 namespace Elysium
 {
 	namespace Brute
@@ -19,7 +19,7 @@ namespace Elysium
 		template <typename T>
 		class BinarySearchTree
 		{
-			static_assert(std::is_base_of<Model::Puzzle, T>::value, "T must derive from interfaces::IComparable");
+			static_assert(std::is_base_of<Model::Puzzle, T>::value, "T must derive from Model::Puzzle.");
 		public:
 			BinarySearchTree() = default;
 			~BinarySearchTree() = default;
@@ -38,7 +38,7 @@ namespace Elysium
 			configurationsVector.emplace_back(fringe.front()); 
 			int iteration = 0; 
 			{
-				Utilities::Timer localTimer;
+				Utility::Timer localTimer;
 				while (!fringe.empty())
 				{
 					T* current = fringe.front();

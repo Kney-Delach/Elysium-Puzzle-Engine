@@ -62,7 +62,6 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,7 +81,6 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -94,6 +92,8 @@
     <ClInclude Include="src\Core\Application\Application.h" />
     <ClInclude Include="src\Core\Application\Menu.h" />
     <ClInclude Include="src\Core\Application\Threads\Thread.h" />
+    <ClInclude Include="src\Core\Exceptions\ElysiumExceptions.h" />
+    <ClInclude Include="src\Core\Exceptions\StackOutOfBoundsAccessException.h" />
     <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h" />
     <ClInclude Include="src\Core\Model\BruteForce\IComparable.h" />
     <ClInclude Include="src\Core\Model\DataStructures\Stack.h" />

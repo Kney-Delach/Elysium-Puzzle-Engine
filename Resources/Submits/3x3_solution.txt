@@ -1,0 +1,9 @@
+1
+2 7 9 
+10 8 4 
+3 6  
+row = 480
+column = 480
+reverse row = 480
+reverse column = 480
+

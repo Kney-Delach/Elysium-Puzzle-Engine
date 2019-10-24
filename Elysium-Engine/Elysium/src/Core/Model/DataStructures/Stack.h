@@ -9,9 +9,11 @@
 #pragma once
 #include "Core/Utility/Asserts.h"
 #include "Core/Utility/InputHandler.h"
+#include "Core/Exceptions/ElysiumExceptions.h"
 
 namespace Elysium
 {
+	using namespace Exceptions;
 	namespace Model
 	{
 		template <typename T>
@@ -23,15 +25,15 @@ namespace Elysium
 			Stack(const Stack<T>& rhs);
 			Stack<T>& operator=(const Stack<T>& rhs);
 			T* Push(const T& object);
-			T* PushFront(const T& object);
-			void Pop();
-			T& Top();
+			T* PushFront(const T& object) noexcept(false);// throw (StackOutOfBoundsAccessException);
+			__forceinline void Pop();
+			__forceinline T& Top() const;
 			void SetCapacity(int capacity); 
 			const int GetCapacity() const;
 			const int GetSize() const;
 			int GetElementSize() const; 
 			const bool IsEmpty() const;
-			T& operator[] (int index) const;
+			T& operator[] (int index) const noexcept(false);// throw (StackOutOfBoundsAccessException);
 			template <typename E> friend std::ostream& operator<<(std::ostream& out, Stack<E>& stack);
 			template <typename E> friend std::istream& operator>>(std::istream& in, Stack<E>& stack);
 		private:
@@ -48,7 +50,13 @@ namespace Elysium
 		Stack<T>::Stack(int capacity, int elementSize)
 			: m_Capacity(capacity), m_Size(0), m_pElements(new T[m_Capacity]), m_ElementSize(elementSize)
 		{
-			ASSERT(m_Capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true)
+			ASSERT(m_Capacity <= 0,"[Elysium::Model::Stack::Constructor] - Capacity should not be non-positive!",true) //todo: Potentially replace with an exception.
+		}
+
+		template <typename T>
+		Stack<T>::~Stack()
+		{
+			delete[] m_pElements;
 		}
 
 		template <typename T>
@@ -74,17 +82,11 @@ namespace Elysium
 		}
 
 		template <typename T>
-		Stack<T>::~Stack()
-		{
-			delete[] m_pElements;
-		}
-
-		template <typename T>
 		T* Stack<T>::Push(const T& object)
 		{
 			if (m_Size < m_Capacity)
 			{
-				m_pElements[m_Size++] = object; //todo: Optimize: Performing a deep copy, implement an emplace back function.
+				m_pElements[m_Size++] = object; //todo: Optimize: Performing a deep copy, implement emplace back instead.
 				return &(m_pElements[m_Size - 1]);
 			}
 			ExpandStack();
@@ -94,29 +96,27 @@ namespace Elysium
 
 
 		template <typename T>
-		T* Stack<T>::PushFront(const T& object)	//todo: Implement exceptions / assertions, as this will result in a memory leak if not used properly.
+		T* Stack<T>::PushFront(const T& object) noexcept(false) //throw (StackOutOfBoundsAccessException)
 		{
-			if (m_Size < m_Capacity)
-			{
-				m_Size++;
-				m_pElements[m_Capacity-m_Size] = object; 
-				return &(m_pElements[(m_Capacity-m_Size)]);
-			}
-			return nullptr;
+			if (!(m_Size < m_Capacity))
+				throw StackOutOfBoundsAccessException("[Stack::PushFront] - Attempting to push too much data onto the stack.", __FILE__, __LINE__, __FUNCTION__);
+			m_Size++;
+			m_pElements[m_Capacity-m_Size] = object; 
+			return &(m_pElements[(m_Capacity-m_Size)]);
 		}
 
 		template <typename T>
-		void Stack<T>::Pop()
+		__forceinline void Stack<T>::Pop()
 		{
 			if (!IsEmpty())	m_Size--;
 		}
 
 		template <typename T>
-		T& Stack<T>::Top()
+		__forceinline T& Stack<T>::Top() const noexcept(false) //throw (StackOutOfBoundsAccessException)
 		{
-			if (!IsEmpty())	return m_pElements[m_Size - 1];
-			ASSERT(NULL, "[Stack<T>::Top] Undefined behaviour path reached!", true);
-			//todo: Implement exception here.
+			if (IsEmpty())	
+				throw StackOutOfBoundsAccessException("[Stack::Top] - Attempting to access data from the top of the stack whilst the stack is empty.", __FILE__, __LINE__, __FUNCTION__);
+			return m_pElements[m_Size - 1];
 		}
 
 		template<typename T>
@@ -153,11 +153,11 @@ namespace Elysium
 		}
 
 		template <typename T>
-		T& Stack<T>::operator[](int index) const
+		T& Stack<T>::operator[](int index) const noexcept(false) //throw (StackOutOfBoundsAccessException)
 		{
-			if (index < m_Capacity)	return m_pElements[m_Size - 1 - index];
-			ASSERT(NULL, "[Stack<T>::[]Operator] Undefined behaviour path reached, attempting to access pointer outside of stack bounds!", true);
-			//todo: Implement exception here.
+			if (!(index < m_Capacity))	
+				throw StackOutOfBoundsAccessException("[Stack::[]] - Attempting to access data from an index in the stack which hasn't been initialized.", __FILE__, __LINE__, __FUNCTION__);
+			return m_pElements[m_Size - 1 - index];
 		}
 
 		template <typename T>
@@ -176,31 +176,47 @@ namespace Elysium
 		std::ostream& operator<<(std::ostream& out, Stack<E>& stack)
 		{
 			int stackSize = stack.m_Size;
-			out << stack.m_Size << "\n";
-			for (int i = 0; i < stackSize; i++)
+			try
 			{
-				out << stack.Top() << "\n";
-				stack.Pop();
+				out << stack.m_Size << "\n";
+				for (int i = 0; i < stackSize; i++)
+				{
+					out << stack.Top() << "\n";
+					stack.Pop();
+				}
+				stack.m_Size = stackSize;
+				return out;
+			}catch(const StackOutOfBoundsAccessException& soe)
+			{
+				stack.m_Size = stackSize;
+				LOG_EXCEPTION(soe)
+				out << "\n\nStackOutOfBoundsException occured during writing of stack.\n\n";
+				return out;
 			}
-			stack.m_Size = stackSize;
-			return out;
 		}
 
 		template<typename E>
 		std::istream& operator>>(std::istream& in, Stack<E>& stack)
 		{
-			int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 1000, 1); 	//todo: Validate dimension.
-			std::string line;
-			int numberOfConfigs;
-			in >> numberOfConfigs;
-			stack.SetCapacity(numberOfConfigs);
-			stack.m_ElementSize = puzzleSize;
-			for (int i = 0; i < numberOfConfigs; i++)
+			try
 			{
-				E* element =stack.PushFront(E(puzzleSize));
-				in >> *element;
+				int puzzleSize = Utility::InputHandler::HandleInput("Enter the dimension value of the configurations in the file:\n-> ", 10000, 2); 	//todo: Validate dimension.
+				std::string line;
+				int numberOfConfigs;
+				in >> numberOfConfigs;
+				stack.SetCapacity(numberOfConfigs);
+				stack.m_ElementSize = puzzleSize;
+				for (int i = 0; i < numberOfConfigs; i++)
+				{
+					E* element = stack.PushFront(E(puzzleSize));
+					in >> *element;
+				}
+				return in;
+			}catch(const StackOutOfBoundsAccessException& soe)
+			{
+				LOG_EXCEPTION(soe)
+				return in;
 			}
-			return in;
 		}
 	}
 }

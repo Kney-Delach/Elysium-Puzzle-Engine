@@ -32,25 +32,5 @@ namespace Elysium
 			SetContRowsRev(value);
 			SetContColsRev(value);
 		}
-
-		__forceinline void PuzzleAttributes::SetContRows(int value)
-		{
-			m_ContinuousRows = value;
-		}
-
-		__forceinline void PuzzleAttributes::SetContCols(int value)
-		{
-			m_ContinuousCols = value;
-		}
-
-		__forceinline void PuzzleAttributes::SetContRowsRev(int value)
-		{
-			m_ContinuousRowsRev = value;
-		}
-
-		__forceinline void PuzzleAttributes::SetContColsRev(int value)
-		{
-			m_ContinuousColsRev = value;
-		}
 	}
 }

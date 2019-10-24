@@ -71,19 +71,19 @@ namespace Elysium
 			return OptionsHandler(QUIT);
 		}
 
-		bool Menu::OptionsHandler(MenuOptions option) const //todo: Implement seperate threads for each menu option
+		bool Menu::OptionsHandler(MenuOptions option) const
 		{
 			if(option == MENU)		option = static_cast<MenuOptions>(InputHandler::HandleInput("-> ",3, 0));
 			if(option == MANUAL)	return HandleManualConfig();
 			if(option == AUTO)		return HandleAutoConfig();
-			if(option == READ)		return HandleReadConfig();
+			if (option == READ)		return HandleReadConfig();
 			if(option == QUIT)		return HandleQuit();
 			return false;
 		}
 
-		bool Menu::HandleManualConfig() const	//todo: Implement user choice to process configurations or not.
+		bool Menu::HandleManualConfig() const
 		{
-			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configuration:\n-> ", 1000, 1);
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configuration:\n-> ", 10000, 2);
 			const int maxElement = puzzleSize * puzzleSize + puzzleSize;
 			PuzzleStacker puzzleStack (50, puzzleSize);
 			for (;;)
@@ -104,18 +104,18 @@ namespace Elysium
 					break;
 			}
 			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
-				Serializer(puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
 			{
 				ProcessPuzzle(&puzzleStack);
-				Serializer(puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			}
 			return true;
 		}
 
-		bool Menu::HandleAutoConfig() const	//todo: Verify whether or not user should be able to directly process configured puzzles, or if its sufficient to let them read that file in through the loop.
+		bool Menu::HandleAutoConfig() const
 		{
-			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configurations:\n-> ", 1000, 1);
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configurations:\n-> ", 10000, 2);
 			const int elementCount = puzzleSize * puzzleSize + puzzleSize;
 			const int puzzleCount = InputHandler::HandleInput("How many configurations would you like to generate? Range -> [1-20000]:\n-> ", 20000, 0);
 			PuzzleStacker puzzleStack(puzzleCount, puzzleSize);
@@ -129,11 +129,11 @@ namespace Elysium
 			}
 			delete[] unsortedArray;
 			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
-				Serializer(puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
 			{
 				ProcessPuzzle(&puzzleStack);
-				Serializer(puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			}
 			return true;
 		}
@@ -141,9 +141,11 @@ namespace Elysium
 		bool Menu::HandleReadConfig() const
 		{
 			PuzzleStacker puzzleStack(1);
-			Deserializer(puzzleStack);
+
+			FileManager<PuzzleStacker>::Deserializer(puzzleStack);
+
 			ProcessPuzzle(&puzzleStack);
-			Serializer(puzzleStack);
+			FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			return true;
 		}
 
@@ -178,12 +180,19 @@ namespace Elysium
 			}
 			for (int i = 0; i < puzzleStacker->GetSize(); i++)
 			{
-				(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
-				if (puzzleStacker->GetSize() <= 3)
+				try
 				{
-					Brute::BinarySearchTree<Puzzle>* bst = new Brute::BinarySearchTree<Puzzle>();
-					bst->TreeSearch((*puzzleStacker)[i], (*puzzleStacker)[i].GetAttributes());
-					delete bst;
+					(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
+					if (puzzleStacker->GetElementSize() <= 3)
+					{
+						auto bst = new Brute::BinarySearchTree<Puzzle>();
+						bst->TreeSearch((*puzzleStacker)[i], (*puzzleStacker)[i].GetAttributes());
+						delete bst;
+					}
+				}catch (const StackOutOfBoundsAccessException& soe)
+				{
+					LOG_EXCEPTION(soe)
+					break;
 				}
 			}
 		}

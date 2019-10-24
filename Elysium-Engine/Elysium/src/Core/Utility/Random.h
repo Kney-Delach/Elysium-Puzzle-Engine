@@ -7,6 +7,7 @@
  */
 #pragma once
 #include <ctime>  
+//todo: Optimize to a bitwise swap.
 
 namespace Elysium
 {
@@ -22,7 +23,7 @@ namespace Elysium
 			~Random() = default;
 		};
 
-		inline void Random::Swap(int* valOne, int* valTwo) //todo: Replace this with a bitwise swap.
+		inline void Random::Swap(int* valOne, int* valTwo)
 		{
 			int temp = *valOne;
 			*valOne = *valTwo;

@@ -10,6 +10,9 @@
     <Filter Include="Core\Application\Threads">
       <UniqueIdentifier>{AB811F90-97A6-6E10-C0F1-53A0AC756D2E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Exceptions">
+      <UniqueIdentifier>{5FFF18A5-CB8A-8669-D49B-095E40A6E269}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Model">
       <UniqueIdentifier>{EE07C4CD-DABF-051B-43C7-DE762F9EA00B}</UniqueIdentifier>
     </Filter>
@@ -38,6 +41,12 @@
     </ClInclude>
     <ClInclude Include="src\Core\Application\Threads\Thread.h">
       <Filter>Core\Application\Threads</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Exceptions\ElysiumExceptions.h">
+      <Filter>Core\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Core\Exceptions\StackOutOfBoundsAccessException.h">
+      <Filter>Core\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="src\Core\Model\BruteForce\BinarySearchTree.h">
       <Filter>Core\Model\BruteForce</Filter>
@@ -79,6 +88,9 @@
     <ClCompile Include="src\Core\Application\Menu.cpp">
       <Filter>Core\Application</Filter>
     </ClCompile>
+    <ClCompile Include="src\Core\Application\Threads\Thread.cpp">
+      <Filter>Core\Application\Threads</Filter>
+    </ClCompile>
     <ClCompile Include="src\Core\Model\Puzzle\Puzzle.cpp">
       <Filter>Core\Model\Puzzle</Filter>
     </ClCompile>
@@ -89,6 +101,5 @@
       <Filter>Core\Utility</Filter>
     </ClCompile>
     <ClCompile Include="src\empch.cpp" />
-    <ClCompile Include="src\Core\Application\Threads\Thread.cpp" />
   </ItemGroup>
 </Project>

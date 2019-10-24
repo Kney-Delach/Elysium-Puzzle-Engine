@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <tuple>
 
-
 // ------------- Data Structures ------------- //
 
 #include <string>
