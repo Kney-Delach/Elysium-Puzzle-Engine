@@ -103,6 +103,15 @@ namespace Elysium
 				{
 					if ((m_State[i*m_Size + j] - m_State[i * m_Size + j + consecutiveValue - 1]) == (1 - consecutiveValue))
 						consCount++;
+
+					if ((m_State[i*m_Size + (m_Size-1 - j)] - m_State[i * m_Size + (m_Size -1 - j - consecutiveValue+1)]) == (1 - consecutiveValue))
+						consCount++;
+
+					if ((m_State[i + m_Size * j] - m_State[i + m_Size * (j + consecutiveValue - 1)]) == (1 - consecutiveValue))
+						consCount++;
+
+					if ((m_State[i + m_Size * (m_Size-1-j)] - m_State[i + m_Size * (m_Size - j - consecutiveValue)]) == (1 - consecutiveValue))
+						consCount++;
 				}
 			}
 			return consCount;
