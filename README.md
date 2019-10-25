@@ -47,7 +47,7 @@ The current implementation of this system is not optimized, the following is a l
 - Implement Threading to speed up puzzle processing. 
 - Implement machine code augmentation for exploration purposes.
 - Optimize loop processing, currently there is quite abit of wasteful looping and conditioning within the logic of this project.
-
+- Replace the BigInteger parameter passing and return values from pass-by-value, to pass-by-references or pointers. 
 <a name="references"></a>
 ## References
 
