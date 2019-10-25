@@ -177,7 +177,7 @@ namespace Elysium
 				}
 				std::sort(partialIndexes.begin(), partialIndexes.end()); //todo: Optimize with custom search
 			}
-			for (int i = 0; i < puzzleStacker->GetSize(); i++)
+			for (int i = 0; i < puzzleStacker->GetSize(); i++) //todo: Optimize by implementing threading to process multiple puzzles simultaneously
 			{
 				try
 				{

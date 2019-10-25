@@ -28,11 +28,11 @@ namespace Elysium
 			T* PushFront(const T& object) noexcept(false);
 			__forceinline void Pop();
 			__forceinline T& Top() const;
-			void SetCapacity(int capacity); 
-			const int GetCapacity() const;
-			const int GetSize() const;
-			int GetElementSize() const; 
-			const bool IsEmpty() const;
+			__forceinline void SetCapacity(int capacity); 
+			__forceinline const int GetCapacity() const;
+			__forceinline const int GetSize() const;
+			__forceinline int GetElementSize() const;
+			__forceinline const bool IsEmpty() const;
 			T& operator[] (int index) const noexcept(false);
 			template <typename E> friend std::ostream& operator<<(std::ostream& out, Stack<E>& stack);
 			template <typename E> friend std::istream& operator>>(std::istream& in, Stack<E>& stack);
@@ -120,7 +120,7 @@ namespace Elysium
 		}
 
 		template<typename T>
-		void Stack<T>::SetCapacity(int capacity)
+		__forceinline void Stack<T>::SetCapacity(int capacity)
 		{
 			delete[] m_pElements;
 			m_Capacity = capacity;
@@ -129,25 +129,25 @@ namespace Elysium
 		}
 
 		template <typename T>
-		const int Stack<T>::GetCapacity() const
+		__forceinline const int Stack<T>::GetCapacity() const
 		{
 			return m_Capacity;
 		}
 
 		template <typename T>
-		const int Stack<T>::GetSize() const
+		__forceinline const int Stack<T>::GetSize() const
 		{
 			return m_Size;
 		}
 
 		template <typename T>
-		int Stack<T>::GetElementSize() const
+		__forceinline int Stack<T>::GetElementSize() const
 		{
 			return m_ElementSize;
 		}
 
 		template <typename T>
-		const bool Stack<T>::IsEmpty() const
+		__forceinline const bool Stack<T>::IsEmpty() const
 		{
 			return m_Size == 0 ? true : false;
 		}

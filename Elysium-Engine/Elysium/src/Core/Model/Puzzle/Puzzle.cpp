@@ -94,7 +94,7 @@ namespace Elysium
 			return consCount;
 		}
 
-		BigInteger Puzzle::CalculateStartConfigPartial(int consecutiveValue) const
+		BigInteger Puzzle::CalculateStartConfigPartial(int consecutiveValue) const //todo: Reduce this into a single loop
 		{
 			BigInteger consCount = 0;
 
