@@ -3,9 +3,9 @@
 
 [![trello_1](https://img.shields.io/badge/Trello-brightgreen)](https://trello.com/b/vNEURvxs/csc8501-cw-part-1)
 [![trello_2](https://img.shields.io/badge/Trello-darkgreen)](https://trello.com/b/ZXmtjMhK/csc8501-cw-part-2)
-![date](https://img.shields.io/badge/Build%20Date-24.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
-![version](https://img.shields.io/badge/Engine%20Version-0.1.3.9-FD175C)
-![unreleased](https://img.shields.io/badge/Branch%20Features-9-orange)
+![date](https://img.shields.io/badge/Build%20Date-25.10.19-informational) <!---IsComplete.CourseworkSection.BranchNo.BranchIteration-->
+![version](https://img.shields.io/badge/Engine%20Version-0.1.3.10-FD175C)
+![unreleased](https://img.shields.io/badge/Branch%20Features-10-orange)
 
 <a name="about"></a>
 ## About
@@ -33,13 +33,20 @@ This engine is being created with the purpose of simulating combinatorical strat
 |:------:|:-------------:|:---------:|:-------:|:--------:|
 |[User Interface Design]()|A loop prompting user input.|![dev][version-dev]|![In Development][passing]|![Active][active]|
 |[Puzzle Console Output]()|Multiple valid puzzle configurations can be formatted and streamed to the console.|![dev][version-dev]|![In Development][passing]|![Active][active]|
-|[Random Configuration Generation]()|Up to 20,000 valid puzzle configurations can be generated.|![dev][version-dev]|![In Development][dev]|![Active][active]|
-|[Writing Configurations To Files]()|Possible to write configurations created directly into a file.|![dev][version-dev]|![In Development][dev]|![Active][active]|
-|[Reading Configurations From Files]()|Possible to read configuration files in order to process configurations further.|![dev][version-dev]|![In Development][dev]|![Active][active]|
-|[Writing Solution Data To Files]()|Possible to write correctly formatted solution files.|![dev][version-dev]|![In Development][dev]|![Active][active]|
-|[Puzzle Analysis for Continous Rows/Columns]()|It will be possible to analyse a puzzle configuration for the total number of continuous rows / columns + reverse.|![dev][version-dev]|![In Development][dev]|![Updating][updating]|
-|[Read/Write NxN Configurations]()|Writing and Reading files containing arbitrarily sized puzzles is now possible.|![dev][version-dev]|![In Development][passing]|![Updating][active]|
-|[Solution File for Arbitrary Sized Partials]()|It is possible to create a solution file that contains any of the (N^2-1)  partials. |![dev][version-dev]|![In Development][passing]|![Updating][active]|
+|[Random Configuration Generation]()|Up to 20,000 valid puzzle configurations can be generated.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Writing Configurations To Files]()|Possible to write configurations created directly into a file.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Reading Configurations From Files]()|Possible to read configuration files in order to process configurations further.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Writing Solution Data To Files]()|Possible to write correctly formatted solution files.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Read/Write NxN Configurations]()|Writing and Reading files containing arbitrarily sized puzzles is now possible.|![dev][version-dev]|![In Development][updating]|![Updating][active]|
+|[Solution File for Arbitrary Sized Partials]()|It is possible to create a solution file that contains any of the (N^2-1)  partials. |![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Puzzle Analysis for Continous Rows/Columns]()|It is possible to analyse a puzzle configuration for the total number of continuous rows / columns + reverse.|![dev][version-dev]|![In Development][updating]|![Active][active]|
+|[Puzzle Analysis for Partial Continous Rows/Columns]()|It is possible to analyse a puzzle configuration for the total number of partial continuous rows / columns + reverse, for any partial N, s.t. N <= M (M = puzzle size).|![dev][version-dev]|![In Development][updating]|![Active][active]|
+
+The current implementation of this system is not optimized, the following is a list of tasks which I plan to complete in the future.
+### List of Tasks:
+- Implement Threading to speed up puzzle processing. 
+- Implement machine code augmentation for exploration purposes.
+- Optimize loop processing, currently there is quite abit of wasteful looping and conditioning within the logic of this project.
 
 <a name="references"></a>
 ## References
