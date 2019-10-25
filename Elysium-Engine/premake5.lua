@@ -14,7 +14,7 @@ project "Elysium"
 	location "Elysium"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++11"
 	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -68,7 +68,7 @@ project "Elysium-Tests"
 		location "Elysium-Tests"
 		kind "ConsoleApp"
 		language "C++"
-		cppdialect "C++17"
+		cppdialect "C++11"
 		staticruntime "on"
 
 		nuget "Microsoft.googletest.v140.windesktop.msvcstl.static.rt-static:1.8.1"
@@ -129,7 +129,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++11"
 	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")

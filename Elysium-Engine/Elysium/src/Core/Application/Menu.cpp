@@ -8,13 +8,17 @@
  */
 #include "empch.h"
 #include "Core/Application/Menu.h"
-#include "Core/Model/Puzzle/Puzzle.h"
-#include "Core/Model/Puzzle/PuzzleProcessor.h"
 #include "Core/Utility/Random.h"
-#include "Core/Serialization/Serializer.h"
+#include "Core/Serialization/FileManager.h"
+#include "Core/Utility/InputHandler.h"
 
 namespace Elysium
 {
+	using namespace Serialize;
+	using namespace Model;
+	using namespace Utility;
+	using PuzzleStacker = Stack<Puzzle>;
+
 	namespace Application
 	{
 #pragma region STATIC_TEXT
@@ -54,7 +58,7 @@ namespace Elysium
 
 #pragma endregion STATIC_TEXT
 
-		void Menu::RunOptionsMenu()
+		void Menu::RunOptionsMenu() const
 		{
 			std::cout << g_Banner << "\n" << g_Menu << "\n";
 			bool result = OptionsHandler(MENU);
@@ -68,7 +72,7 @@ namespace Elysium
 
 		bool Menu::OptionsHandler(MenuOptions option) const
 		{
-			if(option == MENU)		option = static_cast<MenuOptions>(m_InputHandler->HandleInput("-> ",3, 0));
+			if(option == MENU)		option = static_cast<MenuOptions>(InputHandler::HandleInput("-> ",3, 0));
 			if(option == MANUAL)	return HandleManualConfig();
 			if(option == AUTO)		return HandleAutoConfig();
 			if(option == READ)		return HandleReadConfig();
@@ -78,67 +82,117 @@ namespace Elysium
 
 		bool Menu::HandleManualConfig() const
 		{
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(50);
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configuration:\n-> ", 10000, 2);
+			const int maxElement = puzzleSize * puzzleSize + puzzleSize;
+			PuzzleStacker puzzleStack (50, puzzleSize);
 			for (;;)
 			{
-				Model::Puzzle<unsigned, 4>* puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>()); //todo: Optimize, as currently results in a copy per puzzle.
-				if (!(puzzle == nullptr))
+				Puzzle* puzzle = puzzleStack.Push(Puzzle(puzzleSize));
+				ASSERT(puzzle == nullptr, "[Elysium::Menu::HandleManualConfig]: Puzzle pointer returned from stack shouldn't be a null pointer.",true)
+				for (int i = 0; i < (puzzleSize*puzzleSize)-1; i++)
 				{
-					for (int i = 0; i < 15; i++)
+					for(;;)
 					{
-						for(;;)
-						{
-							if (puzzle->InsertValue(m_InputHandler->HandleInput("Enter value to add to the configuration:\n-> ",20, 0)))
-								break;
-							std::cout << "That number already exists in the configuration, try entering a different one:\n";
-						}
+						if (puzzle->InsertValue(InputHandler::HandleInput("Enter a value to add to the configuration:\n-> ", maxElement, 0)))
+							break;
+						std::cout << "That value exists already! ";
 					}
-					puzzle->InsertEmptyBlock();
-					if (!m_InputHandler->HandleInput("Puzzle has been completed and saved, do you want to configure another puzzle? Enter [Y/N]:\n-> "))	
-						break;
 				}
-				else
-				{
-					std::cout << "Unable to insert another puzzle as stack capacity is full!\n";
+				puzzle->InsertEmptyBlock();
+				if (!InputHandler::HandleInput("That configuration has been saved, do you want to configure another puzzle? Enter [Y/N]:\n-> "))
 					break;
-				}
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
-			serializer.Serialize(pp);
+			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
+			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
+			{
+				ProcessPuzzle(&puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
+			}
 			return true;
 		}
 
 		bool Menu::HandleAutoConfig() const
 		{
-			std::cout << "How many configurations would you like to generate? Range -> [1-20000]:\n";
-			int size = m_InputHandler->HandleInput("-> ", 20000, 0);
-			std::cout << "Your request has been accepted, generating puzzles now...\n";
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(size);
-			Utility::Random random;
-			unsigned unsortedArray[] = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20 };
-			for (int i = 0; i < size; i++)
+			const int puzzleSize = InputHandler::HandleInput("Enter the dimension value of the configurations:\n-> ", 10000, 2);
+			const int elementCount = puzzleSize * puzzleSize + puzzleSize;
+			const int puzzleCount = InputHandler::HandleInput("How many configurations would you like to generate? Range -> [1-20000]:\n-> ", 20000, 0);
+			PuzzleStacker puzzleStack(puzzleCount, puzzleSize);
+			int* unsortedArray = new int[elementCount];
+			for (int i = 0; i < elementCount; ++i)
+				unsortedArray[i] = i + 1;
+			for (int i = 0; i < puzzleCount; i++)
 			{
-				random.Randomize(unsortedArray, 20);
-				Model::Puzzle<unsigned, 4> * puzzle = pp.InsertPuzzle(Model::Puzzle<unsigned, 4>(unsortedArray)); //todo: Optimize, as currently results in a copy per puzzle.
+				Random::Randomize(unsortedArray, elementCount);
+				puzzleStack.Push(Puzzle(puzzleSize, unsortedArray));
 			}
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
-			serializer.Serialize(pp);
+			delete[] unsortedArray;
+			if (InputHandler::HandleInput("The configurations have been generated, would you like to save them to a file? Enter [Y/N]:\n-> "))
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
+			if (InputHandler::HandleInput("Would you like to simulate strategies for these configurations? Enter [Y/N]:\n-> "))
+			{
+				ProcessPuzzle(&puzzleStack);
+				FileManager<PuzzleStacker>::Serializer(puzzleStack);
+			}
 			return true;
 		}
 
 		bool Menu::HandleReadConfig() const
 		{
-			Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>> pp(10);
-			Serialize::Serializer<Model::PuzzleProcessor<Model::Puzzle<unsigned, 4>>> serializer;
-			serializer.Deserialize(pp);
-			//todo: Insert processing call to the puzzle processor.
-			serializer.Serialize(pp); 
+			PuzzleStacker puzzleStack(1);
+
+			FileManager<PuzzleStacker>::Deserializer(puzzleStack);
+
+			ProcessPuzzle(&puzzleStack);
+			FileManager<PuzzleStacker>::Serializer(puzzleStack);
 			return true;
+		}
+
+		void Menu::ProcessPuzzle(const Stack<Puzzle>* puzzleStacker) const
+		{
+			std::vector<int> partialIndexes;
+			partialIndexes.reserve(puzzleStacker->GetElementSize() - 1);
+			const int initialChoice = InputHandler::HandleInput("Would you like to calculate [None (0)], [All (-1)] or [Some (1)] of the partial solutions? Enter[0/-1/1]:\n-> ", 1, -2);
+			if(initialChoice == -1)
+			{
+				for (unsigned i = 0; i < partialIndexes.capacity(); i++)
+					partialIndexes.emplace_back(i + 2);
+			}
+			if (initialChoice == 1)
+			{		
+				for (;;)
+				{
+					const int choice = InputHandler::HandleInput("Enter a partial you would like to calculate:\n-> ", puzzleStacker->GetElementSize(), 1);
+					if (!(std::any_of(partialIndexes.begin(), partialIndexes.end(), [&](const int val) { return val == choice; })))
+					{
+						partialIndexes.emplace_back(choice);
+						std::cout << "Partial added successfully.\n -> ";
+						if (static_cast<int>(partialIndexes.size()) == (puzzleStacker->GetElementSize() - 1))
+							break;
+						if (!InputHandler::HandleInput("Would you like to include calculations for another partial? Enter [Y/N]:\n-> "))
+							break;
+					}
+					else
+						std::cout << "That partial already exists, try a different one!\n -> ";
+				}
+				std::sort(partialIndexes.begin(), partialIndexes.end()); //todo: Optimize with custom search
+			}
+			for (int i = 0; i < puzzleStacker->GetSize(); i++) //todo: Optimize by implementing threading to process multiple puzzles simultaneously
+			{
+				try
+				{
+					(*puzzleStacker)[i].RunPuzzleSolver(&partialIndexes);
+				}catch (const StackOutOfBoundsAccessException& soe)
+				{
+					LOG_EXCEPTION(soe)
+					break;
+				}
+			}
 		}
 
 		bool Menu::HandleQuit() const
 		{
-			return m_InputHandler->HandleInput("Do  you want to EXIT the application? Enter [Y/N]:\n-> ");
+			return InputHandler::HandleInput("Do  you want to EXIT the application? Enter [Y/N]:\n-> ");
 		}
 	}
 }

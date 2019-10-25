@@ -4,24 +4,24 @@
  * Student ID	: b9061712
  * Date			: 14/10/2019
  * Description	: This file contains the method implementations for the input handler,
- *				  the methods here were abstracted from the menu for clarity and
-				  potential other uses in the system.
+ *				  the methods here are used in multiple parts of the system, thus abstracted
+ *				  as a utility.
  */
 #include "empch.h"
 #include "Core/Utility/InputHandler.h"
-//todo: Insert pre-processor defines for cout to be able to implement unit tests for this.
+//todo: Insert pre-processor defines for unit testing this.
 
 namespace Elysium
 {
 	namespace Utility
 	{
-		bool InputHandler::HandleInput(const char* requestMessage) const
+		bool InputHandler::HandleInput(const char* requestMessage)
 		{
 			for(;;)
 			{
 				std::string inputString = "";
 				char inputChar = { 0 };
-				std::cout << requestMessage;	//todo: Insert pre-processor defines here for unit testing
+				std::cout << requestMessage;
 				std::getline(std::cin, inputString);
 				if (inputString.length() == 1)
 				{
@@ -37,7 +37,7 @@ namespace Elysium
 		{
 			for (;;)
 			{
-				std::cout << requestMessage;	//todo: Insert pre-processor defines here for unit testing
+				std::cout << requestMessage;
 				std::getline(std::cin, inputString);
 				if (inputString.length() > 0)
 					break;
@@ -45,16 +45,17 @@ namespace Elysium
 			}
 		}
 
-		const int InputHandler::HandleInput(const char* requestMessage, int rangeMax, int rangeMin) const //todo: Fix scenario where entering 2.3, system accepts the '2'. 
+		int InputHandler::HandleInput(const char* requestMessage, int rangeMax, int rangeMin)
 		{
 			for(;;)
 			{
 				int inputNumber = 0;
-				std::string inputString = "";
-				std::cout << requestMessage;	//todo: Insert pre-processor defines here for unit testing
+				std::string inputString;
+				std::cout << requestMessage;
 				std::getline(std::cin, inputString);
 				std::stringstream myStream(inputString);
-				if (myStream >> inputNumber && !(inputNumber > rangeMax || inputNumber <= rangeMin))	return inputNumber;
+				if (myStream >> inputNumber && !(inputNumber > rangeMax || inputNumber <= rangeMin))	
+					return inputNumber;
 				std::cout << "Invalid Input, enter a number between " << rangeMin + 1 << " and " << rangeMax << " (inclusive): \n";
 			}
 		}

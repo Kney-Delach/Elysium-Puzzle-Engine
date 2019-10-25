@@ -19,8 +19,14 @@ namespace Elysium
 			ASSERT(!menu, "[Sandox::main::Application] - Application is null!", true);
 			while (m_Running)
 			{
-				menu->RunOptionsMenu();
-				m_Running = !(menu->RunQuitMenu());
+				try
+				{
+					menu->RunOptionsMenu();
+					m_Running = !(menu->RunQuitMenu());
+				}catch(...)
+				{
+					m_Running = false;
+				}
 			}
 			delete menu;
 		}

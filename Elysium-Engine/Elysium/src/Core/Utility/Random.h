@@ -6,33 +6,33 @@
  * Description	: This header contains an implementation of a random number generator which produces discrete random numbers. 
  */
 #pragma once
-#include <stdlib.h>  
-#include <time.h>  
+#include <ctime>  
+//todo: Optimize to a bitwise swap.
 
 namespace Elysium
 {
 	namespace Utility
 	{
-		class Random //todo: Implement a template here to fit in with the rest of the system
+		class Random
 		{
 		public:
+			static void Randomize(int* arr, int size);
+		private:
+			static void Swap(int* a, int* b);
 			Random() = default;
 			~Random() = default;
-			void Randomize(unsigned* arr, unsigned size);
-		private:
-			void Swap(unsigned* a, unsigned* b);
 		};
 
-		void Random::Swap(unsigned* valOne, unsigned* valTwo) //todo: Replace this with a bitwise swap.
+		inline void Random::Swap(int* valOne, int* valTwo)
 		{
-			unsigned temp = *valOne;
+			int temp = *valOne;
 			*valOne = *valTwo;
 			*valTwo = temp;
 		}
 
-		void Random::Randomize(unsigned* arr, unsigned size)
+		inline void Random::Randomize(int* arr, int size)
 		{ 
-			srand(static_cast<unsigned>(time(NULL)));
+			srand(static_cast<int>(time(NULL)));
 			for (int i = size - 1; i > 0; i--)
 			{  
 				int j = rand() % (i + 1);

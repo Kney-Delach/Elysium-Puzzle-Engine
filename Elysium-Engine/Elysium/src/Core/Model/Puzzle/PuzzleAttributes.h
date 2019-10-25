@@ -7,38 +7,76 @@
  *				  i.e the continuous row/column/reverse counts of a puzzle.
  */
 #pragma once
-//todo: Implement getters and setters for attributes.
-
+#include <vector>
+#include <boost/multiprecision/cpp_int.hpp>
 namespace Elysium
 {
 	namespace Model
 	{
+		using  BigInteger = boost::multiprecision::cpp_int;
+
 		class PuzzleAttributes
 		{
 		public:
-			PuzzleAttributes(int cRow = -1, int cCols = 0, int cRowRev = 0, int cColRev = 0) :
-				m_ContinuousRows(cRow), m_ContinuousCols(cCols), m_ContinuousRowsRev(cRowRev), m_ContinuousColsRev(cColRev)	{}
+			PuzzleAttributes() = default;
 			~PuzzleAttributes() = default;
-			friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
-			friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
-			__forceinline bool NotProcessed() const { return m_ContinuousRows == -1 ? true : false; }
+			void InitAttributes(const std::vector<int>* partialsVector);
+			void SetContinuousValues(BigInteger value);
+			void SetPartialAttribute(int index, BigInteger& value);
+			void SetPartialStartConfigAttribute(int index, BigInteger& value);
+			inline friend std::ostream& operator<<(std::ostream& out, const PuzzleAttributes& attributes);
+			inline friend std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes);
+		private: 
+			__forceinline void PuzzleAttributes::SetContRows(BigInteger value)
+			{
+				m_ContinuousRows = value;
+			}
+			__forceinline void PuzzleAttributes::SetContCols(BigInteger value)
+			{
+				m_ContinuousCols = value;
+			}
+			__forceinline void PuzzleAttributes::SetContRowsRev(BigInteger value)
+			{
+				m_ContinuousRowsRev = value;
+			}
+			__forceinline void PuzzleAttributes::SetContColsRev(BigInteger value)
+			{
+				m_ContinuousColsRev = value;
+			}
 		private:
-			int m_ContinuousRows;
-			int m_ContinuousCols;
-			int m_ContinuousRowsRev;
-			int m_ContinuousColsRev;
+			BigInteger m_ContinuousRows = -1;
+			BigInteger m_ContinuousCols = 0;
+			BigInteger m_ContinuousRowsRev = 0;
+			BigInteger m_ContinuousColsRev = 0;
+			std::vector<int> m_PartialIndexes;
+			std::vector<BigInteger> m_StartConfigPartials;
+			std::vector<BigInteger> m_ValidTurnsPartials;
 		};
 
-		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes) //todo: Replace with an faster implementation.
+		std::ostream& operator<<(std::ostream& out,const PuzzleAttributes& attributes)
 		{
-			if (attributes.NotProcessed()) return out;
+
+			if (attributes.m_ContinuousRows == -1) return out;
 			out << "row = " << attributes.m_ContinuousRows << "\ncolumn = " << attributes.m_ContinuousCols
 				<< "\nreverse row = " << attributes.m_ContinuousRowsRev << "\nreverse column = " << attributes.m_ContinuousColsRev << "\n";
+
+			if (attributes.m_PartialIndexes.empty())
+				return out;
+			out << "(total for row & column, including reverse, in this configuration)\n";
+			for (unsigned i = 0; i < attributes.m_PartialIndexes.size(); i++)
+			{
+				out << attributes.m_PartialIndexes[i] << " = " << attributes.m_StartConfigPartials[i] << "\n";
+			}
+			out << "(total for row & column, including reverse, for all valid turns)\n";
+			for (unsigned i = 0; i < attributes.m_PartialIndexes.size(); i++)
+			{
+				out << attributes.m_PartialIndexes[i] << " = " << attributes.m_ValidTurnsPartials[i] << "\n";
+			}
 			return out;
 		}
+
 		std::istream& operator>>(std::istream& in, PuzzleAttributes& attributes)
 		{
-			attributes.m_ContinuousRows = 0;
 			return in;
 		}
 	}

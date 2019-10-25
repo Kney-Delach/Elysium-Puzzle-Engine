@@ -3,11 +3,18 @@
 bin/
 bin-int/
 packages/
+Puzzle-Data/ 
 
 # Files
 *.user 
+*.bmp
+*.txt
 
 # Photoshop
 *.psd 
 
 # !Special Cases
+
+# Project Files
+Matrix.h
+#BruteForce/
