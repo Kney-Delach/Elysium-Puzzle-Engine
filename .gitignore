@@ -8,6 +8,7 @@ Puzzle-Data/
 # Files
 *.user 
 *.bmp
+*.txt
 
 # Photoshop
 *.psd 
